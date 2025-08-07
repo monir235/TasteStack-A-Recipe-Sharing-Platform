@@ -1,0 +1,42 @@
+# === Global ===
+*.log
+*.env
+.env.*
+.DS_Store
+Thumbs.db
+node_modules/
+__pycache__/
+*.pyc
+
+# === Frontend (React/Vite) ===
+# Vite/React build output
+dist/
+# Dependency folders
+node_modules/
+# Local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# === Backend (Django) ===
+# Django build and cache
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+static/
+# Django migrations
+**/migrations/
+!**/migrations/__init__.py
+# Python virtual environments
+venv/
+ENV/
+env/
+# IDE files
+.vscode/
+.idea/
+# Test coverage reports
+htmlcov/
+.coverage
+# OS
