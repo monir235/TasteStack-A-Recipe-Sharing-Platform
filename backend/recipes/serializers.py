@@ -1,0 +1,70 @@
+from rest_framework import serializers
+from .models import Recipe, RecipeImage
+from accounts.serializers import UserSerializer
+from interactions.models import Rating, Like, Comment
+
+
+class RecipeImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecipeImage
+        fields = ('id', 'image', 'uploaded_at')
+
+
+class RecipeSerializer(serializers.ModelSerializer):
+    author = UserSerializer(read_only=True)
+    images = RecipeImageSerializer(many=True, read_only=True)
+    average_rating = serializers.ReadOnlyField()
+    likes_count = serializers.ReadOnlyField()
+    
+    class Meta:
+        model = Recipe
+        fields = (
+            'id', 'title', 'description', 'ingredients', 'instructions',
+            'prep_time', 'cook_time', 'servings', 'difficulty', 'image',
+            'author', 'created_at', 'updated_at', 'images', 'average_rating',
+            'likes_count'
+        )
+        read_only_fields = ('id', 'author', 'created_at', 'updated_at', 'images', 'average_rating', 'likes_count')
+
+
+class RecipeCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = (
+            'title', 'description', 'ingredients', 'instructions',
+            'prep_time', 'cook_time', 'servings', 'difficulty', 'image'
+        )
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set the parser classes to handle multipart/form-data
+        self.fields['image'].allow_empty_file = True
+        self.fields['image'].use_url = True
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        # Remove author from validated_data if it exists to avoid duplicate keyword argument
+        validated_data.pop('author', None)
+        recipe = Recipe.objects.create(author=user, **validated_data)
+        return recipe
+
+
+class RecipeUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = (
+            'title', 'description', 'ingredients', 'instructions',
+            'prep_time', 'cook_time', 'servings', 'difficulty', 'image'
+        )
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set the parser classes to handle multipart/form-data
+        self.fields['image'].allow_empty_file = True
+        self.fields['image'].use_url = True
+        
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
