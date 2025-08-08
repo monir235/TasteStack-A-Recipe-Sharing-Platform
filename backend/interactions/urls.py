@@ -9,4 +9,5 @@ urlpatterns = [
     path('recipes/<int:recipe_id>/comments/<int:comment_id>/edit/', views.edit_comment, name='edit-comment'),
     path('recipes/<int:recipe_id>/comments/<int:comment_id>/delete/', views.delete_comment, name='delete-comment'),
     path('recipes/<int:recipe_id>/comments/<int:comment_id>/hide/', views.hide_comment, name='hide-comment'),
+    path('comments/my-recipes/', views.get_comments_on_my_recipes, name='get-comments-on-my-recipes'),
 ]

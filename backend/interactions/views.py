@@ -134,3 +134,20 @@ def delete_comment(request, recipe_id, comment_id):
     
     comment.delete()
     return Response({'message': 'Comment deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_comments_on_my_recipes(request):
+    """Get all comments on the current user's recipes for moderation"""
+    user = request.user
+    
+    # Get all comments on user's recipes
+    comments = Comment.objects.filter(
+        recipe__author=user
+    ).select_related('user', 'recipe').order_by('-created_at')
+    
+    serializer = CommentSerializer(comments, many=True)
+    return Response({
+        'comments': serializer.data
+    })

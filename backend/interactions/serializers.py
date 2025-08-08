@@ -47,11 +47,20 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    recipe = serializers.SerializerMethodField()
     
     class Meta:
         model = Comment
         fields = ('id', 'user', 'recipe', 'content', 'hidden', 'created_at', 'updated_at')
         read_only_fields = ('id', 'user', 'created_at', 'updated_at')
+    
+    def get_recipe(self, obj):
+        """Return basic recipe information"""
+        return {
+            'id': obj.recipe.id,
+            'title': obj.recipe.title,
+            'author': obj.recipe.author.username
+        }
         
     def create(self, validated_data):
         user = self.context['request'].user

@@ -6,4 +6,5 @@ urlpatterns = [
     path('<int:pk>/', views.RecipeDetailView.as_view(), name='recipe-detail'),
     path('<int:pk>/rate/', views.rate_recipe, name='rate-recipe'),
     path('search/', views.search_recipes, name='search-recipes'),
+    path('my-recipes/', views.my_recipes, name='my-recipes'),
 ]

@@ -44,3 +44,21 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.user.username} on {self.recipe.title}"
+
+
+class Follow(models.Model):
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
+    following = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followers')
+    created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ('follower', 'following')
+        constraints = [
+            models.CheckConstraint(
+                check=~models.Q(follower=models.F('following')),
+                name='prevent_self_follow'
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.follower.username} follows {self.following.username}"

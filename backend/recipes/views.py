@@ -113,3 +113,21 @@ def search_recipes(request):
         'results': serializer.data,
         'count': recipes.count(),
     })
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def my_recipes(request):
+    """Get current user's recipes"""
+    user = request.user
+    recipes = Recipe.objects.filter(author=user).order_by('-created_at')
+    
+    # Apply pagination
+    page = request.GET.get('page', 1)
+    page_size = request.GET.get('page_size', 12)
+    
+    serializer = RecipeSerializer(recipes, many=True)
+    return Response({
+        'results': serializer.data,
+        'count': recipes.count(),
+    })

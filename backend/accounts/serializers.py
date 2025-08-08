@@ -5,11 +5,20 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     date_joined = serializers.DateTimeField(read_only=True)
+    name = serializers.SerializerMethodField()
+    location = serializers.CharField(max_length=200, required=False, allow_blank=True)
+    website = serializers.URLField(required=False, allow_blank=True)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name', 'bio', 'profile_picture', 'date_joined')
-        read_only_fields = ('id', 'date_joined')
+        fields = ('id', 'username', 'email', 'password', 'first_name', 'last_name', 'name', 'bio', 'profile_picture', 'location', 'website', 'date_joined')
+        read_only_fields = ('id', 'date_joined', 'name')
+
+    def get_name(self, obj):
+        """Return full name from first_name and last_name"""
+        if obj.first_name or obj.last_name:
+            return f"{obj.first_name} {obj.last_name}".strip()
+        return obj.username or 'Anonymous'
 
     def create(self, validated_data):
         password = validated_data.pop('password')
