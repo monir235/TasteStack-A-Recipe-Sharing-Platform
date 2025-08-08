@@ -57,7 +57,14 @@ const apiRequest = async (endpoint, options = {}, isFormData = false) => {
     
     // Handle server errors
     if (response.status >= 500) {
-      const error = new Error('Server error. Please try again later.');
+      let errorMessage = 'Server error. Please try again later.';
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.detail || errorData.message || errorMessage;
+      } catch (e) {
+        // If response body is not JSON, use default message
+      }
+      const error = new Error(`${errorMessage} (${response.status})`);
       error.status = response.status;
       throw error;
     }

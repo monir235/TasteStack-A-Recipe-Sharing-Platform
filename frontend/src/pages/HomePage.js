@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { getRecipes } from '../services/recipeService';
 import { getStatistics } from '../services/statisticsService';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import CommentDebugger from '../components/CommentDebugger';
 
 const HomePage = () => {
+  const { user, isAuthenticated } = useAuth();
   const [featuredRecipes, setFeaturedRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -48,98 +51,172 @@ const HomePage = () => {
         </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
-          <div className="text-center">
-            {/* Badge */}
-            <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-violet-100 text-violet-800 mb-8">
-              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              #1 Recipe Sharing Platform (From CSECU-21 based POV)
-            </div>
-            
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-8">
-              Welcome to{' '}
-              <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                TasteStack
-              </span>
-            </h1>
-            
-            <p className="mt-6 max-w-2xl mx-auto text-xl sm:text-2xl leading-8 text-gray-600">
-              Discover, share, and enjoy delicious recipes from food enthusiasts around the world. 
-              <span className="text-violet-600 font-semibold"> Join our culinary community today!</span>
-            </p>
-            
-            {/* Modern CTA Buttons */}
-            <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a
-                href="/recipes"
-                className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:from-violet-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-violet-300"
-              >
-                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                </svg>
-                Browse Recipes
-                <div className="absolute inset-0 rounded-2xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-              </a>
+          {isAuthenticated ? (
+            // Logged-in User Hero
+            <div className="text-center">
+              {/* Welcome Back Badge */}
+              <div className="inline-flex items-center px-6 py-3 rounded-full text-sm font-medium bg-gradient-to-r from-green-100 to-emerald-100 text-emerald-800 mb-8">
+                <div className="w-6 h-6 rounded-full bg-green-100 mr-3 flex items-center justify-center">
+                  {user?.profile_picture ? (
+                    <img
+                      src={user.profile_picture.startsWith('/') 
+                        ? `http://localhost:8000${user.profile_picture}` 
+                        : user.profile_picture}
+                      alt={user.username}
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  ) : (
+                    <span className="text-emerald-600 font-bold text-xs">
+                      {(user?.first_name?.charAt(0) || user?.username?.charAt(0) || 'U').toUpperCase()}
+                    </span>
+                  )}
+                </div>
+                Welcome back, {user?.first_name || user?.username || 'Chef'}! 👋
+              </div>
               
-              <a
-                href="/register"
-                className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-violet-600 bg-white rounded-2xl shadow-lg border-2 border-violet-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-violet-300 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-300"
-              >
-                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                </svg>
-                Get Started
-                <div className="absolute inset-0 rounded-2xl bg-violet-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-              </a>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 mb-8">
+                Ready to cook something{' '}
+                <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  amazing
+                </span>?
+              </h1>
+              
+              <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl leading-8 text-gray-600">
+                Discover new flavors, share your culinary creations, and connect with fellow food lovers.
+                <span className="text-violet-600 font-semibold"> Your next favorite recipe awaits!</span>
+              </p>
+              
+              {/* Personalized CTA Buttons */}
+              <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link
+                  to="/create-recipe"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:from-violet-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-violet-300"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                  </svg>
+                  Share Your Recipe
+                  <div className="absolute inset-0 rounded-2xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                </Link>
+                
+                <Link
+                  to="/recipes"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-violet-600 bg-white rounded-2xl shadow-lg border-2 border-violet-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-violet-300 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-300"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                  </svg>
+                  Explore Recipes
+                  <div className="absolute inset-0 rounded-2xl bg-violet-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                </Link>
+                
+                <Link
+                  to="/profile"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-gray-600 bg-white rounded-2xl shadow-lg border-2 border-gray-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-300"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                  </svg>
+                  My Kitchen
+                  <div className="absolute inset-0 rounded-2xl bg-gray-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                </Link>
+              </div>
             </div>
+          ) : (
+            // Guest User Hero
+            <div className="text-center">
+              {/* Badge */}
+              <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-violet-100 text-violet-800 mb-8">
+                <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                #1 Recipe Sharing Platform
+              </div>
+              
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-8">
+                Welcome to{' '}
+                <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  TasteStack
+                </span>
+              </h1>
+              
+              <p className="mt-6 max-w-2xl mx-auto text-xl sm:text-2xl leading-8 text-gray-600">
+                Discover, share, and enjoy delicious recipes from food enthusiasts around the world. 
+                <span className="text-violet-600 font-semibold"> Join our culinary community today!</span>
+              </p>
+              
+              {/* Modern CTA Buttons */}
+              <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link
+                  to="/recipes"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:from-violet-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-violet-300"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                  </svg>
+                  Browse Recipes
+                  <div className="absolute inset-0 rounded-2xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                </Link>
+                
+                <Link
+                  to="/register"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-violet-600 bg-white rounded-2xl shadow-lg border-2 border-violet-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-violet-300 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-300"
+                >
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                  </svg>
+                  Get Started
+                  <div className="absolute inset-0 rounded-2xl bg-violet-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                </Link>
+              </div>
+            </div>
+          )}
             
-            {/* Stats Section */}
-            <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900">
-                  {statistics.total_recipes > 0 ? 
-                    (statistics.total_recipes >= 1000 ? 
-                      `${Math.floor(statistics.total_recipes / 1000)}K+` : 
-                      statistics.total_recipes) : 
-                    '0'
-                  }
-                </div>
-                <div className="text-sm text-gray-600">Recipes</div>
+          {/* Stats Section */}
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-gray-900">
+                {statistics.total_recipes > 0 ? 
+                  (statistics.total_recipes >= 1000 ? 
+                    `${Math.floor(statistics.total_recipes / 1000)}K+` : 
+                    statistics.total_recipes) : 
+                  '0'
+                }
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900">
-                  {statistics.total_users > 0 ? 
-                    (statistics.total_users >= 1000 ? 
-                      `${Math.floor(statistics.total_users / 1000)}K+` : 
-                      statistics.total_users) : 
-                    '0'
-                  }
-                </div>
-                <div className="text-sm text-gray-600">Chefs</div>
+              <div className="text-sm text-gray-600">Recipes</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-gray-900">
+                {statistics.total_users > 0 ? 
+                  (statistics.total_users >= 1000 ? 
+                    `${Math.floor(statistics.total_users / 1000)}K+` : 
+                    statistics.total_users) : 
+                  '0'
+                }
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900">
-                  {statistics.total_ratings > 0 ? 
-                    (statistics.total_ratings >= 1000 ? 
-                      `${Math.floor(statistics.total_ratings / 1000)}K+` : 
-                      statistics.total_ratings) : 
-                    '0'
-                  }
-                </div>
-                <div className="text-sm text-gray-600">Reviews</div>
+              <div className="text-sm text-gray-600">Chefs</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-gray-900">
+                {statistics.total_ratings > 0 ? 
+                  (statistics.total_ratings >= 1000 ? 
+                    `${Math.floor(statistics.total_ratings / 1000)}K+` : 
+                    statistics.total_ratings) : 
+                  '0'
+                }
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-gray-900">
-                  {statistics.unique_countries || 1}+
-                </div>
-                <div className="text-sm text-gray-600">Countries</div>
+              <div className="text-sm text-gray-600">Reviews</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-gray-900">
+                {statistics.unique_countries || 1}+
               </div>
+              <div className="text-sm text-gray-600">Countries</div>
             </div>
           </div>
         </div>
       </div>
-
+      
       {/* Featured Recipes Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-gray-50">
         <div className="text-center mb-16">
@@ -259,6 +336,9 @@ const HomePage = () => {
             ))}
           </div>
         )}
+
+        {/* Comment Debugger - Remove this in production */}
+        <CommentDebugger recipeId={123} />
       </div>
     </div>
   );

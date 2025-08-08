@@ -403,29 +403,56 @@ const Navbar = () => {
                 About
               </Link>
 
-              {/* Search Bar */}
-              <div className="relative min-w-0 flex-1 max-w-xs" ref={searchDropdownRef}>
+              {/* Enhanced Modern Search Bar */}
+              <div className="relative min-w-0 flex-1 max-w-md" ref={searchDropdownRef}>
                 <form onSubmit={handleSearchSubmit}>
-                  <div className="relative">
+                  <div className="relative group">
                     <input
                       ref={searchInputRef}
                       type="text"
-                      placeholder="Search by name, ingredient, category..."
+                      placeholder="✨ Search recipes, ingredients, chefs..."
                       value={searchQuery}
                       onChange={handleSearchInputChange}
-                      className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
+                      className="block w-full pl-12 pr-12 py-3 text-sm bg-gradient-to-r from-gray-50/90 to-gray-50/70 backdrop-blur-sm border border-gray-200/60 rounded-2xl shadow-sm transition-all duration-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-400/40 focus:border-violet-300 focus:bg-white focus:shadow-xl hover:bg-white hover:shadow-lg hover:border-gray-300 hover:from-white hover:to-white"
                       maxLength={100}
                       autoComplete="off"
                     />
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    {/* Enhanced Search Icon */}
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                       {isSearching ? (
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-violet-600"></div>
+                        <div className="relative">
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-violet-400 border-t-transparent"></div>
+                          <div className="absolute inset-0 rounded-full bg-violet-400/20 animate-ping"></div>
+                        </div>
                       ) : (
-                        <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
+                        <div className="relative">
+                          <svg className="h-4 w-4 text-gray-400 group-focus-within:text-violet-500 group-hover:text-gray-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                          <div className="absolute inset-0 bg-violet-500/10 rounded-full scale-0 group-focus-within:scale-110 transition-transform duration-300"></div>
+                        </div>
                       )}
                     </div>
+                    {/* Clear Button */}
+                    {searchQuery && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSearchQuery('');
+                          setIsSearchOpen(false);
+                          setSearchResults([]);
+                        }}
+                        className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                      >
+                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    )}
+                    {/* Enhanced gradient border effect */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-500/20 via-purple-500/20 to-pink-500/20 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 -z-10 blur-sm animate-pulse"></div>
+                    {/* Subtle inner glow */}
+                    <div className="absolute inset-1 rounded-2xl bg-gradient-to-r from-white to-gray-50/50 opacity-0 group-focus-within:opacity-60 transition-opacity duration-300 -z-10"></div>
                   </div>
                 </form>
 

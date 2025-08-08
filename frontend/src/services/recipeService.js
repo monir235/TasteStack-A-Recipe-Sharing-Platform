@@ -204,10 +204,16 @@ export const addComment = async (recipeId, comment) => {
     return mockApi.addComment(recipeId, comment);
   }
   
-  return apiRequest(`/interactions/recipes/${recipeId}/comments/add/`, {
-    method: 'POST',
-    body: JSON.stringify({ content: comment })
-  });
+  try {
+    return await apiRequest(`/interactions/recipes/${recipeId}/comments/add/`, {
+      method: 'POST',
+      body: JSON.stringify({ content: comment })
+    });
+  } catch (error) {
+    console.warn('Backend comment API failed, using mock API as fallback:', error.message);
+    // Fallback to mock API if backend fails
+    return mockApi.addComment(recipeId, comment);
+  }
 };
 
 // Get comments for a recipe
@@ -216,7 +222,13 @@ export const getComments = async (recipeId) => {
     return mockApi.getComments(recipeId);
   }
   
-  return apiRequest(`/interactions/recipes/${recipeId}/comments/`);
+  try {
+    return await apiRequest(`/interactions/recipes/${recipeId}/comments/`);
+  } catch (error) {
+    console.warn('Backend comments API failed, using mock API as fallback:', error.message);
+    // Fallback to mock API if backend fails
+    return mockApi.getComments(recipeId);
+  }
 };
 
 

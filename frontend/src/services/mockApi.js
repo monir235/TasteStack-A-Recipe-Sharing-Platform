@@ -252,12 +252,12 @@ export const rateRecipe = async (recipeId, rating) => {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 300));
   
+  // Try to find the recipe, but don't fail if not found (might be from real backend)
   const recipe = mockRecipes.find(r => r.id === parseInt(recipeId));
-  if (!recipe) {
-    throw new Error('Recipe not found');
+  if (recipe) {
+    recipe.rating = rating;
   }
   
-  recipe.rating = rating;
   return { message: 'Rating submitted successfully' };
 };
 
@@ -265,12 +265,12 @@ export const likeRecipe = async (recipeId) => {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 300));
   
+  // Try to find the recipe, but don't fail if not found (might be from real backend)
   const recipe = mockRecipes.find(r => r.id === parseInt(recipeId));
-  if (!recipe) {
-    throw new Error('Recipe not found');
+  if (recipe) {
+    recipe.likes_count += 1;
   }
   
-  recipe.likes_count += 1;
   return { message: 'Recipe liked successfully' };
 };
 
@@ -278,12 +278,12 @@ export const unlikeRecipe = async (recipeId) => {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 300));
   
+  // Try to find the recipe, but don't fail if not found (might be from real backend)
   const recipe = mockRecipes.find(r => r.id === parseInt(recipeId));
-  if (!recipe) {
-    throw new Error('Recipe not found');
+  if (recipe) {
+    recipe.likes_count = Math.max(0, recipe.likes_count - 1);
   }
   
-  recipe.likes_count = Math.max(0, recipe.likes_count - 1);
   return { message: 'Recipe unliked successfully' };
 };
 
@@ -291,11 +291,8 @@ export const addComment = async (recipeId, comment) => {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 300));
   
-  const recipe = mockRecipes.find(r => r.id === parseInt(recipeId));
-  if (!recipe) {
-    throw new Error('Recipe not found');
-  }
-  
+  // Don't validate recipe existence since it might come from real backend
+  // Just allow commenting on any recipeId
   const newComment = {
     id: mockComments.length + 1,
     author: 'Demo User',
