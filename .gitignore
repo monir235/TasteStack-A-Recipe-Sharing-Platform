@@ -1,42 +1,300 @@
-# === Global ===
-*.log
-*.env
-.env.*
-.DS_Store
-Thumbs.db
-node_modules/
-__pycache__/
-*.pyc
+# ===================================
+# TasteStack Recipe Platform .gitignore
+# ===================================
 
-# === Frontend (React/Vite) ===
-# Vite/React build output
-dist/
-# Dependency folders
-node_modules/
-# Local env files
+# === Environment Variables ===
+.env
 .env.local
+.env.development
+.env.test
+.env.production
 .env.development.local
 .env.test.local
 .env.production.local
+*.env
 
-# === Backend (Django) ===
-# Django build and cache
+# === Operating System ===
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Linux
+*~
+
+# === IDE and Editors ===
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains IDEs
+.idea/
+*.swp
+*.swo
+*.tmp
+*.temp
+
+# Sublime Text
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+*.swp
+*.swo
+*.un~
+Session.vim
+.netrwhist
+
+.cache/
+.vite/
+parcel-cache/
+.eslintcache
+.stylelintcache
+
+
+# === Frontend (React) ===
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Production builds
+build/
+dist/
+dist-ssr/
+*.local
+
+# Testing
+coverage/
+*.lcov
+.nyc_output
+
+# Storybook
+storybook-static/
+
+# Cache directories
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# === Backend (Django/Python) ===
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+.ENV/
+pipenv/
+Pipfile.lock
+
+# Django
 *.sqlite3
+*.sqlite3-journal
 db.sqlite3
+db.sqlite3-journal
 media/
 staticfiles/
-static/
-# Django migrations
-**/migrations/
-!**/migrations/__init__.py
-# Python virtual environments
-venv/
-ENV/
-env/
-# IDE files
-.vscode/
+static_root/
+collected_static/
+
+# Django migrations (optional - uncomment if you want to ignore)
+# */migrations/*.py
+# !*/migrations/__init__.py
+
+# Django secret key
+secret_key.txt
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Django session files
+django_session
+
+# PyCharm
 .idea/
-# Test coverage reports
-htmlcov/
+
+# pytest
+.pytest_cache/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# === Database ===
+*.db
+*.sqlite
+*.sqlite3
+*.sqlite3-journal
+mysql.cnf
+postgresql.conf
+
+# === Logs ===
+*.log
+logs/
+*.out
+*.err
+
+# === Backup files ===
+*.bak
+*.backup
+*.old
+*.orig
+*.save
+*~
+
+# === Temporary files ===
+*.tmp
+*.temp
+.temporary/
+temp/
+
+# === Security ===
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+
+# API keys and secrets
+api_keys.txt
+secrets.json
+config.json
+
+# === Deployment ===
+.vercel
+.netlify
+.firebase
+.serverless/
+.now
+docker-compose.override.yml
+
+# === Documentation ===
+# Sphinx documentation
+docs/_build/
+
+# === Testing ===
 .coverage
-# OS
+htmlcov/
+.tox/
+.nox/
+coverage/
+*.cover
+.hypothesis/
+pytest.ini
+.testmondata
+
+# === Project-specific ===
+# User uploads
+uploads/
+user_media/
+recipe_images/
+profile_pictures/
+
+# Local configuration
+local_settings.py
+settings_local.py
+
+# Development scripts
+dev_scripts/
+test_scripts/
+debug_*
+
+# === Package managers ===
+# npm
+package-lock.json
+
+# yarn
+yarn.lock
+
+# pnpm
+pnpm-lock.yaml
+
+# === Build artifacts ===
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# === Performance ===
+.benchmarks
+performance.log

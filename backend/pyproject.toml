@@ -1,0 +1,179 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tastestack-backend"
+version = "1.0.0"
+description = "TasteStack Recipe Sharing Platform - Django REST API Backend"
+authors = [
+    {name = "TasteStack Team", email = "team@tastestack.com"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: Django",
+    "Framework :: Django :: 5.0",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+keywords = ["django", "rest-api", "recipe", "food", "cooking", "sharing"]
+requires-python = ">=3.9"
+dependencies = [
+    "Django>=5.2.1,<6.0",
+    "djangorestframework>=3.16.0,<4.0",
+    "djangorestframework-simplejwt>=5.5.0,<6.0",
+    "django-cors-headers>=4.7.0,<5.0",
+    "django-filter>=25.0.0,<26.0",
+    "Pillow>=11.3.0,<12.0",
+    "PyJWT>=2.9.0,<3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "django-debug-toolbar>=4.4.0,<5.0",
+    "django-extensions>=3.2.0,<4.0",
+    "ipython>=8.30.0,<9.0",
+    "python-dotenv>=1.0.0,<2.0",
+    "pytest>=8.3.0,<9.0",
+    "pytest-django>=4.9.0,<5.0",
+    "pytest-cov>=6.0.0,<7.0",
+    "pytest-mock>=3.14.0,<4.0",
+    "factory-boy>=3.3.0,<4.0",
+    "coverage>=7.8.0,<8.0",
+    "black>=25.0.0,<26.0",
+    "flake8>=7.1.0,<8.0",
+    "isort>=5.14.0,<6.0",
+    "pre-commit>=4.0.0,<5.0",
+    "mypy>=1.14.0,<2.0",
+    "django-stubs>=5.2.0,<6.0",
+    "drf-spectacular>=0.28.0,<1.0",
+    "django-seed>=0.3.0,<1.0",
+]
+prod = [
+    "gunicorn>=23.0.0,<24.0",
+    "uvicorn>=0.34.0,<1.0",
+    "psycopg2-binary>=2.9.0,<3.0",
+    "redis>=5.2.0,<6.0",
+    "django-redis>=5.4.0,<6.0",
+    "celery[redis]>=5.4.0,<6.0",
+    "django-storages>=1.14.0,<2.0",
+    "boto3>=1.37.0,<2.0",
+    "whitenoise>=6.9.0,<7.0",
+    "sentry-sdk>=2.22.0,<3.0",
+    "django-security>=0.21.0,<1.0",
+    "python-decouple>=3.8,<4.0",
+    "django-cache-url>=3.4.0,<4.0",
+    "django-ratelimit>=4.1.0,<5.0",
+    "django-health-check>=3.18.0,<4.0",
+    "django-anymail>=13.0.0,<14.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/tastestack/tastestack"
+Documentation = "https://docs.tastestack.com"
+Repository = "https://github.com/tastestack/tastestack.git"
+"Bug Tracker" = "https://github.com/tastestack/tastestack/issues"
+Changelog = "https://github.com/tastestack/tastestack/blob/main/CHANGELOG.md"
+
+[project.scripts]
+tastestack = "tastestack.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tastestack*"]
+exclude = ["tests*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | migrations
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_django = "django"
+known_first_party = "tastestack"
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "E501", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "venv",
+    "build",
+    "dist",
+    "migrations",
+]
+
+[tool.mypy]
+python_version = "3.9"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "tastestack.settings"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tastestack.settings.test"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+addopts = [
+    "--reuse-db",
+    "--nomigrations",
+    "--cov=.",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+    "--cov-fail-under=80",
+]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = "."
+omit = [
+    "*/migrations/*",
+    "*/venv/*",
+    "*/env/*",
+    "manage.py",
+    "*/settings/*",
+    "*/tests/*",
+    "*/__pycache__/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]

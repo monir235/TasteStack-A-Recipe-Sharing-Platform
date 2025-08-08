@@ -24,13 +24,30 @@ const RecipeListPage = () => {
   }, []);
   
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-extrabold text-gray-900">All Recipes</h1>
-        <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
-          Discover delicious recipes from our community
-        </p>
+    <div className="relative min-h-screen">
+      {/* Hero Section with Colorful Animated Theme */}
+      <div className="relative bg-gradient-to-br from-violet-50 via-white to-purple-50 overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-10 left-10 w-64 h-64 bg-gradient-to-r from-blue-200 to-cyan-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+          <div className="absolute top-32 right-10 w-80 h-80 bg-gradient-to-r from-purple-200 to-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+          <div className="absolute bottom-10 left-1/3 w-72 h-72 bg-gradient-to-r from-yellow-200 to-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+          <div className="absolute top-1/2 right-1/3 w-56 h-56 bg-gradient-to-r from-green-200 to-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-pulse"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl sm:text-6xl font-bold tracking-tight text-gray-900 mb-6">
+              All <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Recipes</span>
+            </h1>
+            <p className="mt-4 max-w-2xl text-xl text-gray-600 mx-auto">
+              Discover delicious recipes from our amazing community of food lovers
+            </p>
+          </div>
+        </div>
       </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       
       {loading && (
         <div className="flex justify-center items-center h-64">
@@ -58,19 +75,37 @@ const RecipeListPage = () => {
       {!loading && !error && (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {recipes.map((recipe) => (
-            <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="block">
-              <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-                {recipe.image ? (
-                  <img
-                    src={recipe.image}
-                    alt={recipe.title}
-                    className="h-48 w-full object-cover"
-                  />
-                ) : (
-                  <div className="h-48 bg-gray-200 flex items-center justify-center">
-                    <span className="text-gray-500">No Image</span>
+            <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="group block">
+              <div className="bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl border border-gray-100">
+                <div className="relative overflow-hidden">
+                  {recipe.image ? (
+                    <img
+                      src={recipe.image}
+                      alt={recipe.title}
+                      className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="h-56 bg-gradient-to-br from-violet-100 to-purple-100 flex items-center justify-center">
+                      <div className="text-center">
+                        <svg className="w-12 h-12 text-violet-300 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-violet-400 font-medium">Recipe Image</span>
+                      </div>
+                    </div>
+                  )}
+                  {/* Floating Badge */}
+                  <div className="absolute top-4 left-4">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-lg">
+                      <div className="flex items-center space-x-1">
+                        <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span className="text-xs font-semibold text-gray-700">{recipe.average_rating || '0.0'}</span>
+                      </div>
+                    </div>
                   </div>
-                )}
+                </div>
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-gray-900">{recipe.title}</h3>
                   <p className="mt-2 text-gray-600">{recipe.description?.substring(0, 100) || 'No description available'}...</p>
@@ -127,6 +162,7 @@ const RecipeListPage = () => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };

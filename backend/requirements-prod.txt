@@ -1,0 +1,41 @@
+# Production Dependencies for TasteStack Backend
+# Install with: pip install -r requirements-prod.txt
+
+# Include base requirements
+-r requirements.txt
+
+# Production Server
+gunicorn==23.0.0
+uvicorn==0.34.0
+
+# Database
+psycopg2-binary==2.9.10  # PostgreSQL adapter
+
+# Caching & Background Tasks
+redis==5.2.1
+django-redis==5.4.0
+celery==5.4.0
+celery[redis]==5.4.0
+
+# File Storage & Static Files
+django-storages==1.14.5
+boto3==1.37.41
+botocore==1.37.41
+whitenoise==6.9.0
+
+# Security & Monitoring
+sentry-sdk==2.22.0
+django-security==0.21.0
+
+# Configuration Management
+python-decouple==3.8
+
+# Performance & Optimization
+django-cache-url==3.4.5
+django-ratelimit==4.1.0
+
+# Health Checks
+django-health-check==3.18.5
+
+# Email Backend (if using email)
+django-anymail==13.0.0

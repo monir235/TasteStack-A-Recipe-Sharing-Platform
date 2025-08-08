@@ -1,3 +1,77 @@
+# TasteStack Backend - Django REST API
+
+[![Django](https://img.shields.io/badge/Django-5.2.1-green.svg)](https://www.djangoproject.com/)
+[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
+[![DRF](https://img.shields.io/badge/DRF-3.16.1-red.svg)](https://www.django-rest-framework.org/)
+
+This is the backend API server for the TasteStack Recipe Sharing Platform, built with Django and Django REST Framework.
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.9+ 
+- pip (package manager)
+- Virtual environment (recommended)
+
+### Installation
+
+```bash
+# Clone the repository (if not already done)
+git clone https://github.com/YOUR-USERNAME/tastestack.git
+cd tastestack/backend
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# Windows:
+venv\Scripts\activate
+# macOS/Linux:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set up database
+python manage.py migrate
+
+# Create superuser (optional)
+python manage.py createsuperuser
+
+# Run development server
+python manage.py runserver
+```
+
+## 🏠 Project Structure
+
+```
+backend/
+├── tastestack/           # Main Django project
+│   ├── __init__.py
+│   ├── settings.py       # Django settings
+│   ├── urls.py          # URL routing
+│   ├── wsgi.py          # WSGI config
+│   └── asgi.py          # ASGI config
+├── recipes/             # Recipe app
+│   ├── models.py        # Database models
+│   ├── serializers.py   # DRF serializers
+│   ├── views.py         # API views
+│   ├── urls.py          # App URLs
+│   └── admin.py         # Admin interface
+├── users/               # User management app
+│   ├── models.py        # User models
+│   ├── serializers.py   # User serializers
+│   ├── views.py         # User views
+│   └── urls.py          # User URLs
+├── requirements.txt     # Dependencies
+├── requirements-dev.txt # Development dependencies
+├── requirements-prod.txt# Production dependencies
+├── pyproject.toml       # Modern Python project config
+└── manage.py           # Django management script
+```
+
+For complete setup instructions and advanced usage, see the main project [README](../README.md).
+
 # TasteStack Backend
 
 This is the backend API for the TasteStack Recipe Sharing Platform, built with Django and Django REST Framework.

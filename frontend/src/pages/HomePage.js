@@ -40,13 +40,14 @@ const HomePage = () => {
   
   return (
     <div className="relative min-h-screen">
-      {/* Hero Section with Modern Gradient */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-violet-50 via-white to-purple-50">
-        {/* Background Decoration */}
+      {/* Hero Section with Colorful Animated Theme */}
+      <div className="relative bg-gradient-to-br from-violet-50 via-white to-purple-50 overflow-hidden">
+        {/* Animated Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-gradient-to-r from-violet-300 to-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-          <div className="absolute top-32 right-1/4 w-72 h-72 bg-gradient-to-r from-indigo-300 to-violet-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-          <div className="absolute -bottom-8 left-1/4 w-80 h-80 bg-gradient-to-r from-purple-300 to-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+          <div className="absolute top-10 left-10 w-64 h-64 bg-gradient-to-r from-blue-200 to-cyan-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+          <div className="absolute top-32 right-10 w-80 h-80 bg-gradient-to-r from-purple-200 to-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+          <div className="absolute bottom-10 left-1/3 w-72 h-72 bg-gradient-to-r from-yellow-200 to-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+          <div className="absolute top-1/2 right-1/3 w-56 h-56 bg-gradient-to-r from-green-200 to-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-pulse"></div>
         </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
@@ -57,7 +58,7 @@ const HomePage = () => {
               <div className="flex flex-col lg:flex-row items-start justify-between mb-12">
                 <div className="flex-1">
                   <div className="flex items-center space-x-4 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 flex items-center justify-center shadow-lg">
+                    <div className="w-12 h-12 rounded-full gradient-brand flex items-center justify-center shadow-brand">
                       {user?.profile_picture ? (
                         <img
                           src={user.profile_picture.startsWith('/') 
@@ -156,11 +157,11 @@ const HomePage = () => {
             // Guest User Hero
             <div className="text-center">
               {/* Badge */}
-              <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-violet-100 text-violet-800 mb-8">
+              <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-violet-100 to-purple-100 text-violet-800 mb-8">
                 <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                 </svg>
-                #1 Recipe Sharing Platform
+                Made with ❤️ for Food Lovers
               </div>
               
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-8">
@@ -170,9 +171,11 @@ const HomePage = () => {
                 </span>
               </h1>
               
-              <p className="mt-6 max-w-2xl mx-auto text-xl sm:text-2xl leading-8 text-gray-600">
-                Discover, share, and enjoy delicious recipes from food enthusiasts around the world. 
-                <span className="text-violet-600 font-semibold"> Join our culinary community today!</span>
+              <p className="mt-6 max-w-3xl mx-auto text-xl sm:text-2xl leading-relaxed text-gray-600">
+                Connecting food lovers through the joy of cooking and sharing recipes.
+                <span className="block mt-2 text-lg text-violet-600 font-semibold">
+                  Where culinary passion meets community spirit.
+                </span>
               </p>
               
               {/* Modern CTA Buttons */}
@@ -202,9 +205,9 @@ const HomePage = () => {
             </div>
           )}
             
-          {/* Stats Section */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
+          {/* Floating Stats */}
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg text-center">
               <div className="text-3xl font-bold text-gray-900">
                 {statistics.total_recipes > 0 ? 
                   (statistics.total_recipes >= 1000 ? 
@@ -215,7 +218,7 @@ const HomePage = () => {
               </div>
               <div className="text-sm text-gray-600">Recipes</div>
             </div>
-            <div className="text-center">
+            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg text-center">
               <div className="text-3xl font-bold text-gray-900">
                 {statistics.total_users > 0 ? 
                   (statistics.total_users >= 1000 ? 
@@ -226,7 +229,7 @@ const HomePage = () => {
               </div>
               <div className="text-sm text-gray-600">Chefs</div>
             </div>
-            <div className="text-center">
+            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg text-center">
               <div className="text-3xl font-bold text-gray-900">
                 {statistics.total_ratings > 0 ? 
                   (statistics.total_ratings >= 1000 ? 
@@ -237,7 +240,7 @@ const HomePage = () => {
               </div>
               <div className="text-sm text-gray-600">Reviews</div>
             </div>
-            <div className="text-center">
+            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg text-center">
               <div className="text-3xl font-bold text-gray-900">
                 {statistics.unique_countries || 1}+
               </div>

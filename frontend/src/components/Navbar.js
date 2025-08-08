@@ -331,13 +331,13 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-white shadow-lg sticky top-0 z-50">
+      <nav className="glass-effect shadow-brand border-b border-brand-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             {/* Logo */}
             <div className="flex items-center">
               <Link to="/" className="flex-shrink-0 flex items-center" onClick={closeAllMenus}>
-                <span className="text-2xl font-bold text-violet-600 hover:text-violet-700 transition-colors">
+                <span className="text-2xl font-bold gradient-text hover:from-brand-700 hover:to-primary-700 transition-all duration-300">
                   🍴 TasteStack
                 </span>
               </Link>
@@ -348,7 +348,7 @@ const Navbar = () => {
               {/* Navigation Links */}
               <Link 
                 to="/" 
-                className="text-gray-600 hover:text-violet-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                className="nav-link px-3 py-2 rounded-md text-sm font-medium"
               >
                 Home
               </Link>
@@ -605,7 +605,7 @@ const Navbar = () => {
                 <>
                   <Link 
                     to="/create-recipe" 
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition-colors"
+                    className="btn-primary text-sm"
                   >
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -637,7 +637,7 @@ const Navbar = () => {
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                    className="text-sm font-medium text-neutral-600 hover:text-brand-700 transition-colors"
                   >
                     Sign Out
                   </button>
@@ -646,13 +646,13 @@ const Navbar = () => {
                 <>
                   <Link 
                     to="/login" 
-                    className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                    className="text-sm font-medium text-neutral-600 hover:text-brand-700 transition-colors"
                   >
                     Sign In
                   </Link>
                   <Link 
                     to="/register" 
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-violet-600 hover:bg-violet-700 transition-colors"
+                    className="btn-secondary text-sm"
                   >
                     Join Free
                   </Link>
