@@ -1,110 +1,256 @@
 import React, { useState, useEffect } from 'react';
 import { getRecipes } from '../services/recipeService';
+import { getStatistics } from '../services/statisticsService';
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const [featuredRecipes, setFeaturedRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [statistics, setStatistics] = useState({
+    total_recipes: 0,
+    total_users: 0,
+    total_ratings: 0,
+    unique_countries: 0
+  });
   
   useEffect(() => {
-    const fetchFeaturedRecipes = async () => {
+    const fetchData = async () => {
       try {
-        const recipeData = await getRecipes(1, 3); // Get first 3 recipes
+        // Fetch both recipes and statistics in parallel
+        const [recipeData, statsData] = await Promise.all([
+          getRecipes(1, 3), // Get first 3 recipes
+          getStatistics()
+        ]);
+        
         setFeaturedRecipes(recipeData.results || []);
+        setStatistics(statsData);
       } catch (err) {
-        setError('Failed to fetch featured recipes');
-        console.error('Failed to fetch featured recipes:', err);
+        setError('Failed to fetch data');
+        console.error('Failed to fetch data:', err);
       } finally {
         setLoading(false);
       }
     };
     
-    fetchFeaturedRecipes();
+    fetchData();
   }, []);
   
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="text-center">
-        <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-          Welcome to TasteStack
-        </h1>
-        <p className="mt-6 max-w-lg mx-auto text-xl text-gray-500">
-          Discover, share, and enjoy delicious recipes from food enthusiasts around the world.
-        </p>
-        <div className="mt-10 flex justify-center">
-          <div className="rounded-md shadow">
-            <a
-              href="/recipes"
-              className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
-            >
-              Browse Recipes
-            </a>
-          </div>
-          <div className="ml-3 rounded-md shadow">
-            <a
-              href="/register"
-              className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
-            >
-              Get Started
-            </a>
+    <div className="relative min-h-screen">
+      {/* Hero Section with Modern Gradient */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-violet-50 via-white to-purple-50">
+        {/* Background Decoration */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-gradient-to-r from-violet-300 to-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+          <div className="absolute top-32 right-1/4 w-72 h-72 bg-gradient-to-r from-indigo-300 to-violet-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+          <div className="absolute -bottom-8 left-1/4 w-80 h-80 bg-gradient-to-r from-purple-300 to-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+          <div className="text-center">
+            {/* Badge */}
+            <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-violet-100 text-violet-800 mb-8">
+              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              #1 Recipe Sharing Platform (From CSECU-21 based POV)
+            </div>
+            
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-8">
+              Welcome to{' '}
+              <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                TasteStack
+              </span>
+            </h1>
+            
+            <p className="mt-6 max-w-2xl mx-auto text-xl sm:text-2xl leading-8 text-gray-600">
+              Discover, share, and enjoy delicious recipes from food enthusiasts around the world. 
+              <span className="text-violet-600 font-semibold"> Join our culinary community today!</span>
+            </p>
+            
+            {/* Modern CTA Buttons */}
+            <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a
+                href="/recipes"
+                className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:from-violet-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-violet-300"
+              >
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                </svg>
+                Browse Recipes
+                <div className="absolute inset-0 rounded-2xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+              </a>
+              
+              <a
+                href="/register"
+                className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-violet-600 bg-white rounded-2xl shadow-lg border-2 border-violet-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-violet-300 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-300"
+              >
+                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                </svg>
+                Get Started
+                <div className="absolute inset-0 rounded-2xl bg-violet-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+              </a>
+            </div>
+            
+            {/* Stats Section */}
+            <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-gray-900">
+                  {statistics.total_recipes > 0 ? 
+                    (statistics.total_recipes >= 1000 ? 
+                      `${Math.floor(statistics.total_recipes / 1000)}K+` : 
+                      statistics.total_recipes) : 
+                    '0'
+                  }
+                </div>
+                <div className="text-sm text-gray-600">Recipes</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-gray-900">
+                  {statistics.total_users > 0 ? 
+                    (statistics.total_users >= 1000 ? 
+                      `${Math.floor(statistics.total_users / 1000)}K+` : 
+                      statistics.total_users) : 
+                    '0'
+                  }
+                </div>
+                <div className="text-sm text-gray-600">Chefs</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-gray-900">
+                  {statistics.total_ratings > 0 ? 
+                    (statistics.total_ratings >= 1000 ? 
+                      `${Math.floor(statistics.total_ratings / 1000)}K+` : 
+                      statistics.total_ratings) : 
+                    '0'
+                  }
+                </div>
+                <div className="text-sm text-gray-600">Reviews</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-gray-900">
+                  {statistics.unique_countries || 1}+
+                </div>
+                <div className="text-sm text-gray-600">Countries</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Featured Recipes Section */}
-      <div className="mt-20">
-        <h2 className="text-3xl font-extrabold text-gray-900 text-center">Featured Recipes</h2>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-gray-50">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            Featured <span className="text-violet-600">Recipes</span>
+          </h2>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Discover handpicked recipes from our amazing community of food lovers
+          </p>
+        </div>
+        
         {loading && (
           <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+            <div className="relative">
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-violet-200"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-violet-600 border-t-transparent absolute top-0 left-0"></div>
+            </div>
           </div>
         )}
         
         {error && (
-          <div className="rounded-md bg-red-50 p-4 mt-6">
-            <div className="flex">
+          <div className="max-w-md mx-auto rounded-2xl bg-red-50 border border-red-200 p-6">
+            <div className="flex items-center">
               <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                </svg>
+                <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                  <svg className="h-5 w-5 text-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
               </div>
-              <div className="ml-3">
-                <h3 className="text-sm font-medium text-red-800">
-                  {error}
-                </h3>
+              <div className="ml-4">
+                <h3 className="text-lg font-semibold text-red-900">Something went wrong</h3>
+                <p className="text-red-700">{error}</p>
               </div>
             </div>
           </div>
         )}
         
         {!loading && !error && (
-          <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {featuredRecipes.map((recipe) => (
-              <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="block">
-                <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-                  {recipe.image ? (
-                    <img
-                      src={recipe.image}
-                      alt={recipe.title}
-                      className="h-48 w-full object-cover"
-                    />
-                  ) : (
-                    <div className="h-48 bg-gray-200 flex items-center justify-center">
-                      <span className="text-gray-500">No Image</span>
+              <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="group block">
+                <div className="bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl border border-gray-100">
+                  <div className="relative overflow-hidden">
+                    {recipe.image ? (
+                      <img
+                        src={recipe.image}
+                        alt={recipe.title}
+                        className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="h-56 bg-gradient-to-br from-violet-100 to-purple-100 flex items-center justify-center">
+                        <div className="text-center">
+                          <svg className="w-12 h-12 text-violet-300 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                          </svg>
+                          <span className="text-violet-400 font-medium">Recipe Image</span>
+                        </div>
+                      </div>
+                    )}
+                    {/* Floating Badge */}
+                    <div className="absolute top-4 left-4">
+                      <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-lg">
+                        <div className="flex items-center space-x-1">
+                          <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                          <span className="text-xs font-semibold text-gray-700">{recipe.average_rating || '0.0'}</span>
+                        </div>
+                      </div>
                     </div>
-                  )}
+                  </div>
+                  
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold text-gray-900">{recipe.title}</h3>
-                    <p className="mt-2 text-gray-600">{recipe.description?.substring(0, 100) || 'No description available'}...</p>
-                    <div className="mt-4 flex items-center justify-between">
-                      <span className="text-sm text-gray-500">By {recipe.author?.name || 'Unknown'}</span>
-                      <div className="flex items-center">
-                        <span className="text-yellow-400">
-                          {'★'.repeat(Math.floor(recipe.average_rating))}
-                          {'☆'.repeat(5 - Math.floor(recipe.average_rating))}
+                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-violet-600 transition-colors duration-300">
+                      {recipe.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 line-clamp-2">
+                      {recipe.description?.substring(0, 100) || 'Delicious recipe waiting for you to discover'}...
+                    </p>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-violet-400 to-purple-400 flex items-center justify-center">
+                          <span className="text-white text-sm font-semibold">
+                            {recipe.author?.name?.charAt(0) || 'C'}
+                          </span>
+                        </div>
+                        <span className="text-sm font-medium text-gray-700">
+                          {recipe.author?.name || 'Chef'}
                         </span>
-                        <span className="ml-1 text-sm text-gray-500">({recipe.average_rating})</span>
+                      </div>
+                      
+                      <div className="flex items-center space-x-1">
+                        <svg className="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-sm text-gray-500">{recipe.likes_count || 0}</span>
+                      </div>
+                    </div>
+                    
+                    {/* View Recipe Button */}
+                    <div className="mt-4 pt-4 border-t border-gray-100">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-500">Ready in {(recipe.prep_time || 0) + (recipe.cook_time || 0)} mins</span>
+                        <div className="flex items-center text-violet-600 group-hover:text-violet-700 font-medium">
+                          <span className="text-sm mr-1">View Recipe</span>
+                          <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
                       </div>
                     </div>
                   </div>

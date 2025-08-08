@@ -20,19 +20,65 @@ const RegisterPage = () => {
       return;
     }
     
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long");
+      return;
+    }
+    
+    if (name.trim().length < 3) {
+      setError("Username must be at least 3 characters long");
+      return;
+    }
+    
     setLoading(true);
     setError('');
     
     try {
+      console.log('Attempting to register with data:', {
+        username: name,
+        email,
+        password: '[HIDDEN]',
+        password_confirm: '[HIDDEN]'
+      });
+      
       await register({
         username: name,
         email,
         password,
         password_confirm: confirmPassword
       });
+      
+      console.log('Registration successful!');
       navigate('/login');
     } catch (err) {
-      setError(err.message || 'Failed to register');
+      console.error('Registration error:', err);
+      
+      // Handle different types of errors
+      if (err.message) {
+        // Try to parse error as JSON if it's a string
+        try {
+          const errorObj = JSON.parse(err.message);
+          if (typeof errorObj === 'object') {
+            // Handle field-specific errors
+            const errorMessages = [];
+            for (const [field, messages] of Object.entries(errorObj)) {
+              if (Array.isArray(messages)) {
+                errorMessages.push(`${field}: ${messages[0]}`);
+              } else {
+                errorMessages.push(`${field}: ${messages}`);
+              }
+            }
+            setError(errorMessages.join(', '));
+          } else {
+            setError(err.message);
+          }
+        } catch {
+          // If not JSON, use the message as is
+          setError(err.message);
+        }
+      } else {
+        setError('Registration failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

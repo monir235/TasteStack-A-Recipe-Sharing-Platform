@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>Recipe API Test</h1>
+    <button onclick="testRecipes()">Test Recipes API</button>
+    <button onclick="testComments()">Test Comments API (requires login)</button>
+    <div id="results"></div>
+
+    <script>
+        async function testRecipes() {
+            try {
+                const response = await fetch('http://localhost:8000/api/recipes/');
+                const data = await response.json();
+                document.getElementById('results').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('results').innerHTML = 'Error: ' + error.message;
+            }
+        }
+
+        async function testComments() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    document.getElementById('results').innerHTML = 'No token found. Please login first.';
+                    return;
+                }
+
+                const response = await fetch('http://localhost:8000/api/interactions/recipes/8/comments/add/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ content: 'Test comment from API test' })
+                });
+                
+                const data = await response.json();
+                document.getElementById('results').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('results').innerHTML = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

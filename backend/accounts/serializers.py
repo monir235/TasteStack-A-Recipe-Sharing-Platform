@@ -38,15 +38,51 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
-    password_confirm = serializers.CharField(write_only=True)
-
+    password = serializers.CharField(
+        write_only=True,
+        min_length=8,
+        help_text="Password must be at least 8 characters long"
+    )
+    password_confirm = serializers.CharField(
+        write_only=True,
+        help_text="Must match the password field"
+    )
+    
     class Meta:
         model = User
         fields = ('username', 'email', 'password', 'password_confirm')
+        extra_kwargs = {
+            'username': {
+                'help_text': 'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
+                'min_length': 3,
+            },
+            'email': {
+                'help_text': 'Required. Enter a valid email address.',
+            }
+        }
+
+    def validate_username(self, value):
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError("A user with this username already exists.")
+        return value
+    
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("A user with this email already exists.")
+        return value
+        
+    def validate_password(self, value):
+        # Basic password validation
+        if len(value) < 8:
+            raise serializers.ValidationError("Password must be at least 8 characters long.")
+        if value.isdigit():
+            raise serializers.ValidationError("Password cannot be entirely numeric.")
+        if value.lower() in ['password', '12345678', 'qwerty']:
+            raise serializers.ValidationError("Password is too common.")
+        return value
 
     def validate(self, data):
-        if data['password'] != data['password_confirm']:
+        if data.get('password') != data.get('password_confirm'):
             raise serializers.ValidationError("Passwords do not match.")
         return data
 

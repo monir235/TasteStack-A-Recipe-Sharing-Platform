@@ -64,12 +64,11 @@ class CommentSerializer(serializers.ModelSerializer):
         
     def create(self, validated_data):
         user = self.context['request'].user
-        recipe = validated_data['recipe']
         
-        # Check if user has already commented on this recipe
-        comment, created = Comment.objects.update_or_create(
+        # Create a new comment (users can comment multiple times)
+        comment = Comment.objects.create(
             user=user,
-            recipe=recipe,
-            defaults={'content': validated_data['content']}
+            recipe=validated_data['recipe'],
+            content=validated_data['content']
         )
         return comment

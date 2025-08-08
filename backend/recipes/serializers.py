@@ -15,6 +15,8 @@ class RecipeSerializer(serializers.ModelSerializer):
     images = RecipeImageSerializer(many=True, read_only=True)
     average_rating = serializers.ReadOnlyField()
     likes_count = serializers.ReadOnlyField()
+    is_liked = serializers.SerializerMethodField()
+    user_rating = serializers.SerializerMethodField()
     
     class Meta:
         model = Recipe
@@ -22,9 +24,24 @@ class RecipeSerializer(serializers.ModelSerializer):
             'id', 'title', 'description', 'ingredients', 'instructions',
             'prep_time', 'cook_time', 'servings', 'difficulty', 'image',
             'author', 'created_at', 'updated_at', 'images', 'average_rating',
-            'likes_count'
+            'likes_count', 'is_liked', 'user_rating'
         )
-        read_only_fields = ('id', 'author', 'created_at', 'updated_at', 'images', 'average_rating', 'likes_count')
+        read_only_fields = ('id', 'author', 'created_at', 'updated_at', 'images', 'average_rating', 'likes_count', 'is_liked', 'user_rating')
+    
+    def get_is_liked(self, obj):
+        """Check if the current user has liked this recipe"""
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return Like.objects.filter(user=request.user, recipe=obj).exists()
+        return False
+    
+    def get_user_rating(self, obj):
+        """Get the current user's rating for this recipe"""
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            rating = Rating.objects.filter(user=request.user, recipe=obj).first()
+            return rating.rating if rating else None
+        return None
 
 
 class RecipeCreateSerializer(serializers.ModelSerializer):

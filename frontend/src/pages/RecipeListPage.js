@@ -34,7 +34,7 @@ const RecipeListPage = () => {
       
       {loading && (
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-violet-500"></div>
         </div>
       )}
       
@@ -75,7 +75,17 @@ const RecipeListPage = () => {
                   <h3 className="text-xl font-semibold text-gray-900">{recipe.title}</h3>
                   <p className="mt-2 text-gray-600">{recipe.description?.substring(0, 100) || 'No description available'}...</p>
                   <div className="mt-4 flex items-center justify-between">
-                    <span className="text-sm text-gray-500">By {recipe.author?.name || 'Unknown'}</span>
+                    {recipe.author ? (
+                      <Link 
+                        to={`/profile/${recipe.author.id}`} 
+                        className="text-sm text-violet-600 hover:text-violet-700 font-medium"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        By {recipe.author.name || recipe.author.username}
+                      </Link>
+                    ) : (
+                      <span className="text-sm text-gray-500">By Unknown</span>
+                    )}
                     <div className="flex items-center">
                       <span className="text-yellow-400">
                         {'★'.repeat(Math.floor(recipe.average_rating))}
@@ -85,7 +95,7 @@ const RecipeListPage = () => {
                     </div>
                   </div>
                   <div className="mt-4 flex items-center justify-between">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
                       {recipe.difficulty}
                     </span>
                     <span className="text-sm text-gray-500">{recipe.servings} servings</span>
@@ -107,7 +117,7 @@ const RecipeListPage = () => {
           <div className="mt-6">
             <a
               href="/create-recipe"
-              className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"
             >
               <svg className="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />

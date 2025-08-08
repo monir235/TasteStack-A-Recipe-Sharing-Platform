@@ -39,8 +39,8 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        # A user can only comment once per recipe
-        unique_together = ('user', 'recipe')
+        # Allow multiple comments per user per recipe
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"Comment by {self.user.username} on {self.recipe.title}"

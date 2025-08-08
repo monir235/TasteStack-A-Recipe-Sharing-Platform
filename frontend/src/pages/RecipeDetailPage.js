@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getRecipe, rateRecipe, likeRecipe, unlikeRecipe, addComment, getComments, deleteComment } from '../services/recipeService';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -25,6 +25,12 @@ const RecipeDetailPage = () => {
         const recipeData = await getRecipe(id);
         setRecipe(recipeData);
         
+        // Set user's like and rating state from recipe data
+        if (user && recipeData) {
+          setIsLiked(recipeData.is_liked || false);
+          setUserRating(recipeData.user_rating || 0);
+        }
+        
         // Try to fetch comments, but handle authentication errors
         try {
           const commentsData = await getComments(id);
@@ -49,7 +55,7 @@ const RecipeDetailPage = () => {
     };
     
     fetchRecipeData();
-  }, [id]);
+  }, [id, user]);
 
   // Edit a comment
   const handleEditComment = (commentId, content) => {
@@ -117,13 +123,25 @@ const RecipeDetailPage = () => {
     }
   };
 
-  const handleLike = () => {
-    setIsLiked(!isLiked);
-    // You can call likeRecipe or unlikeRecipe here to interact with the backend
-    if (!isLiked) {
-      likeRecipe(id);  // Call like API
-    } else {
-      unlikeRecipe(id); // Call unlike API
+  const handleLike = async () => {
+    try {
+      const newIsLiked = !isLiked;
+      setIsLiked(newIsLiked);
+      
+      if (newIsLiked) {
+        await likeRecipe(id);
+        // Update likes count locally
+        setRecipe(prev => prev ? { ...prev, likes_count: (prev.likes_count || 0) + 1 } : prev);
+      } else {
+        await unlikeRecipe(id);
+        // Update likes count locally
+        setRecipe(prev => prev ? { ...prev, likes_count: Math.max((prev.likes_count || 0) - 1, 0) } : prev);
+      }
+    } catch (error) {
+      // Revert the like state if the API call failed
+      setIsLiked(isLiked);
+      console.error('Failed to update like status:', error);
+      alert('Failed to update like status. Please try again.');
     }
   };
 
@@ -179,10 +197,20 @@ const RecipeDetailPage = () => {
                 </div>
               </div>
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900">By {recipe.author?.name || 'Unknown'}</p>
-                <a href={`/profile/${recipe.author?.id}`} className="text-sm text-indigo-600 hover:text-indigo-500">
-                  View Profile
-                </a>
+                {recipe.author ? (
+                  <Link to={`/profile/${recipe.author.id}`} className="text-sm font-medium text-violet-600 hover:text-violet-700">
+                    By {recipe.author.name || recipe.author.username}
+                  </Link>
+                ) : (
+                  <p className="text-sm font-medium text-gray-900">By Unknown</p>
+                )}
+                {recipe.author && (
+                  <div className="mt-1">
+                    <Link to={`/profile/${recipe.author.id}`} className="text-sm text-violet-600 hover:text-violet-500">
+                      View Profile
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
             <div className="mt-4 sm:mt-0 flex items-center">
@@ -376,9 +404,18 @@ const RecipeDetailPage = () => {
                   <>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
-                        <h4 className="text-sm font-medium text-gray-900">
-                          {comment.author && typeof comment.author === 'string' ? comment.author : 'Unknown User'}
-                        </h4>
+                        {comment.user && comment.user.id ? (
+                          <Link 
+                            to={`/profile/${comment.user.id}`} 
+                            className="text-sm font-medium text-violet-600 hover:text-violet-700"
+                          >
+                            {comment.user.username || comment.user.first_name || 'Unknown User'}
+                          </Link>
+                        ) : (
+                          <h4 className="text-sm font-medium text-gray-900">
+                            {comment.author && typeof comment.author === 'string' ? comment.author : 'Unknown User'}
+                          </h4>
+                        )}
                         <span className="ml-2 text-sm text-gray-500">
                           {comment.timestamp ? new Date(comment.timestamp).toLocaleDateString() : 'Unknown date'}
                         </span>

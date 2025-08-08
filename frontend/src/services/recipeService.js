@@ -107,13 +107,52 @@ export const deleteRecipe = async (id) => {
   });
 };
 
-// Search recipes by name or ingredients
-export const searchRecipes = async (query, page = 1, pageSize = 12) => {
+// Search recipes with advanced filters
+export const searchRecipes = async (query, page = 1, pageSize = 12, filters = {}) => {
   if (USE_MOCK_API) {
     return mockApi.searchRecipes(query, page, pageSize);
   }
   
-  return apiRequest(`/recipes/search/?q=${encodeURIComponent(query)}&page=${page}&page_size=${pageSize}`);
+  const params = new URLSearchParams();
+  
+  if (query) {
+    params.append('q', query);
+  }
+  
+  params.append('page', page.toString());
+  params.append('page_size', pageSize.toString());
+  
+  // Add additional filter parameters
+  if (filters.category) {
+    params.append('category', filters.category);
+  }
+  
+  if (filters.difficulty) {
+    params.append('difficulty', filters.difficulty);
+  }
+  
+  if (filters.maxTime) {
+    params.append('max_time', filters.maxTime.toString());
+  }
+  
+  if (filters.ingredients) {
+    params.append('ingredients', filters.ingredients);
+  }
+  
+  if (filters.author) {
+    params.append('author', filters.author);
+  }
+  
+  if (filters.minRating) {
+    params.append('min_rating', filters.minRating.toString());
+  }
+  
+  return apiRequest(`/recipes/search/?${params.toString()}`);
+};
+
+// Simple search for navbar (backward compatibility)
+export const simpleSearchRecipes = async (query, page = 1, pageSize = 6) => {
+  return searchRecipes(query, page, pageSize);
 };
 
 // Get recipes by author
