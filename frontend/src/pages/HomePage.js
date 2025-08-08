@@ -3,7 +3,6 @@ import { getRecipes } from '../services/recipeService';
 import { getStatistics } from '../services/statisticsService';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import CommentDebugger from '../components/CommentDebugger';
 
 const HomePage = () => {
   const { user, isAuthenticated } = useAuth();
@@ -50,75 +49,106 @@ const HomePage = () => {
           <div className="absolute -bottom-8 left-1/4 w-80 h-80 bg-gradient-to-r from-purple-300 to-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
         </div>
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           {isAuthenticated ? (
-            // Logged-in User Hero
-            <div className="text-center">
-              {/* Welcome Back Badge */}
-              <div className="inline-flex items-center px-6 py-3 rounded-full text-sm font-medium bg-gradient-to-r from-green-100 to-emerald-100 text-emerald-800 mb-8">
-                <div className="w-6 h-6 rounded-full bg-green-100 mr-3 flex items-center justify-center">
-                  {user?.profile_picture ? (
-                    <img
-                      src={user.profile_picture.startsWith('/') 
-                        ? `http://localhost:8000${user.profile_picture}` 
-                        : user.profile_picture}
-                      alt={user.username}
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                  ) : (
-                    <span className="text-emerald-600 font-bold text-xs">
-                      {(user?.first_name?.charAt(0) || user?.username?.charAt(0) || 'U').toUpperCase()}
-                    </span>
-                  )}
+            // Logged-in User Hero - More compact and practical
+            <div>
+              {/* Welcome Header */}
+              <div className="flex flex-col lg:flex-row items-start justify-between mb-12">
+                <div className="flex-1">
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 flex items-center justify-center shadow-lg">
+                      {user?.profile_picture ? (
+                        <img
+                          src={user.profile_picture.startsWith('/') 
+                            ? `http://localhost:8000${user.profile_picture}` 
+                            : user.profile_picture}
+                          alt={user.username}
+                          className="w-full h-full object-cover rounded-full"
+                        />
+                      ) : (
+                        <span className="text-white font-bold text-lg">
+                          {(user?.first_name?.charAt(0) || user?.username?.charAt(0) || 'U').toUpperCase()}
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                        Welcome back, {user?.first_name || user?.username || 'Chef'}!
+                      </h1>
+                      <p className="text-gray-600 mt-1">What would you like to cook today?</p>
+                    </div>
+                  </div>
                 </div>
-                Welcome back, {user?.first_name || user?.username || 'Chef'}! 👋
+                
+                {/* Quick Action */}
+                <div className="mt-6 lg:mt-0">
+                  <Link
+                    to="/create-recipe"
+                    className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  >
+                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                    </svg>
+                    Share Recipe
+                  </Link>
+                </div>
               </div>
               
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 mb-8">
-                Ready to cook something{' '}
-                <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                  amazing
-                </span>?
-              </h1>
-              
-              <p className="mt-6 max-w-2xl mx-auto text-lg sm:text-xl leading-8 text-gray-600">
-                Discover new flavors, share your culinary creations, and connect with fellow food lovers.
-                <span className="text-violet-600 font-semibold"> Your next favorite recipe awaits!</span>
-              </p>
-              
-              {/* Personalized CTA Buttons */}
-              <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
+              {/* Quick Access Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                 <Link
-                  to="/create-recipe"
-                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:from-violet-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-violet-300"
+                  to="/recipes"
+                  className="group bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 hover:border-violet-200"
                 >
-                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-                  </svg>
-                  Share Your Recipe
-                  <div className="absolute inset-0 rounded-2xl bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center group-hover:bg-violet-200 transition-colors">
+                      <svg className="w-6 h-6 text-violet-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                    </div>
+                    <svg className="w-5 h-5 text-gray-400 group-hover:text-violet-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 group-hover:text-violet-600 transition-colors">Explore Recipes</h3>
+                  <p className="text-gray-600 text-sm mt-1">Discover new dishes from our community</p>
                 </Link>
                 
                 <Link
-                  to="/recipes"
-                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-violet-600 bg-white rounded-2xl shadow-lg border-2 border-violet-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-violet-300 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-300"
+                  to="/dashboard"
+                  className="group bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 hover:border-violet-200"
                 >
-                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                  </svg>
-                  Explore Recipes
-                  <div className="absolute inset-0 rounded-2xl bg-violet-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+                      <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                    </div>
+                    <svg className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">My Dashboard</h3>
+                  <p className="text-gray-600 text-sm mt-1">Manage your recipes and activity</p>
                 </Link>
                 
                 <Link
                   to="/profile"
-                  className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-gray-600 bg-white rounded-2xl shadow-lg border-2 border-gray-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-gray-300"
+                  className="group bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 hover:border-violet-200"
                 >
-                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                  </svg>
-                  My Kitchen
-                  <div className="absolute inset-0 rounded-2xl bg-gray-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                      <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                    <svg className="w-5 h-5 text-gray-400 group-hover:text-green-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 group-hover:text-green-600 transition-colors">My Profile</h3>
+                  <p className="text-gray-600 text-sm mt-1">View and edit your profile</p>
                 </Link>
               </div>
             </div>
@@ -337,8 +367,6 @@ const HomePage = () => {
           </div>
         )}
 
-        {/* Comment Debugger - Remove this in production */}
-        <CommentDebugger recipeId={123} />
       </div>
     </div>
   );
