@@ -79,32 +79,29 @@ export const getCurrentUser = async () => {
 
 // Update user profile
 export const updateProfile = async (userData) => {
-  if (USE_MOCK_API) {
-    // In a real mock implementation, we would update the user data
-    // For now, we'll just return the user data as if it was updated
-    return userData;
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('User is not authenticated');
   }
-  
+
   // Handle file upload by creating FormData
   const formData = new FormData();
-  
-  // Add all fields to formData
   Object.keys(userData).forEach(key => {
     if (key === 'profile_picture' && userData[key]) {
-      // Handle file upload
-      formData.append(key, userData[key]);
+      formData.append(key, userData[key]);  // Handle file upload
     } else if (userData[key] !== null && userData[key] !== undefined) {
       formData.append(key, userData[key]);
     }
   });
-  
-  return apiRequest('/auth/user/', {
+
+  // Send request with authorization token
+  return apiRequest('/auth/user/update/', {
     method: 'PUT',
     body: formData,
     headers: {
-      // Remove Content-Type to let browser set it with boundary for multipart/form-data
+      'Authorization': `Bearer ${token}`  // Include the token in the Authorization header
     }
-  }, true); // Pass true to indicate this is a FormData request
+  }, true); // Pass 'true' to indicate that this is a FormData request
 };
 
 // Check if user is authenticated

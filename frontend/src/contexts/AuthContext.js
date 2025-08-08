@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { getCurrentUser, isAuthenticated } from '../services/authService';
+import { getCurrentUser, isAuthenticated as isAuthenticatedFn } from '../services/authService';
 
 // Create the AuthContext
 const AuthContext = createContext();
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   // Check if user is authenticated on initial load
   useEffect(() => {
     const initAuth = async () => {
-      if (isAuthenticated()) {
+      if (isAuthenticatedFn()) {
         try {
           const userData = await getCurrentUser();
           setUser(userData);

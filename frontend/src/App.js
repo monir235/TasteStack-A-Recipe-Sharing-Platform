@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import EditProfileDetails from './pages/EditProfileDetails';
 import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
@@ -28,6 +29,7 @@ function App() {
           <Route path="/create-recipe" element={<CreateRecipePage />} />
           <Route path="/edit-recipe/:id" element={<CreateRecipePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/edit-profile" element={<EditProfileDetails />} />
         </Routes>
       </AuthProvider>
     </div>

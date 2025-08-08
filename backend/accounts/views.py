@@ -50,13 +50,49 @@ def login(request):
 def user_profile(request):
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])  # Ensure the user is authenticated
+def update_profile(request):
+    user = request.user  # Get the currently authenticated user
+    serializer = UserSerializer(user, data=request.data, partial=True)
 
+    # If the serializer is valid, save the updated user data
+    if serializer.is_valid():
+        # Handling file upload
+        profile_picture = request.FILES.get('profile_picture')
+        if profile_picture:
+            user.profile_picture = profile_picture
+
+        user.save()  # Save the updated user model
+        return Response(serializer.data)  # Return the updated data
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_profile(request):
-    serializer = UserSerializer(request.user, data=request.data, partial=True)
+    user = request.user
+    data = request.data
+
+    # Debugging: print incoming request data
+    print("Incoming data:", data)
+
+    password = data.get('password', None)
+    confirm_password = data.get('confirmPassword', None)
+
+    if password and password != confirm_password:
+        return Response({'error': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if password:
+        user.set_password(password)
+
+    # Handle other profile updates (name, email, etc.)
+    serializer = UserSerializer(user, data=data, partial=True)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
+    
+    # Debugging: print serializer errors
+    print("Serializer errors:", serializer.errors)
+    
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
