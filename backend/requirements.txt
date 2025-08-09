@@ -15,6 +15,13 @@ django-cors-headers==4.7.0
 # Database & Filtering
 django-filter==25.1
 
+# Database Support
+psycopg2-binary==2.9.10  # PostgreSQL adapter
+dj-database-url==2.3.0   # Database URL parsing
+
+# Environment Management
+python-dotenv==1.0.1     # Load environment variables from .env files
+
 # Image Processing
 Pillow==11.3.0
 

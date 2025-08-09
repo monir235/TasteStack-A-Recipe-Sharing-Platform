@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+from .db_config import get_database_config, print_database_info
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +26,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-72b5!06!5=+z!+5!+5!+5!+5!+5!+5!+5!+5!+5!+5!+5!+5!+5!'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-72b5!06!5=+z!+5!+5!+5!+5!+5!+5!+5!+5!+5!+5!+5!+5!+5!')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+# Parse ALLOWED_HOSTS from environment
+allowed_hosts_str = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0')
+ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_str.split(',')]
 
 
 # Application definition
@@ -80,13 +87,28 @@ WSGI_APPLICATION = 'tastestack.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+# Dynamic database configuration based on environment variables
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+try:
+    DATABASES = {
+        'default': get_database_config(BASE_DIR)
     }
-}
+    
+    # Print database configuration in DEBUG mode
+    if DEBUG and os.getenv('SHOW_DB_INFO', 'false').lower() == 'true':
+        print_database_info()
+        
+except Exception as e:
+    print(f"Database configuration error: {e}")
+    print("Falling back to SQLite configuration...")
+    
+    # Fallback to SQLite if configuration fails
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -181,14 +203,12 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-# CORS settings
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
+# CORS settings - configurable via environment
+cors_origins_str = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://127.0.0.1:3000')
+CORS_ALLOWED_ORIGINS = [origin.strip() for origin in cors_origins_str.split(',')]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True  # Temporarily allow all origins for debugging
+CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'True').lower() == 'true'  # Allow all origins in development
 
 # Add CORS debugging
 CORS_ALLOWED_HEADERS = [
@@ -215,6 +235,6 @@ CORS_ALLOWED_METHODS = [
     'PUT',
 ]
 
-# Media files (for recipe images)
-MEDIA_URL = '/media/'
+# Media files (for recipe images) - configurable via environment
+MEDIA_URL = os.getenv('MEDIA_URL', '/media/')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

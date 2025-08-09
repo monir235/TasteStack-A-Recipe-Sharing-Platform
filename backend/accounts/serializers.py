@@ -41,7 +41,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         write_only=True,
         min_length=8,
-        help_text="Password must be at least 8 characters long"
+        help_text="Password must be at least 8 characters long and contain letters"
     )
     password_confirm = serializers.CharField(
         write_only=True,
@@ -53,7 +53,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = ('username', 'email', 'password', 'password_confirm')
         extra_kwargs = {
             'username': {
-                'help_text': 'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
+                'help_text': 'Required. 150 characters or fewer. Use letters, numbers, spaces, and common symbols.',
                 'min_length': 3,
             },
             'email': {
@@ -72,13 +72,30 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return value
         
     def validate_password(self, value):
-        # Basic password validation
+        # Enhanced password validation with better error messages
+        errors = []
+        
         if len(value) < 8:
-            raise serializers.ValidationError("Password must be at least 8 characters long.")
+            errors.append("Password must be at least 8 characters long.")
+        
         if value.isdigit():
-            raise serializers.ValidationError("Password cannot be entirely numeric.")
-        if value.lower() in ['password', '12345678', 'qwerty']:
-            raise serializers.ValidationError("Password is too common.")
+            errors.append("Password cannot be entirely numeric. Please include letters or symbols.")
+        
+        if not any(c.isalpha() for c in value):
+            errors.append("Password must contain at least one letter.")
+        
+        if value.lower() in ['password', '12345678', 'qwerty', 'password123', 'admin', 'user']:
+            errors.append("This password is too common. Please choose a more unique password.")
+        
+        # Check if username is part of password (will be available in validate() method)
+        if hasattr(self, 'initial_data') and self.initial_data.get('username'):
+            username = self.initial_data.get('username', '').lower()
+            if username and username in value.lower():
+                errors.append("Password cannot contain your username.")
+        
+        if errors:
+            raise serializers.ValidationError(errors)
+        
         return value
 
     def validate(self, data):

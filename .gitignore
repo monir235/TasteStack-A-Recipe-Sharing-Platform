@@ -206,6 +206,13 @@ dmypy.json
 mysql.cnf
 postgresql.conf
 
+# Database backups
+database_backups/
+*.sql
+*.dump
+*.backup
+db_backup_*
+
 # === Logs ===
 *.log
 logs/
