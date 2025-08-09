@@ -84,6 +84,11 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Node.js cache directories
+.npm/
+.cache/
+node_modules/.cache/
+
 # Production builds
 build/
 dist/
