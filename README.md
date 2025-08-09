@@ -33,8 +33,8 @@ Before you begin, ensure you have the following installed on your system:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/tastestack.git
-cd tastestack
+git clone https://github.com/alphapie77/TasteStack-A-Recipe-Sharing-Platform.git
+cd TasteStack-A-Recipe-Sharing-Platform
 ```
 
 ### Backend Setup (Django)
@@ -489,9 +489,9 @@ echo $OS  # or echo %OS% on Windows
 
 #### Support Channels
 - 📧 Email: support@tastestack.com
-- 🐛 Issues: [GitHub Issues](https://github.com/YOUR-USERNAME/tastestack/issues)
+- 🐛 Issues: [GitHub Issues](https://github.com/alphapie77/TasteStack-A-Recipe-Sharing-Platform/issues)
 - 📚 Documentation: [Full Documentation](docs/README.md)
-- 💬 Community: [Discussions](https://github.com/YOUR-USERNAME/tastestack/discussions)
+- 💬 Community: [Discussions](https://github.com/alphapie77/TasteStack-A-Recipe-Sharing-Platform/discussions)
 
 ## 🚀 Deployment
 
