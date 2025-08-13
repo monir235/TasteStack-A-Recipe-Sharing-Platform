@@ -14,8 +14,10 @@ import DashboardPage from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
 import PublicProfilePage from './pages/PublicProfilePage';
 import CreateRecipePage from './pages/CreateRecipePage';
+import EditRecipePage from './pages/EditRecipePage';
 import AboutPage from './pages/AboutPage';
 import RecipeSearchPage from './pages/RecipeSearchPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -28,15 +30,17 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/recipes" element={<RecipeSearchPage />} />
             <Route path="/recipes/:id" element={<RecipeDetailPage />} />
+            <Route path="/recipes/:id/edit" element={<EditRecipePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
             <Route path="/profile/:userId" element={<PublicProfilePage />} />
-            <Route path="/create-recipe" element={<CreateRecipePage />} />
-            <Route path="/edit-recipe/:id" element={<CreateRecipePage />} />
+            <Route path="/create-recipe" element={<ProtectedRoute><CreateRecipePage /></ProtectedRoute>} />
+            <Route path="/edit-recipe/:id" element={<ProtectedRoute><CreateRecipePage /></ProtectedRoute>} />
+            <Route path="/recipes/:id/edit" element={<ProtectedRoute><EditRecipePage /></ProtectedRoute>} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/edit-profile" element={<EditProfileDetails />} />
+            <Route path="/edit-profile" element={<ProtectedRoute><EditProfileDetails /></ProtectedRoute>} />
           </Routes>
         </main>
         <Footer />

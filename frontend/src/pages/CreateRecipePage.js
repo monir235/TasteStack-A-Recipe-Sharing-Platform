@@ -2,6 +2,46 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { createRecipe, updateRecipe, getRecipe } from '../services/recipeService';
 
+
+const CATEGORY_SECTIONS = {
+  'Meal Types': [
+    { id: 'breakfast', name: 'Breakfast', icon: '🥞' },
+    { id: 'lunch', name: 'Lunch', icon: '🥗' },
+    { id: 'dinner', name: 'Dinner', icon: '🍖' },
+    { id: 'dessert', name: 'Desserts', icon: '🍰' },
+    { id: 'appetizer', name: 'Appetizers', icon: '🥨' },
+    { id: 'snacks', name: 'Snacks', icon: '🍿' }
+  ],
+  'Dish Types': [
+    { id: 'soup', name: 'Soups', icon: '🍲' },
+    { id: 'salad', name: 'Salads', icon: '🥙' },
+    { id: 'pasta', name: 'Pasta', icon: '🍝' },
+    { id: 'pizza', name: 'Pizza', icon: '🍕' },
+    { id: 'seafood', name: 'Seafood', icon: '🦐' },
+    { id: 'bbq', name: 'BBQ & Grilled', icon: '🔥' }
+  ],
+  'Cuisines': [
+    { id: 'asian', name: 'Asian', icon: '🥢' },
+    { id: 'italian', name: 'Italian', icon: '🇮🇹' },
+    { id: 'mexican', name: 'Mexican', icon: '🌮' },
+    { id: 'indian', name: 'Indian', icon: '🍛' },
+    { id: 'mediterranean', name: 'Mediterranean', icon: '🫒' },
+    { id: 'american', name: 'American', icon: '🍔' },
+    { id: 'french', name: 'French', icon: '🇫🇷' },
+    { id: 'middle-eastern', name: 'Middle Eastern', icon: '🧆' }
+  ],
+  'Dietary': [
+    { id: 'vegetarian', name: 'Vegetarian', icon: '🥬' },
+    { id: 'vegan', name: 'Vegan', icon: '🌱' },
+    { id: 'gluten-free', name: 'Gluten Free', icon: '🌾' },
+    { id: 'keto', name: 'Keto', icon: '🥑' },
+    { id: 'healthy', name: 'Healthy', icon: '💚' },
+    { id: 'quick', name: 'Quick & Easy', icon: '⚡' }
+  ]
+};
+
+const CATEGORIES = Object.values(CATEGORY_SECTIONS).flat();
+
 const CreateRecipePage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -15,6 +55,7 @@ const CreateRecipePage = () => {
     difficulty: 'Easy',
     ingredients: [''],
     instructions: [''],
+    categories: [],
     image: null
   });
 
@@ -35,16 +76,23 @@ const CreateRecipePage = () => {
             difficulty: recipeData.difficulty,
             ingredients: recipeData.ingredients,
             instructions: recipeData.instructions,
+            categories: Array.isArray(recipeData.categories) ? recipeData.categories : (recipeData.category ? [recipeData.category] : []),
             image: null
           });
         } catch (err) {
           console.error('Failed to fetch recipe:', err);
+          if (err.status === 401) {
+            alert('Your session has expired. Please log in again.');
+            navigate('/login');
+          } else {
+            alert('Failed to load recipe. Please try again.');
+          }
         }
       };
       
       fetchRecipe();
     }
-  }, [id]);
+  }, [id, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,6 +105,15 @@ const CreateRecipePage = () => {
       console.log('New state:', newState); // Debugging
       return newState;
     });
+  };
+
+  const handleCategoryToggle = (categoryId) => {
+    setRecipe(prev => ({
+      ...prev,
+      categories: prev.categories.includes(categoryId)
+        ? prev.categories.filter(id => id !== categoryId)
+        : [...prev.categories, categoryId]
+    }));
   };
 
   const handleIngredientChange = (index, value) => {
@@ -141,17 +198,32 @@ const CreateRecipePage = () => {
     console.log('Recipe data on submit:', recipe); // Debugging
     
     try {
+      const recipeData = {
+        ...recipe,
+        category: recipe.categories.join(', ')
+      };
+      
       if (id) {
-        await updateRecipe(id, recipe);
+        await updateRecipe(id, recipeData);
         alert('Recipe updated successfully!');
       } else {
-        await createRecipe(recipe);
+        await createRecipe(recipeData);
         alert('Recipe created successfully!');
       }
       navigate('/');
     } catch (err) {
       console.error('Failed to save recipe:', err);
-      alert('Failed to save recipe. Please try again.');
+      
+      if (err.status === 401) {
+        alert('Your session has expired. Please log in again.');
+        navigate('/login');
+      } else if (err.status === 403) {
+        alert('You do not have permission to perform this action.');
+      } else if (err.message) {
+        alert(`Failed to save recipe: ${err.message}`);
+      } else {
+        alert('Failed to save recipe. Please try again.');
+      }
     }
   };
 
@@ -276,6 +348,54 @@ const CreateRecipePage = () => {
                     <option>Medium</option>
                     <option>Hard</option>
                   </select>
+                </div>
+              </div>
+
+              {/* Categories Section */}
+              <div className="sm:col-span-6">
+                <label className="block text-sm font-medium text-gray-700 mb-4">Categories</label>
+                <div className="space-y-6">
+                  {Object.entries(CATEGORY_SECTIONS).map(([sectionName, categories]) => (
+                    <div key={sectionName}>
+                      <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">{sectionName}</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {categories.map((category) => (
+                          <button
+                            key={category.id}
+                            type="button"
+                            onClick={() => handleCategoryToggle(category.id)}
+                            className={`inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
+                              recipe.categories.includes(category.id)
+                                ? 'bg-indigo-600 text-white shadow-sm'
+                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-200'
+                            }`}
+                          >
+                            <span className="mr-2 text-base">{category.icon}</span>
+                            {category.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  {recipe.categories.length > 0 && (
+                    <div className="pt-4 border-t border-gray-200">
+                      <p className="text-xs text-gray-500 mb-3">{recipe.categories.length} categories selected</p>
+                      <div className="flex flex-wrap gap-2">
+                        {recipe.categories.map(categoryId => {
+                          const category = CATEGORIES.find(c => c.id === categoryId);
+                          return category ? (
+                            <span
+                              key={categoryId}
+                              className="inline-flex items-center px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-medium rounded-full"
+                            >
+                              <span className="mr-1">{category.icon}</span>
+                              {category.name}
+                            </span>
+                          ) : null;
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
