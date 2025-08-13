@@ -113,73 +113,97 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {loading && (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
-        </div>
-      )}
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-purple-50">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-32 w-80 h-80 bg-violet-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-32 w-80 h-80 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+      </div>
       
-      {error && (
-        <div className="rounded-md bg-red-50 p-4 mb-6">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <h3 className="text-sm font-medium text-red-800">{error}</h3>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Welcome Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold tracking-tight text-gray-900 mb-4">
+            Welcome back, <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">{user?.first_name || user?.username || 'Chef'}</span>!
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Manage your recipes, track your progress, and connect with the culinary community
+          </p>
+        </div>
+
+        {loading && (
+          <div className="flex justify-center items-center h-64">
+            <div className="relative">
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-violet-200"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-violet-600 border-t-transparent absolute top-0 left-0"></div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      
+        {error && (
+          <div className="bg-red-50/80 backdrop-blur-sm border border-red-200 rounded-2xl p-6 mb-8">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                  <svg className="h-5 w-5 text-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-semibold text-red-900">Something went wrong</h3>
+                <p className="text-red-700">{error}</p>
+              </div>
+            </div>
+          </div>
+        )}
 
       {!loading && !error && (
         <>
-          {/* Navigation Tabs */}
-          <div className="mb-8">
-            <div className="border-b border-gray-200">
-              <nav className="-mb-px flex space-x-8">
+          {/* Modern Navigation Tabs */}
+          <div className="mb-12">
+            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-2 border border-white/20 shadow-lg">
+              <nav className="flex space-x-2">
                 <button
                   onClick={() => setActiveTab('overview')}
-                  className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm ${
+                  className={`flex-1 py-3 px-6 rounded-xl font-semibold text-sm transition-all duration-200 ${
                     activeTab === 'overview'
-                      ? 'border-indigo-500 text-indigo-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-lg'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
                   }`}
                 >
-                  Overview
+                  📊 Overview
                 </button>
                 <button
                   onClick={() => setActiveTab('recipes')}
-                  className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm ${
+                  className={`flex-1 py-3 px-6 rounded-xl font-semibold text-sm transition-all duration-200 ${
                     activeTab === 'recipes'
-                      ? 'border-indigo-500 text-indigo-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-lg'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
                   }`}
                 >
-                  My Recipes
+                  🍽️ My Recipes
                 </button>
                 <button
                   onClick={() => setActiveTab('profile')}
-                  className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm ${
+                  className={`flex-1 py-3 px-6 rounded-xl font-semibold text-sm transition-all duration-200 ${
                     activeTab === 'profile'
-                      ? 'border-indigo-500 text-indigo-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-lg'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
                   }`}
                 >
-                  Profile & Settings
+                  👤 Profile
                 </button>
                 <button
                   onClick={() => setActiveTab('activity')}
-                  className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm ${
+                  className={`flex-1 py-3 px-6 rounded-xl font-semibold text-sm transition-all duration-200 ${
                     activeTab === 'activity'
-                      ? 'border-indigo-500 text-indigo-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-lg'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
                   }`}
                 >
-                  Activity
+                  ⚡ Activity
                 </button>
               </nav>
             </div>
@@ -188,119 +212,92 @@ const DashboardPage = () => {
           {/* Tab Content */}
           {activeTab === 'overview' && (
             <>
-              {/* Stats Section */}
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-                <div className="bg-white overflow-hidden shadow rounded-lg">
-                  <div className="px-4 py-5 sm:p-6">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
-                        <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">Total Recipes</dt>
-                          <dd className="flex items-baseline">
-                            <div className="text-2xl font-semibold text-gray-900">{stats.total_recipes}</div>
-                          </dd>
-                        </dl>
-                      </div>
+              {/* Modern Stats Section */}
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-12">
+                <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Total Recipes</p>
+                      <p className="text-3xl font-bold text-gray-900">{stats.total_recipes}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-500 rounded-xl flex items-center justify-center">
+                      <span className="text-2xl">🍽️</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white overflow-hidden shadow rounded-lg">
-                  <div className="px-4 py-5 sm:p-6">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 bg-red-500 rounded-md p-3">
-                        <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">Total Likes</dt>
-                          <dd className="flex items-baseline">
-                            <div className="text-2xl font-semibold text-gray-900">{stats.total_likes}</div>
-                          </dd>
-                        </dl>
-                      </div>
+                <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Total Likes</p>
+                      <p className="text-3xl font-bold text-gray-900">{stats.total_likes}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-gradient-to-r from-rose-500 to-pink-500 rounded-xl flex items-center justify-center">
+                      <span className="text-2xl">❤️</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white overflow-hidden shadow rounded-lg">
-                  <div className="px-4 py-5 sm:p-6">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 bg-blue-500 rounded-md p-3">
-                        <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                        </svg>
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">Comments</dt>
-                          <dd className="flex items-baseline">
-                            <div className="text-2xl font-semibold text-gray-900">{stats.total_comments}</div>
-                          </dd>
-                        </dl>
-                      </div>
+                <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Comments</p>
+                      <p className="text-3xl font-bold text-gray-900">{stats.total_comments}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+                      <span className="text-2xl">💬</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white overflow-hidden shadow rounded-lg">
-                  <div className="px-4 py-5 sm:p-6">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
-                        <svg className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dl>
-                          <dt className="text-sm font-medium text-gray-500 truncate">Followers</dt>
-                          <dd className="flex items-baseline">
-                            <div className="text-2xl font-semibold text-gray-900">{stats.followers_count}</div>
-                          </dd>
-                        </dl>
-                      </div>
+                <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Followers</p>
+                      <p className="text-3xl font-bold text-gray-900">{stats.followers_count}</p>
+                    </div>
+                    <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
+                      <span className="text-2xl">👥</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Quick Actions */}
-              <div className="bg-white shadow rounded-lg p-6 mb-8">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">Quick Actions</h3>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {/* Modern Quick Actions */}
+              <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 border border-white/20 shadow-lg">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Quick Actions</h3>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <Link
                     to="/create-recipe"
-                    className="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                    className="group flex flex-col items-center p-6 bg-gradient-to-r from-violet-500 to-purple-500 text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                   >
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-                    </svg>
-                    Create Recipe
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-3 group-hover:bg-white/30 transition-colors">
+                      <span className="text-2xl">✨</span>
+                    </div>
+                    <span className="font-semibold">Create Recipe</span>
+                    <span className="text-sm opacity-90 mt-1">Share your culinary creation</span>
                   </Link>
+                  
                   <button
                     onClick={() => setActiveTab('recipes')}
-                    className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                    className="group flex flex-col items-center p-6 bg-white text-gray-700 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-gray-200"
                   >
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
-                    Manage Recipes
+                    <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center mb-3 group-hover:bg-violet-200 transition-colors">
+                      <span className="text-2xl">📚</span>
+                    </div>
+                    <span className="font-semibold">Manage Recipes</span>
+                    <span className="text-sm text-gray-500 mt-1">Edit your recipe collection</span>
                   </button>
+                  
                   <button
                     onClick={() => setActiveTab('activity')}
-                    className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+                    className="group flex flex-col items-center p-6 bg-white text-gray-700 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border border-gray-200"
                   >
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    View Activity
+                    <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3 group-hover:bg-blue-200 transition-colors">
+                      <span className="text-2xl">⚡</span>
+                    </div>
+                    <span className="font-semibold">View Activity</span>
+                    <span className="text-sm text-gray-500 mt-1">Track your progress</span>
                   </button>
                 </div>
               </div>
@@ -458,25 +455,16 @@ const DashboardPage = () => {
                           <p className="text-lg text-gray-600 mb-2">@{user?.username}</p>
                           <p className="text-gray-500 mb-4">{user?.email}</p>
                           
-                          {/* Action Buttons */}
-                          <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                          {/* Action Button */}
+                          <div className="flex justify-center md:justify-start">
                             <Link
                               to="/edit-profile"
-                              className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-violet-600 bg-white rounded-2xl shadow-lg border-2 border-violet-200 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-violet-300 hover:bg-violet-50"
+                              className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
                             >
                               <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                               </svg>
                               Edit Profile
-                            </Link>
-                            <Link
-                              to="/profile"
-                              className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-purple-600 rounded-2xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                            >
-                              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                              </svg>
-                              View Full Profile
                             </Link>
                           </div>
                         </div>
@@ -634,6 +622,7 @@ const DashboardPage = () => {
           )}
         </>
       )}
+      </div>
     </div>
   );
 };
