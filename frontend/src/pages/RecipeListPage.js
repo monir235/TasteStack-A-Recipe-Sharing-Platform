@@ -2,16 +2,39 @@ import React, { useState, useEffect } from 'react';
 import { getRecipes } from '../services/recipeService';
 import { Link } from 'react-router-dom';
 
+const CATEGORIES = [
+  { id: 'all', name: 'All Recipes', icon: '🍽️' },
+  { id: 'breakfast', name: 'Breakfast', icon: '🥞' },
+  { id: 'lunch', name: 'Lunch', icon: '🥗' },
+  { id: 'dinner', name: 'Dinner', icon: '🍖' },
+  { id: 'dessert', name: 'Desserts', icon: '🍰' },
+  { id: 'appetizer', name: 'Appetizers', icon: '🥨' },
+  { id: 'soup', name: 'Soups', icon: '🍲' },
+  { id: 'salad', name: 'Salads', icon: '🥙' },
+  { id: 'pasta', name: 'Pasta', icon: '🍝' },
+  { id: 'pizza', name: 'Pizza', icon: '🍕' },
+  { id: 'seafood', name: 'Seafood', icon: '🦐' },
+  { id: 'vegetarian', name: 'Vegetarian', icon: '🥬' },
+  { id: 'vegan', name: 'Vegan', icon: '🌱' },
+  { id: 'gluten-free', name: 'Gluten Free', icon: '🌾' },
+  { id: 'healthy', name: 'Healthy', icon: '💚' },
+  { id: 'quick', name: 'Quick & Easy', icon: '⚡' }
+];
+
 const RecipeListPage = () => {
   const [recipes, setRecipes] = useState([]);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
         const recipeData = await getRecipes(1, 100); // Get first 100 recipes
-        setRecipes(recipeData.results || []);
+        const recipeList = recipeData.results || [];
+        setRecipes(recipeList);
+        setFilteredRecipes(recipeList);
       } catch (err) {
         setError('Failed to fetch recipes');
         console.error('Failed to fetch recipes:', err);
@@ -22,6 +45,21 @@ const RecipeListPage = () => {
     
     fetchRecipes();
   }, []);
+  
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategory(categoryId);
+    if (categoryId === 'all') {
+      setFilteredRecipes(recipes);
+    } else {
+      const filtered = recipes.filter(recipe => 
+        recipe.category?.toLowerCase().includes(categoryId) ||
+        recipe.title?.toLowerCase().includes(categoryId) ||
+        recipe.description?.toLowerCase().includes(categoryId) ||
+        recipe.tags?.some(tag => tag.toLowerCase().includes(categoryId))
+      );
+      setFilteredRecipes(filtered);
+    }
+  };
   
   return (
     <div className="relative min-h-screen">
@@ -44,10 +82,40 @@ const RecipeListPage = () => {
               Discover delicious recipes from our amazing community of food lovers
             </p>
           </div>
+          
+          {/* Category Filter Section */}
+          <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-6 border border-white/20 shadow-lg">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Browse by Category</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+              {CATEGORIES.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => handleCategoryChange(category.id)}
+                  className={`group relative p-4 rounded-2xl transition-all duration-300 hover:scale-105 ${
+                    selectedCategory === category.id
+                      ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white shadow-lg'
+                      : 'bg-white/80 hover:bg-white text-gray-700 hover:shadow-md'
+                  }`}
+                >
+                  <div className="text-center">
+                    <div className="text-2xl mb-2">{category.icon}</div>
+                    <div className="text-xs font-medium">{category.name}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Results Header */}
+        <div className="mb-8">
+          <h3 className="text-2xl font-bold text-gray-900">
+            {selectedCategory === 'all' ? 'All Recipes' : CATEGORIES.find(c => c.id === selectedCategory)?.name}
+            <span className="ml-2 text-lg font-normal text-gray-600">({filteredRecipes.length} recipes)</span>
+          </h3>
+        </div>
       
       {loading && (
         <div className="flex justify-center items-center h-64">
@@ -74,7 +142,7 @@ const RecipeListPage = () => {
       
       {!loading && !error && (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {recipes.map((recipe) => (
+          {filteredRecipes.map((recipe) => (
             <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="group block">
               <div className="bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl border border-gray-100">
                 <div className="relative overflow-hidden">
@@ -139,6 +207,20 @@ const RecipeListPage = () => {
               </div>
             </Link>
           ))}
+        </div>
+      )}
+      
+      {!loading && !error && filteredRecipes.length === 0 && recipes.length > 0 && (
+        <div className="text-center py-12">
+          <div className="text-6xl mb-4">🔍</div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">No recipes found</h3>
+          <p className="text-gray-600 mb-4">No recipes match the selected category. Try a different category.</p>
+          <button
+            onClick={() => handleCategoryChange('all')}
+            className="inline-flex items-center px-4 py-2 bg-violet-600 text-white rounded-xl hover:bg-violet-700 transition-colors"
+          >
+            View All Recipes
+          </button>
         </div>
       )}
       
