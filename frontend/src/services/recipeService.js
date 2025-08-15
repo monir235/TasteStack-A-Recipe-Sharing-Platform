@@ -167,7 +167,7 @@ export const getRecipesByAuthor = async (authorId, page = 1, pageSize = 12) => {
     return mockApi.getRecipesByAuthor(authorId, page, pageSize);
   }
   
-  return apiRequest(`/recipes/?author=${authorId}&page=${page}&page_size=${pageSize}`);
+  return apiRequest(`/recipes/my-recipes/?page=${page}&page_size=${pageSize}`);
 };
 
 // Rate a recipe
