@@ -3,6 +3,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.conf import settings
 from django.db import models
 from django.db.models import Count, Sum, Avg
 from .serializers import UserSerializer, UserRegistrationSerializer
@@ -332,3 +335,58 @@ def public_profile(request, user_id):
         'recent_recipes': recipe_serializer.data,
         'is_following': is_following,
     })
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def forgot_password(request):
+    email = request.data.get('email')
+    
+    if not email:
+        return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        user = User.objects.get(email=email)
+        token = default_token_generator.make_token(user)
+        
+        # For development - return the reset link directly
+        # Encode token to handle special characters in URL
+        import urllib.parse
+        encoded_token = urllib.parse.quote(token, safe='')
+        reset_url = f"http://localhost:3000/reset-password/{user.pk}/{encoded_token}/"
+        
+        return Response({
+            'message': 'Password reset email sent',
+            'reset_link': reset_url  # Only for development
+        })
+    except User.DoesNotExist:
+        # Don't reveal if email exists for security
+        return Response({'message': 'Password reset email sent'})
+    except Exception as e:
+        return Response({'error': 'Failed to send email'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def reset_password(request):
+    user_id = request.data.get('user_id')
+    token = request.data.get('token')
+    password = request.data.get('password')
+    
+    if not all([user_id, token, password]):
+        return Response({'error': 'Missing required fields'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        user = User.objects.get(pk=user_id)
+        
+        if default_token_generator.check_token(user, token):
+            user.set_password(password)
+            user.save()
+            return Response({'message': 'Password reset successful'})
+        else:
+            return Response({'error': 'Invalid or expired token'}, status=status.HTTP_400_BAD_REQUEST)
+            
+    except User.DoesNotExist:
+        return Response({'error': 'Invalid reset link'}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({'error': 'Failed to reset password'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

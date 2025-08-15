@@ -120,14 +120,10 @@ const AboutPage = () => {
             </p>
             
             {/* Floating Stats */}
-            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto">
               <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-lg">
                 <div className="text-2xl font-bold text-gray-900">{statistics.founded_year}</div>
                 <div className="text-xs text-gray-600">Founded</div>
-              </div>
-              <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-lg">
-                <div className="text-2xl font-bold text-gray-900">{statistics.unique_countries || 1}+</div>
-                <div className="text-xs text-gray-600">Countries</div>
               </div>
               <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-lg">
                 <div className="text-2xl font-bold text-gray-900">

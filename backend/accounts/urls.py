@@ -10,4 +10,6 @@ urlpatterns = [
     path('recent-activity/', views.recent_activity, name='recent_activity'),
     path('profile/<int:user_id>/', views.public_profile, name='public_profile'),
     path('follow/<int:user_id>/', views.follow_user, name='follow_user'),
+    path('forgot-password/', views.forgot_password, name='forgot_password'),
+    path('reset-password/', views.reset_password, name='reset_password'),
 ]
