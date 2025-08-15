@@ -41,6 +41,9 @@ export const createRecipe = async (recipeData) => {
     } else if (key === 'ingredients' || key === 'instructions') {
       // Convert arrays to JSON strings
       formData.append(key, JSON.stringify(recipeData[key]));
+    } else if (key === 'category' && recipeData[key]) {
+      // Handle category - send as string
+      formData.append(key, recipeData[key]);
     } else if (recipeData[key] !== null && recipeData[key] !== undefined) {
       // Map frontend field names to backend field names
       let backendKey = key;
@@ -78,6 +81,9 @@ export const updateRecipe = async (id, recipeData) => {
     } else if (key === 'ingredients' || key === 'instructions') {
       // Convert arrays to JSON strings
       formData.append(key, JSON.stringify(recipeData[key]));
+    } else if (key === 'category' && recipeData[key]) {
+      // Handle category - send as string
+      formData.append(key, recipeData[key]);
     } else if (recipeData[key] !== null && recipeData[key] !== undefined) {
       // Map frontend field names to backend field names
       let backendKey = key;

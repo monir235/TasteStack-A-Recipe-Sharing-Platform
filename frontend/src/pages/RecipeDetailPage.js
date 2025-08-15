@@ -289,6 +289,20 @@ const RecipeDetailPage = () => {
         </div>
       </div>
 
+      {/* Categories */}
+      {recipe?.category && recipe.category !== '[]' && recipe.category.trim() && (
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Categories</h2>
+          <div className="flex flex-wrap gap-2">
+            {[...new Set(recipe.category.split(',').map(cat => cat.trim()).filter(cat => cat))].map((cat, index) => (
+              <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                {cat}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Recipe Description */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">Description</h2>

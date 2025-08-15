@@ -14,7 +14,65 @@ class RecipeListCreateView(generics.ListCreateAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['author']
+    filterset_fields = ['difficulty']
+    
+    def get_queryset(self):
+        queryset = Recipe.objects.all()
+        
+        # Category filter
+        category = self.request.query_params.get('category', None)
+        if category:
+            queryset = queryset.filter(category__icontains=category)
+        
+        # Search query
+        search = self.request.query_params.get('q', None)
+        if search:
+            queryset = queryset.filter(
+                models.Q(title__icontains=search) |
+                models.Q(description__icontains=search) |
+                models.Q(ingredients__icontains=search)
+            )
+        
+        # Difficulty filter
+        difficulty = self.request.query_params.get('difficulty', None)
+        if difficulty:
+            queryset = queryset.filter(difficulty=difficulty)
+        
+        # Max time filter
+        max_time = self.request.query_params.get('max_time', None)
+        if max_time:
+            try:
+                max_time_int = int(max_time)
+                queryset = queryset.filter(
+                    models.Q(prep_time__lte=max_time_int) |
+                    models.Q(cook_time__lte=max_time_int)
+                )
+            except ValueError:
+                pass
+        
+        # Author filter
+        author = self.request.query_params.get('author', None)
+        if author:
+            queryset = queryset.filter(
+                models.Q(author__username__icontains=author) |
+                models.Q(author__first_name__icontains=author) |
+                models.Q(author__last_name__icontains=author)
+            )
+        
+        # Min rating filter
+        min_rating = self.request.query_params.get('min_rating', None)
+        if min_rating:
+            try:
+                min_rating_float = float(min_rating)
+                # Filter recipes with average rating >= min_rating
+                from django.db.models import Avg
+                queryset = queryset.annotate(
+                    avg_rating=Avg('ratings__rating')
+                ).filter(avg_rating__gte=min_rating_float)
+            except ValueError:
+                pass
+        
+        return queryset
     search_fields = ['title', 'description', 'ingredients']
     ordering_fields = ['created_at', 'average_rating']
     ordering = ['-created_at']

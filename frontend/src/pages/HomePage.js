@@ -285,75 +285,127 @@ const HomePage = () => {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {featuredRecipes.map((recipe) => (
               <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="group block">
-                <div className="bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl border border-gray-100">
+                <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-white/20">
                   <div className="relative overflow-hidden">
                     {recipe.image ? (
                       <img
                         src={recipe.image}
                         alt={recipe.title}
-                        className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                     ) : (
-                      <div className="h-56 bg-gradient-to-br from-violet-100 to-purple-100 flex items-center justify-center">
+                      <div className="h-56 bg-gradient-to-br from-violet-100 via-purple-100 to-pink-100 flex items-center justify-center">
                         <div className="text-center">
-                          <svg className="w-12 h-12 text-violet-300 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
-                          </svg>
-                          <span className="text-violet-400 font-medium">Recipe Image</span>
+                          <div className="w-16 h-16 bg-gradient-to-r from-violet-400 to-purple-400 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                            <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                          <span className="text-violet-600 font-semibold">Recipe Image</span>
                         </div>
                       </div>
                     )}
-                    {/* Floating Badge */}
+                    {/* Floating Badges */}
                     <div className="absolute top-4 left-4">
-                      <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-lg">
+                      <div className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-full px-3 py-1 shadow-lg">
                         <div className="flex items-center space-x-1">
-                          <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                           </svg>
-                          <span className="text-xs font-semibold text-gray-700">{recipe.average_rating || '0.0'}</span>
+                          <span className="text-xs font-bold">{recipe.average_rating || '0.0'}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="absolute top-4 right-4">
+                      <div className="bg-gradient-to-r from-red-400 to-pink-400 text-white rounded-full px-3 py-1 shadow-lg">
+                        <div className="flex items-center space-x-1">
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                          </svg>
+                          <span className="text-xs font-bold">{recipe.likes_count || 0}</span>
                         </div>
                       </div>
                     </div>
                   </div>
                   
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-violet-600 transition-colors duration-300">
-                      {recipe.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4 line-clamp-2">
-                      {recipe.description?.substring(0, 100) || 'Delicious recipe waiting for you to discover'}...
-                    </p>
+                    <div className="mb-4">
+                      <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-violet-600 transition-colors duration-300 line-clamp-2">
+                        {recipe.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+                        {recipe.description?.substring(0, 120) || 'Delicious recipe waiting for you to discover'}...
+                      </p>
+                    </div>
                     
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-violet-400 to-purple-400 flex items-center justify-center">
-                          <span className="text-white text-sm font-semibold">
-                            {recipe.author?.name?.charAt(0) || 'C'}
-                          </span>
-                        </div>
-                        <span className="text-sm font-medium text-gray-700">
-                          {recipe.author?.name || 'Chef'}
+                    {/* Author Info */}
+                    <div className="flex items-center mb-4 pb-4 border-b border-gray-100">
+                      <div className="w-8 h-8 bg-gradient-to-r from-violet-400 to-purple-400 rounded-full flex items-center justify-center">
+                        <span className="text-white text-xs font-bold">
+                          {recipe.author?.name?.charAt(0) || recipe.author?.username?.charAt(0) || 'U'}
                         </span>
                       </div>
-                      
-                      <div className="flex items-center space-x-1">
-                        <svg className="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-                        </svg>
-                        <span className="text-sm text-gray-500">{recipe.likes_count || 0}</span>
+                      <div className="ml-3">
+                        <p className="text-sm font-semibold text-gray-800">
+                          {recipe.author?.name || recipe.author?.username || 'Unknown Chef'}
+                        </p>
+                        <p className="text-xs text-gray-500">Recipe Creator</p>
                       </div>
                     </div>
                     
-                    {/* View Recipe Button */}
-                    <div className="mt-4 pt-4 border-t border-gray-100">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-500">Ready in {(recipe.prep_time || 0) + (recipe.cook_time || 0)} mins</span>
-                        <div className="flex items-center text-violet-600 group-hover:text-violet-700 font-medium">
-                          <span className="text-sm mr-1">View Recipe</span>
-                          <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
+                    {/* Categories */}
+                    {(() => {
+                      if (!recipe.category || recipe.category === '[]' || !recipe.category.trim()) return null;
+                      const categories = [...new Set(recipe.category.split(',').map(cat => cat.trim()).filter(cat => cat))];
+                      if (categories.length === 0) return null;
+                      return (
+                        <div className="mb-4">
+                          <div className="flex flex-wrap gap-2">
+                            {categories.slice(0, 3).map((cat, index) => (
+                              <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200">
+                                {cat}
+                              </span>
+                            ))}
+                            {categories.length > 3 && (
+                              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">
+                                +{categories.length - 3} more
+                              </span>
+                            )}
+                          </div>
                         </div>
+                      );
+                    })()}
+                    
+                    {/* Recipe Stats */}
+                    <div className="grid grid-cols-3 gap-4 mb-4">
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-violet-600">{recipe.prep_time || 0}m</div>
+                        <div className="text-xs text-gray-500">Prep</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-orange-600">{recipe.cook_time || 0}m</div>
+                        <div className="text-xs text-gray-500">Cook</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-green-600">{recipe.servings || 0}</div>
+                        <div className="text-xs text-gray-500">Serves</div>
+                      </div>
+                    </div>
+                    
+                    {/* Action Button */}
+                    <div className="flex items-center justify-between">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
+                        recipe.difficulty === 'Easy' ? 'bg-green-100 text-green-800' :
+                        recipe.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {recipe.difficulty}
+                      </span>
+                      <div className="flex items-center text-violet-600 group-hover:text-violet-700 font-semibold">
+                        <span className="text-sm mr-2">View Recipe</span>
+                        <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
                       </div>
                     </div>
                   </div>

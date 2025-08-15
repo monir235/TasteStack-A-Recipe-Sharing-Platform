@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Recipe, RecipeImage
 from accounts.serializers import UserSerializer
 from interactions.models import Rating, Like, Comment
+import json
 
 
 class RecipeImageSerializer(serializers.ModelSerializer):
@@ -23,7 +24,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = (
             'id', 'title', 'description', 'ingredients', 'instructions',
-            'prep_time', 'cook_time', 'servings', 'difficulty', 'image',
+            'prep_time', 'cook_time', 'servings', 'difficulty', 'category', 'image',
             'author', 'created_at', 'updated_at', 'images', 'average_rating',
             'likes_count', 'is_liked', 'user_rating'
         )
@@ -59,7 +60,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = (
             'title', 'description', 'ingredients', 'instructions',
-            'prep_time', 'cook_time', 'servings', 'difficulty', 'image'
+            'prep_time', 'cook_time', 'servings', 'difficulty', 'category', 'image'
         )
         
     def __init__(self, *args, **kwargs):
@@ -81,7 +82,7 @@ class RecipeUpdateSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = (
             'title', 'description', 'ingredients', 'instructions',
-            'prep_time', 'cook_time', 'servings', 'difficulty', 'image'
+            'prep_time', 'cook_time', 'servings', 'difficulty', 'category', 'image'
         )
         
     def __init__(self, *args, **kwargs):

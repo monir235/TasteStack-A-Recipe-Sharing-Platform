@@ -86,7 +86,7 @@ const EditRecipePage = () => {
           cook_time: recipeData.cook_time || '',
           servings: recipeData.servings || '',
           difficulty: recipeData.difficulty || 'Easy',
-          categories: Array.isArray(recipeData.categories) ? recipeData.categories : (recipeData.category ? [recipeData.category] : []),
+          categories: Array.isArray(recipeData.category) ? recipeData.category : (recipeData.category ? [recipeData.category] : []),
           image: null
         });
       } catch (err) {

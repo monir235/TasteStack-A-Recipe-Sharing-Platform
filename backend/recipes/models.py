@@ -10,6 +10,27 @@ class Recipe(models.Model):
         ('Medium', 'Medium'),
         ('Hard', 'Hard'),
     ]
+    
+    CATEGORY_CHOICES = [
+        ('breakfast', 'Breakfast'),
+        ('lunch', 'Lunch'),
+        ('dinner', 'Dinner'),
+        ('dessert', 'Desserts'),
+        ('appetizer', 'Appetizers'),
+        ('snack', 'Snacks'),
+        ('italian', 'Italian'),
+        ('asian', 'Asian'),
+        ('mexican', 'Mexican'),
+        ('indian', 'Indian'),
+        ('mediterranean', 'Mediterranean'),
+        ('american', 'American'),
+        ('vegetarian', 'Vegetarian'),
+        ('vegan', 'Vegan'),
+        ('gluten-free', 'Gluten-Free'),
+        ('keto', 'Keto'),
+        ('healthy', 'Healthy'),
+        ('quick', 'Quick & Easy'),
+    ]
 
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -19,6 +40,7 @@ class Recipe(models.Model):
     cook_time = models.PositiveIntegerField(help_text="Cooking time in minutes")
     servings = models.PositiveIntegerField()
     difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES)
+    category = models.CharField(max_length=200, blank=True, null=True)  # Store categories as comma-separated string
     image = models.ImageField(upload_to='recipe_images/', blank=True, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipes')
     created_at = models.DateTimeField(default=timezone.now)
@@ -26,6 +48,8 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+    
+
 
     @property
     def average_rating(self):
