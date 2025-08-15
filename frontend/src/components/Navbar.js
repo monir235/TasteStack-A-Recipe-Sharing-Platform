@@ -623,7 +623,7 @@ const Navbar = () => {
                             ? `http://localhost:8000${user.profile_picture}` 
                             : user.profile_picture}
                           alt={user.username}
-                          className="w-full h-full object-cover"
+                          className="w-10 h-10 object-contain rounded-full bg-white"
                         />
                       ) : (
                         <span className="text-violet-600 font-semibold text-sm">

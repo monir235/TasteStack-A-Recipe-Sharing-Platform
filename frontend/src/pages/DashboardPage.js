@@ -435,7 +435,7 @@ const DashboardPage = () => {
                                   ? `http://localhost:8000${user.profile_picture}` 
                                   : user.profile_picture}
                                 alt={user.username}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-contain rounded-full bg-gray-100"
                               />
                             ) : (
                               <div className="text-center">

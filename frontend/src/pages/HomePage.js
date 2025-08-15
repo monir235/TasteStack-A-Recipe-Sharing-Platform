@@ -57,14 +57,14 @@ const HomePage = () => {
               <div className="flex flex-col lg:flex-row items-start justify-between mb-12">
                 <div className="flex-1">
                   <div className="flex items-center space-x-4 mb-4">
-                    <div className="w-12 h-12 rounded-full gradient-brand flex items-center justify-center shadow-brand">
+                    <div className="w-16 h-16 rounded-full gradient-brand flex items-center justify-center shadow-brand">
                       {user?.profile_picture ? (
                         <img
                           src={user.profile_picture.startsWith('/') 
                             ? `http://localhost:8000${user.profile_picture}` 
                             : user.profile_picture}
                           alt={user.username}
-                          className="w-full h-full object-cover rounded-full"
+                          className="w-16 h-16 object-contain rounded-full bg-white"
                         />
                       ) : (
                         <span className="text-white font-bold text-lg">

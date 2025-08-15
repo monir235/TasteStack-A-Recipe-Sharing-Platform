@@ -87,7 +87,7 @@ const ProfilePage = () => {
                           ? `http://localhost:8000${localUser.profile_picture}` 
                           : localUser.profile_picture}
                         alt="Profile"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain rounded-full bg-gray-100"
                       />
                     ) : (
                       <div className="text-center">

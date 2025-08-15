@@ -79,9 +79,9 @@ const UserProfileCard = ({ user, onProfileUpdate }) => {
               {isEditing ? (
                 <div>
                   <img
-                    src={imagePreview || user.profile_picture || 'https://via.placeholder.com/128x128/e5e7eb/6b7280?text=User'}
+                    src={imagePreview || (user.profile_picture?.startsWith('/') ? `http://localhost:8000${user.profile_picture}` : user.profile_picture) || 'https://via.placeholder.com/128x128/e5e7eb/6b7280?text=User'}
                     alt="Profile"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain rounded-full bg-gray-100"
                   />
                   <label htmlFor="profile-picture" className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white cursor-pointer opacity-0 hover:opacity-100 transition-opacity">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,9 +99,9 @@ const UserProfileCard = ({ user, onProfileUpdate }) => {
                 </div>
               ) : (
                 <img
-                  src={user.profile_picture || 'https://via.placeholder.com/128x128/e5e7eb/6b7280?text=User'}
+                  src={(user.profile_picture?.startsWith('/') ? `http://localhost:8000${user.profile_picture}` : user.profile_picture) || 'https://via.placeholder.com/128x128/e5e7eb/6b7280?text=User'}
                   alt="Profile"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain rounded-full bg-gray-100"
                 />
               )}
             </div>

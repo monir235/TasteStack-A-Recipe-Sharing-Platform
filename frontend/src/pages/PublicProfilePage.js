@@ -131,7 +131,7 @@ const PublicProfilePage = () => {
                           ? `http://localhost:8000${profile.user.profile_picture}` 
                           : profile.user.profile_picture}
                         alt="Profile"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain rounded-full bg-gray-100"
                       />
                     ) : (
                       <div className="text-center">
