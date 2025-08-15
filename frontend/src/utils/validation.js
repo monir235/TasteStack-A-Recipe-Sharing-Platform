@@ -1,193 +1,142 @@
-// Input validation and sanitization utilities
+// Input validation utilities
 
-// Sanitize search input to prevent XSS and other security issues
-export const sanitizeSearchInput = (input) => {
-  if (!input || typeof input !== 'string') {
-    return '';
+// Validate email format
+export const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+// Validate password strength
+export const validatePassword = (password) => {
+  const errors = [];
+  
+  if (password.length < 8) {
+    errors.push('Password must be at least 8 characters long');
   }
   
-  // Remove potentially harmful characters and HTML tags
-  return input
-    .replace(/[<>\"'&]/g, '') // Remove HTML special characters
-    .replace(/[{}[\]]/g, '') // Remove bracket characters
-    .replace(/javascript:/gi, '') // Remove javascript: protocol
-    .replace(/data:/gi, '') // Remove data: protocol
-    .trim()
-    .substring(0, 100); // Limit length to 100 characters
+  if (!/[A-Z]/.test(password)) {
+    errors.push('Password must contain at least one uppercase letter');
+  }
+  
+  if (!/[a-z]/.test(password)) {
+    errors.push('Password must contain at least one lowercase letter');
+  }
+  
+  if (!/\d/.test(password)) {
+    errors.push('Password must contain at least one number');
+  }
+  
+  return {
+    isValid: errors.length === 0,
+    errors
+  };
+};
+
+// Validate recipe form data
+export const validateRecipeForm = (formData) => {
+  const errors = {};
+  
+  if (!formData.title || formData.title.trim().length === 0) {
+    errors.title = 'Recipe title is required';
+  }
+  
+  if (!formData.description || formData.description.trim().length === 0) {
+    errors.description = 'Recipe description is required';
+  }
+  
+  if (!formData.ingredients || formData.ingredients.length === 0) {
+    errors.ingredients = 'At least one ingredient is required';
+  }
+  
+  if (!formData.instructions || formData.instructions.length === 0) {
+    errors.instructions = 'At least one instruction is required';
+  }
+  
+  if (!formData.prepTime || formData.prepTime <= 0) {
+    errors.prepTime = 'Preparation time must be greater than 0';
+  }
+  
+  if (!formData.cookTime || formData.cookTime <= 0) {
+    errors.cookTime = 'Cooking time must be greater than 0';
+  }
+  
+  if (!formData.servings || formData.servings <= 0) {
+    errors.servings = 'Servings must be greater than 0';
+  }
+  
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors
+  };
 };
 
 // Validate search query
 export const validateSearchQuery = (query) => {
-  const errors = [];
-  
   if (!query || typeof query !== 'string') {
-    errors.push('Search query must be a string');
-    return { isValid: false, errors };
+    return { isValid: false, error: 'Search query must be a string' };
   }
   
   const trimmedQuery = query.trim();
   
   if (trimmedQuery.length === 0) {
-    errors.push('Search query cannot be empty');
+    return { isValid: false, error: 'Search query cannot be empty' };
   }
   
   if (trimmedQuery.length < 2) {
-    errors.push('Search query must be at least 2 characters long');
+    return { isValid: false, error: 'Search query must be at least 2 characters long' };
   }
   
   if (trimmedQuery.length > 100) {
-    errors.push('Search query cannot exceed 100 characters');
+    return { isValid: false, error: 'Search query cannot exceed 100 characters' };
   }
   
-  // Check for suspicious patterns
-  if (/[<>\"'&]/.test(trimmedQuery)) {
-    errors.push('Search query contains invalid characters');
-  }
-  
-  if (/javascript:|data:|vbscript:/i.test(trimmedQuery)) {
-    errors.push('Search query contains prohibited content');
-  }
-  
-  return {
-    isValid: errors.length === 0,
-    errors,
-    sanitized: sanitizeSearchInput(query)
-  };
+  return { isValid: true, query: trimmedQuery };
 };
 
-// Validate recipe ID
-export const validateRecipeId = (id) => {
-  if (!id) return { isValid: false, error: 'Recipe ID is required' };
-  
-  const numId = parseInt(id, 10);
-  if (isNaN(numId) || numId <= 0) {
-    return { isValid: false, error: 'Invalid recipe ID' };
-  }
-  
-  return { isValid: true, id: numId };
-};
-
-// Sanitize and validate URL parameters
-export const sanitizeUrlParams = (params) => {
-  const sanitized = {};
-  
-  for (const [key, value] of Object.entries(params)) {
-    if (value && typeof value === 'string') {
-      const trimmedValue = value.trim();
-      if (trimmedValue.length > 0) {
-        sanitized[key] = sanitizeSearchInput(trimmedValue);
-      }
-    }
-  }
-  
-  return sanitized;
-};
-
-// Rate limiting helper for search requests
-export class SearchRateLimiter {
-  constructor(maxRequests = 10, timeWindow = 60000) { // 10 requests per minute
-    this.maxRequests = maxRequests;
-    this.timeWindow = timeWindow;
-    this.requests = [];
-  }
+// Rate limiter for search requests
+export const searchRateLimiter = {
+  requests: [],
+  maxRequests: 10,
+  timeWindow: 60000, // 1 minute
   
   canMakeRequest() {
     const now = Date.now();
-    
-    // Remove old requests outside the time window
     this.requests = this.requests.filter(time => now - time < this.timeWindow);
-    
-    // Check if we can make a new request
-    if (this.requests.length >= this.maxRequests) {
-      return {
-        allowed: false,
-        resetTime: this.requests[0] + this.timeWindow
-      };
-    }
-    
-    // Add current request
-    this.requests.push(now);
-    
-    return { allowed: true };
+    return this.requests.length < this.maxRequests;
+  },
+  
+  recordRequest() {
+    this.requests.push(Date.now());
   }
-  
-  getRemainingTime() {
-    if (this.requests.length === 0) return 0;
-    
-    const oldestRequest = Math.min(...this.requests);
-    const resetTime = oldestRequest + this.timeWindow;
-    return Math.max(0, resetTime - Date.now());
-  }
-}
-
-// Create global rate limiter instance
-export const searchRateLimiter = new SearchRateLimiter();
-
-// Debounce utility for search
-export const createDebouncer = (func, delay) => {
-  let timeoutId;
-  
-  const debounced = (...args) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(null, args), delay);
-  };
-  
-  debounced.cancel = () => {
-    clearTimeout(timeoutId);
-  };
-  
-  return debounced;
 };
 
 // Search history management
-export class SearchHistory {
-  constructor(maxItems = 10) {
-    this.maxItems = maxItems;
-    this.storageKey = 'searchHistory';
-  }
+export const searchHistory = {
+  maxHistory: 10,
   
   getHistory() {
     try {
-      const history = localStorage.getItem(this.storageKey);
-      return history ? JSON.parse(history) : [];
-    } catch (error) {
-      console.warn('Failed to load search history:', error);
+      return JSON.parse(localStorage.getItem('searchHistory') || '[]');
+    } catch {
       return [];
     }
-  }
+  },
   
-  addSearch(query) {
-    if (!query || typeof query !== 'string') return;
-    
-    const sanitized = sanitizeSearchInput(query);
-    if (sanitized.length < 2) return;
-    
-    try {
-      let history = this.getHistory();
-      
-      // Remove duplicate if exists
-      history = history.filter(item => item !== sanitized);
-      
-      // Add to beginning
-      history.unshift(sanitized);
-      
-      // Limit size
-      history = history.slice(0, this.maxItems);
-      
-      localStorage.setItem(this.storageKey, JSON.stringify(history));
-    } catch (error) {
-      console.warn('Failed to save search history:', error);
-    }
-  }
+  addToHistory(query) {
+    const history = this.getHistory();
+    const filtered = history.filter(item => item !== query);
+    filtered.unshift(query);
+    const trimmed = filtered.slice(0, this.maxHistory);
+    localStorage.setItem('searchHistory', JSON.stringify(trimmed));
+  },
   
   clearHistory() {
-    try {
-      localStorage.removeItem(this.storageKey);
-    } catch (error) {
-      console.warn('Failed to clear search history:', error);
-    }
+    localStorage.removeItem('searchHistory');
   }
-}
+};
 
-// Create global search history instance
-export const searchHistory = new SearchHistory();
+// Sanitize search input
+export const sanitizeSearchInput = (input) => {
+  if (!input || typeof input !== 'string') return '';
+  return input.trim().replace(/[<>"'&]/g, '');
+};

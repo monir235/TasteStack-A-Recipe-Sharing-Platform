@@ -457,7 +457,7 @@ const RecipeDetailPage = () => {
                           </h4>
                         )}
                         <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
-                          {comment.timestamp ? new Date(comment.timestamp).toLocaleDateString() : 'Unknown date'}
+                          {comment.created_at ? new Date(comment.created_at).toLocaleDateString() : 'Unknown date'}
                         </span>
                       </div>
                       <div className="flex space-x-2">
@@ -487,12 +487,7 @@ const RecipeDetailPage = () => {
                         )}
                       </div>
                     </div>
-                    <div className="mt-1 flex items-center">
-                      <span className="text-yellow-400">
-                        {comment.rating ? '★'.repeat(Math.min(5, Math.floor(comment.rating))) : ''}
-                        {comment.rating ? '☆'.repeat(Math.max(0, 5 - Math.floor(comment.rating))) : 'No rating'}
-                      </span>
-                    </div>
+
                     {comment.hidden ? (
                       <p className="mt-1 text-gray-500 dark:text-gray-400 italic">{t('comment_hidden')}</p>
                     ) : (

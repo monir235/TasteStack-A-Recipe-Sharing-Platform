@@ -1,0 +1,3 @@
+@echo off
+echo 🛑 Stopping SQLite setup...
+docker-compose -f docker-compose.sqlite.yml down

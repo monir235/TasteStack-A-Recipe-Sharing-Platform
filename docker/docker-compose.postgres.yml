@@ -1,0 +1,42 @@
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: tastestack
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DEBUG=1
+      - USE_POSTGRES=1
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/tastestack
+    volumes:
+      - ./backend:/app
+      - media_volume:/app/media
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000/api
+      - REACT_APP_MEDIA_URL=http://localhost:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:
+  media_volume:

@@ -60,7 +60,7 @@ def add_comment(request, recipe_id):
     except Recipe.DoesNotExist:
         return Response({'error': 'Recipe not found'}, status=status.HTTP_404_NOT_FOUND)
     
-    serializer = CommentSerializer(data={'recipe': recipe.id, 'content': request.data.get('content')},
+    serializer = CommentSerializer(data={'recipe_id': recipe_id, 'content': request.data.get('content')},
                                  context={'request': request})
     if serializer.is_valid():
         serializer.save()

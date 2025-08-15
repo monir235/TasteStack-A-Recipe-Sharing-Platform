@@ -1,0 +1,3 @@
+@echo off
+echo Starting TasteStack with Docker...
+docker-compose up --build

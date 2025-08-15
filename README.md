@@ -25,87 +25,81 @@ TasteStack is a modern recipe sharing platform that allows users to discover, sh
 
 ## 🚀 Quick Start
 
-### Prerequisites
+### ⚡ Super Quick (Docker)
+```bash
+# Clone repository
+git clone https://github.com/alphapie77/TasteStack-A-Recipe-Sharing-Platform.git
+cd TasteStack-A-Recipe-Sharing-Platform
 
-Before you begin, ensure you have the following installed on your system:
+# Start with SQLite (simple)
+docker\run-sqlite.bat
 
-- **Python 3.9 or higher** - [Download here](https://www.python.org/downloads/)
-- **Node.js 18 or higher** - [Download here](https://nodejs.org/)
+# OR start with PostgreSQL (production)
+docker\run-postgres.bat
+```
+
+### 🛠️ Manual Setup
+
+#### Prerequisites
+- **Python 3.9+** - [Download here](https://www.python.org/downloads/)
+- **Node.js 18+** - [Download here](https://nodejs.org/)
 - **Git** - [Download here](https://git-scm.com/)
+- **Docker** (optional) - [Download here](https://docker.com/)
 
-### Clone the Repository
-
+#### Clone Repository
 ```bash
 git clone https://github.com/alphapie77/TasteStack-A-Recipe-Sharing-Platform.git
 cd TasteStack-A-Recipe-Sharing-Platform
 ```
 
-### Backend Setup (Django)
+#### Automated Setup
+```bash
+# Run setup script (installs everything)
+scripts\setup.bat
 
-1. **Navigate to backend directory:**
-   ```bash
-   cd backend
-   ```
+# Start development servers
+scripts\start-dev.bat
+```
 
-2. **Create and activate virtual environment:**
-   ```bash
-   # Create virtual environment
-   python -m venv venv
-   
-   # Activate virtual environment
-   # Windows:
-   venv\Scripts\activate
-   # macOS/Linux:
-   source venv/bin/activate
-   ```
+#### Manual Backend Setup (Django)
+```bash
+cd backend
+python -m venv venv
+venv\Scripts\activate  # Windows
+# source venv/bin/activate  # macOS/Linux
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser  # optional
+python manage.py runserver
+```
 
-3. **Install Python dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+#### Manual Frontend Setup (React)
+```bash
+cd frontend
+npm install
+# Create .env file with:
+# REACT_APP_API_URL=http://localhost:8000/api
+# REACT_APP_MEDIA_URL=http://localhost:8000
+npm start
+```
 
-4. **Set up the database:**
-   ```bash
-   python manage.py migrate
-   ```
+## 🐳 Docker Options
 
-5. **Create a superuser (optional):**
-   ```bash
-   python manage.py createsuperuser
-   ```
+### SQLite (Simple & Fast)
+```bash
+docker\run-sqlite.bat     # Start
+docker\stop-sqlite.bat    # Stop
+```
 
-6. **Start the backend server:**
-   ```bash
-   python manage.py runserver
-   ```
+### PostgreSQL (Production Ready)
+```bash
+docker\run-postgres.bat   # Start
+docker\stop-postgres.bat  # Stop
+```
 
-The backend API will be available at `http://localhost:8000`
-
-### Frontend Setup (React)
-
-1. **Open a new terminal and navigate to frontend directory:**
-   ```bash
-   cd frontend
-   ```
-
-2. **Install Node.js dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Create environment file:**
-   Create a `.env` file in the frontend directory with the following content:
-   ```env
-   REACT_APP_API_URL=http://localhost:8000/api
-   REACT_APP_MEDIA_URL=http://localhost:8000
-   ```
-
-4. **Start the frontend development server:**
-   ```bash
-   npm start
-   ```
-
-The frontend application will be available at `http://localhost:3000`
+**Access URLs:**
+- Frontend: http://localhost:3000
+- Backend: http://localhost:8000
 
 ## 🖥️ Usage
 
@@ -150,28 +144,33 @@ For regular testing, create a new account through the registration form.
 
 ```
 TasteStack/
-├── backend/                 # Django backend application
-│   ├── tastestack/         # Main Django project
+├── 📁 backend/              # Django REST API
 │   ├── accounts/           # User authentication & profiles
 │   ├── recipes/            # Recipe management
-│   ├── interactions/       # Likes, comments, follows
-│   ├── media/              # Uploaded images
-│   ├── requirements.txt    # Python dependencies
-│   └── manage.py          # Django management script
-├── frontend/               # React frontend application
-│   ├── public/            # Static assets
-│   ├── src/               # Source code
-│   │   ├── components/    # Reusable components
-│   │   ├── pages/         # Page components
-│   │   ├── services/      # API services
-│   │   ├── contexts/      # React contexts
-│   │   └── utils/         # Utility functions
-│   ├── package.json       # Node.js dependencies
-│   └── tailwind.config.js # Tailwind configuration
-├── docs/                  # Documentation
-├── .gitignore            # Git ignore rules
-└── README.md             # Project documentation
+│   ├── interactions/       # Social features (likes, comments)
+│   ├── media/              # User uploaded files
+│   └── requirements.txt    # Python dependencies
+├── 📁 frontend/             # React application
+│   ├── src/
+│   │   ├── components/     # Reusable UI components
+│   │   ├── pages/          # Page components
+│   │   ├── services/       # API communication
+│   │   ├── contexts/       # React contexts (Auth, Theme)
+│   │   └── utils/          # Utility functions
+│   └── package.json        # Node.js dependencies
+├── 📁 docker/               # Docker configurations
+│   ├── run-sqlite.bat      # Start with SQLite
+│   ├── run-postgres.bat    # Start with PostgreSQL
+│   └── DOCKER_GUIDE.md     # Docker usage guide
+├── 📁 scripts/              # Automation scripts
+│   ├── setup.bat           # Project setup
+│   └── start-dev.bat       # Start dev servers
+├── 📁 docs/                 # Documentation
+├── 📁 tests/                # Test files
+└── README.md               # This file
 ```
+
+📚 **See [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md) for detailed structure**
 
 ## 🔧 Development Commands
 
@@ -519,8 +518,14 @@ npm start
 
 #### Using Docker (Recommended)
 ```bash
-# Build and run with Docker Compose
-docker-compose up --build
+# SQLite (simple)
+docker\run-sqlite.bat
+
+# PostgreSQL (production)
+docker\run-postgres.bat
+
+# Or manually
+docker-compose -f docker\docker-compose.postgres.yml up --build
 ```
 
 #### Manual Production Setup
@@ -559,6 +564,9 @@ REDIS_URL=redis://localhost:6379
 - ✅ Professional About Page
 - ✅ Modern Logo and Navigation
 - ✅ Dark/Light Mode Theme Toggle
+- ✅ Docker Containerization (SQLite/PostgreSQL)
+- ✅ Professional Project Structure
+- ✅ Automated Setup Scripts
 
 ---
 

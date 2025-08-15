@@ -47,11 +47,12 @@ class LikeSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    recipe = serializers.SerializerMethodField()
+    recipe = serializers.SerializerMethodField(read_only=True)
+    recipe_id = serializers.IntegerField(write_only=True)
     
     class Meta:
         model = Comment
-        fields = ('id', 'user', 'recipe', 'content', 'hidden', 'created_at', 'updated_at')
+        fields = ('id', 'user', 'recipe', 'recipe_id', 'content', 'hidden', 'created_at', 'updated_at')
         read_only_fields = ('id', 'user', 'created_at', 'updated_at')
     
     def get_recipe(self, obj):
@@ -64,11 +65,16 @@ class CommentSerializer(serializers.ModelSerializer):
         
     def create(self, validated_data):
         user = self.context['request'].user
+        recipe_id = validated_data.pop('recipe_id')
+        
+        # Get the recipe object
+        from recipes.models import Recipe
+        recipe = Recipe.objects.get(id=recipe_id)
         
         # Create a new comment (users can comment multiple times)
         comment = Comment.objects.create(
             user=user,
-            recipe=validated_data['recipe'],
+            recipe=recipe,
             content=validated_data['content']
         )
         return comment
