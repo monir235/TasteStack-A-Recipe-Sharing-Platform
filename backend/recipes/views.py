@@ -11,7 +11,7 @@ from interactions.serializers import RatingSerializer
 
 
 class RecipeListCreateView(generics.ListCreateAPIView):
-    queryset = Recipe.objects.all()
+    queryset = Recipe.objects.select_related('author').all()
     serializer_class = RecipeSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['author']
@@ -34,7 +34,7 @@ class RecipeListCreateView(generics.ListCreateAPIView):
 
 
 class RecipeDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Recipe.objects.all()
+    queryset = Recipe.objects.select_related('author').all()
     serializer_class = RecipeSerializer
     permission_classes = [AllowAny]
     
@@ -102,7 +102,7 @@ def search_recipes(request):
     author = request.GET.get('author', '')  # New: specific author search
     min_rating = request.GET.get('min_rating', '')  # New: minimum rating filter
     
-    recipes = Recipe.objects.all()
+    recipes = Recipe.objects.select_related('author').all()
     
     if query:
         # Enhanced search with word tokenization and better relevance
@@ -255,7 +255,7 @@ def search_recipes(request):
 def my_recipes(request):
     """Get current user's recipes"""
     user = request.user
-    recipes = Recipe.objects.filter(author=user).order_by('-created_at')
+    recipes = Recipe.objects.select_related('author').filter(author=user).order_by('-created_at')
     
     # Apply pagination
     page = request.GET.get('page', 1)

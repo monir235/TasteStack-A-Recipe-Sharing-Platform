@@ -198,13 +198,17 @@ const RecipeDetailPage = () => {
                 <div className="flex items-center mb-4">
                   <div className="h-12 w-12 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 flex items-center justify-center">
                     <span className="text-white font-semibold text-lg">
-                      {recipe.author?.name?.charAt(0) || recipe.author?.username?.charAt(0) || 'U'}
+                      {recipe.author?.name?.charAt(0) || recipe.author?.first_name?.charAt(0) || recipe.author?.username?.charAt(0) || 'U'}
                     </span>
                   </div>
                   <div className="ml-4">
                     {recipe.author ? (
                       <Link to={`/profile/${recipe.author.id}`} className="text-lg font-semibold text-violet-600 hover:text-violet-700 transition-colors">
-                        {recipe.author.name || recipe.author.username}
+                        {recipe.author.name || 
+                         (recipe.author.first_name && recipe.author.last_name ? 
+                           `${recipe.author.first_name} ${recipe.author.last_name}`.trim() : 
+                           recipe.author.first_name || recipe.author.username) || 
+                         'Unknown Chef'}
                       </Link>
                     ) : (
                       <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">Unknown Chef</p>

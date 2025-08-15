@@ -385,12 +385,16 @@ const HomePage = () => {
                     <div className="flex items-center mb-4 pb-4 border-b border-gray-100">
                       <div className="w-8 h-8 bg-gradient-to-r from-violet-400 to-purple-400 rounded-full flex items-center justify-center">
                         <span className="text-white text-xs font-bold">
-                          {recipe.author?.name?.charAt(0) || recipe.author?.username?.charAt(0) || 'U'}
+                          {recipe.author?.name?.charAt(0) || recipe.author?.first_name?.charAt(0) || recipe.author?.username?.charAt(0) || 'U'}
                         </span>
                       </div>
                       <div className="ml-3">
-                        <p className="text-sm font-semibold text-gray-800">
-                          {recipe.author?.name || recipe.author?.username || 'Unknown Chef'}
+                        <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                          {recipe.author?.name || 
+                           (recipe.author?.first_name && recipe.author?.last_name ? 
+                             `${recipe.author.first_name} ${recipe.author.last_name}`.trim() : 
+                             recipe.author?.first_name || recipe.author?.username) || 
+                           'Unknown Chef'}
                         </p>
                         <p className="text-xs text-gray-500">Recipe Creator</p>
                       </div>

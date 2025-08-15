@@ -191,7 +191,11 @@ const RecipeListPage = () => {
                         className="text-sm text-violet-600 hover:text-violet-700 font-medium"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        By {recipe.author.name || recipe.author.username}
+                        By {recipe.author.name || 
+                           (recipe.author.first_name && recipe.author.last_name ? 
+                             `${recipe.author.first_name} ${recipe.author.last_name}`.trim() : 
+                             recipe.author.first_name || recipe.author.username) || 
+                           'Unknown Chef'}
                       </Link>
                     ) : (
                       <span className="text-sm text-gray-500 dark:text-gray-400">{t('by_unknown')}</span>
