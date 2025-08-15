@@ -154,7 +154,7 @@ const HomePage = () => {
                 </Link>
                 
                 <Link
-                  to="/profile"
+                  to="/edit-profile"
                   className="group bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 hover:border-violet-200"
                 >
                   <div className="flex items-center justify-between mb-3">
@@ -167,8 +167,8 @@ const HomePage = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 group-hover:text-green-600 transition-colors">My Profile</h3>
-                  <p className="text-gray-600 text-sm mt-1">View and edit your profile</p>
+                  <h3 className="text-lg font-semibold text-gray-900 group-hover:text-green-600 transition-colors">Edit Profile</h3>
+                  <p className="text-gray-600 text-sm mt-1">Update your profile settings</p>
                 </Link>
               </div>
             </div>

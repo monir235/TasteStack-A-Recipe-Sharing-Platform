@@ -11,7 +11,7 @@ import RecipeDetailPage from './pages/RecipeDetailPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
-import ProfilePage from './pages/ProfilePage';
+
 import PublicProfilePage from './pages/PublicProfilePage';
 import CreateRecipePage from './pages/CreateRecipePage';
 import EditRecipePage from './pages/EditRecipePage';
@@ -38,7 +38,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password/:userId/:token" element={<ResetPasswordPage />} />
             <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+
             <Route path="/profile/:userId" element={<PublicProfilePage />} />
             <Route path="/create-recipe" element={<ProtectedRoute><CreateRecipePage /></ProtectedRoute>} />
             <Route path="/edit-recipe/:id" element={<ProtectedRoute><CreateRecipePage /></ProtectedRoute>} />
