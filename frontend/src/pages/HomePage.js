@@ -12,8 +12,7 @@ const HomePage = () => {
   const [statistics, setStatistics] = useState({
     total_recipes: 0,
     total_users: 0,
-    total_ratings: 0,
-    unique_countries: 0
+    total_ratings: 0
   });
   
   useEffect(() => {
@@ -206,7 +205,7 @@ const HomePage = () => {
           )}
             
           {/* Floating Stats */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg text-center">
               <div className="text-3xl font-bold text-gray-900">
                 {statistics.total_recipes > 0 ? 
@@ -239,12 +238,6 @@ const HomePage = () => {
                 }
               </div>
               <div className="text-sm text-gray-600">Reviews</div>
-            </div>
-            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg text-center">
-              <div className="text-3xl font-bold text-gray-900">
-                {statistics.unique_countries || 1}+
-              </div>
-              <div className="text-sm text-gray-600">Countries</div>
             </div>
           </div>
         </div>

@@ -19,7 +19,6 @@ export const getStatistics = async () => {
       total_ratings: 0,
       total_likes: 0,
       total_comments: 0,
-      unique_countries: 1,
       founded_year: new Date().getFullYear(),
       platform_rating: 5.0,
       recent_recipes: 0,

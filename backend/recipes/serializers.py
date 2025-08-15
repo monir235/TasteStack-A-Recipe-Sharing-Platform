@@ -17,6 +17,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     likes_count = serializers.ReadOnlyField()
     is_liked = serializers.SerializerMethodField()
     user_rating = serializers.SerializerMethodField()
+    image = serializers.SerializerMethodField()
     
     class Meta:
         model = Recipe
@@ -41,6 +42,15 @@ class RecipeSerializer(serializers.ModelSerializer):
         if request and request.user.is_authenticated:
             rating = Rating.objects.filter(user=request.user, recipe=obj).first()
             return rating.rating if rating else None
+        return None
+    
+    def get_image(self, obj):
+        """Get the full URL for the recipe image"""
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
         return None
 
 

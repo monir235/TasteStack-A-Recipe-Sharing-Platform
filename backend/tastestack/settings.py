@@ -204,7 +204,7 @@ SIMPLE_JWT = {
 }
 
 # CORS settings - configurable via environment
-cors_origins_str = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://127.0.0.1:3000')
+cors_origins_str = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173')
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in cors_origins_str.split(',')]
 
 CORS_ALLOW_CREDENTIALS = True

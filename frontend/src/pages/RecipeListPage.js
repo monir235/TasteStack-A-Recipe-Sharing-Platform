@@ -151,17 +151,21 @@ const RecipeListPage = () => {
                       src={recipe.image}
                       alt={recipe.title}
                       className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
                     />
-                  ) : (
-                    <div className="h-56 bg-gradient-to-br from-violet-100 to-purple-100 flex items-center justify-center">
-                      <div className="text-center">
-                        <svg className="w-12 h-12 text-violet-300 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
-                        </svg>
-                        <span className="text-violet-400 font-medium">Recipe Image</span>
-                      </div>
+                  ) : null}
+                  {/* Fallback div for broken images */}
+                  <div className="h-56 bg-gradient-to-br from-violet-100 to-purple-100 flex items-center justify-center" style={{display: 'none'}}>
+                    <div className="text-center">
+                      <svg className="w-12 h-12 text-violet-300 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-violet-400 font-medium">Recipe Image</span>
                     </div>
-                  )}
+                  </div>
                   {/* Floating Badge */}
                   <div className="absolute top-4 left-4">
                     <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 shadow-lg">

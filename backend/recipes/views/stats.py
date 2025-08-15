@@ -31,12 +31,7 @@ def platform_statistics(request):
         # Count total comments
         total_comments = Comment.objects.count()
         
-        # Get unique countries (based on user location field)
-        unique_countries = User.objects.exclude(
-            location__isnull=True
-        ).exclude(
-            location__exact=''
-        ).values_list('location', flat=True).distinct().count()
+
         
         # Get platform start year (from the first user registration)
         first_user = User.objects.order_by('date_joined').first()
@@ -61,7 +56,6 @@ def platform_statistics(request):
             'total_ratings': total_ratings,
             'total_likes': total_likes,
             'total_comments': total_comments,
-            'unique_countries': unique_countries if unique_countries > 0 else 1,  # At least 1
             'founded_year': founded_year,
             'platform_rating': platform_rating,
             'recent_recipes': recent_recipes,
@@ -81,7 +75,6 @@ def platform_statistics(request):
             'total_ratings': 0,
             'total_likes': 0,
             'total_comments': 0,
-            'unique_countries': 1,
             'founded_year': timezone.now().year,
             'platform_rating': 5.0,
             'recent_recipes': 0,

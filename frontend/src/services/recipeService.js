@@ -147,7 +147,7 @@ export const searchRecipes = async (query, page = 1, pageSize = 12, filters = {}
     params.append('min_rating', filters.minRating.toString());
   }
   
-  return apiRequest(`/recipes/search/?${params.toString()}`);
+  return apiRequest(`/recipes/?${params.toString()}`);
 };
 
 // Simple search for navbar (backward compatibility)
