@@ -109,9 +109,9 @@ const EditProfileDetails = () => {
       setPasswordData({ password: '', confirmPassword: '' });
       setShowPasswordSection(false);
       
-      // Navigate back to profile after success
+      // Navigate back to dashboard after success
       setTimeout(() => {
-        navigate('/profile');
+        navigate('/dashboard');
       }, 1500);
     } catch (err) {
       setError(err.message || 'Failed to update profile');
@@ -387,7 +387,7 @@ const EditProfileDetails = () => {
                   </button>
                   <button
                     type="button"
-                    onClick={() => navigate('/profile')}
+                    onClick={() => navigate('/dashboard')}
                     className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-violet-600 bg-white rounded-2xl shadow-lg border-2 border-violet-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-violet-300 hover:bg-violet-50 focus:outline-none focus:ring-4 focus:ring-violet-300"
                   >
                     <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
