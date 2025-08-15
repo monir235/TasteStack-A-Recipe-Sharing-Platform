@@ -16,6 +16,7 @@ TasteStack is a modern recipe sharing platform that allows users to discover, sh
 - 💬 **Comments & Social**: Comment on recipes and interact with other users
 - ❤️ **Favorites**: Like and save your favorite recipes
 - 📱 **Responsive Design**: Works perfectly on desktop, tablet, and mobile
+- 🌙 **Dark/Light Mode**: Toggle between dark and light themes for comfortable viewing
 - 🖼️ **Image Upload**: Add beautiful photos to your recipes
 - 🔐 **User Authentication**: Secure registration, login, and password reset
 - 👤 **User Profiles**: Personalized profiles with bio and profile pictures
@@ -557,6 +558,7 @@ REDIS_URL=redis://localhost:6379
 - ✅ Profile Management with Image Upload
 - ✅ Professional About Page
 - ✅ Modern Logo and Navigation
+- ✅ Dark/Light Mode Theme Toggle
 
 ---
 
