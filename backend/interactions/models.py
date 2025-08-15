@@ -2,6 +2,7 @@ from django.db import models
 from accounts.models import User
 from recipes.models import Recipe
 from django.utils import timezone
+from django.utils.html import escape
 
 
 class Rating(models.Model):
@@ -15,7 +16,7 @@ class Rating(models.Model):
         unique_together = ('user', 'recipe')  # A user can only rate a recipe once
 
     def __str__(self):
-        return f"{self.user.username} - {self.recipe.title} ({self.rating}/5)"
+        return f"{escape(self.user.username)} - {escape(self.recipe.title)} ({self.rating}/5)"
 
 
 class Like(models.Model):
@@ -27,7 +28,7 @@ class Like(models.Model):
         unique_together = ('user', 'recipe')  # A user can only like a recipe once
 
     def __str__(self):
-        return f"{self.user.username} likes {self.recipe.title}"
+        return f"{escape(self.user.username)} likes {escape(self.recipe.title)}"
 
 
 class Comment(models.Model):
@@ -43,7 +44,7 @@ class Comment(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"Comment by {self.user.username} on {self.recipe.title}"
+        return f"Comment by {escape(self.user.username)} on {escape(self.recipe.title)}"
 
 
 class Follow(models.Model):
@@ -61,4 +62,4 @@ class Follow(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.follower.username} follows {self.following.username}"
+        return f"{escape(self.follower.username)} follows {escape(self.following.username)}"

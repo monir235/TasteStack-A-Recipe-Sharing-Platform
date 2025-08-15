@@ -228,22 +228,23 @@ const CreateRecipePage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-violet-100 via-purple-50 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
-        <h1 className="text-3xl font-extrabold text-gray-900">{id ? 'Edit Recipe' : 'Create New Recipe'}</h1>
-        <p className="mt-2 text-gray-600">{id ? 'Update your recipe details' : 'Share your culinary creation with the world'}</p>
+        <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100">{id ? 'Edit Recipe' : 'Create New Recipe'}</h1>
+        <p className="mt-2 text-gray-600 dark:text-gray-300">{id ? 'Update your recipe details' : 'Share your culinary creation with the world'}</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-          <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Recipe Information</h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500">Basic details about your recipe</p>
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-xl overflow-hidden sm:rounded-2xl border border-white/20 dark:border-gray-700/20">
+          <div className="px-6 py-6 sm:px-8">
+            <h3 className="text-xl leading-6 font-bold text-gray-900 dark:text-gray-100">Recipe Information</h3>
+            <p className="mt-2 max-w-2xl text-sm text-gray-600 dark:text-gray-300">Basic details about your recipe</p>
           </div>
-          <div className="border-t border-gray-200 px-4 py-5 sm:p-6">
+          <div className="border-t border-gray-200/50 dark:border-gray-700/50 px-6 py-6 sm:p-8">
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
               <div className="sm:col-span-6">
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Recipe Title
                 </label>
                 <div className="mt-1">
@@ -254,13 +255,13 @@ const CreateRecipePage = () => {
                     value={recipe.title}
                     onChange={handleChange}
                     required
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   />
                 </div>
               </div>
 
               <div className="sm:col-span-6">
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Description
                 </label>
                 <div className="mt-1">
@@ -270,16 +271,16 @@ const CreateRecipePage = () => {
                     rows={3}
                     value={recipe.description}
                     onChange={handleChange}
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   />
                 </div>
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                   Briefly describe your recipe and what makes it special.
                 </p>
               </div>
 
               <div className="sm:col-span-2">
-                <label htmlFor="prepTime" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="prepTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Prep Time (minutes)
                 </label>
                 <div className="mt-1">
@@ -291,13 +292,13 @@ const CreateRecipePage = () => {
                     onChange={handleChange}
                     required
                     min="0"
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   />
                 </div>
               </div>
 
               <div className="sm:col-span-2">
-                <label htmlFor="cookTime" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="cookTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Cook Time (minutes)
                 </label>
                 <div className="mt-1">
@@ -309,13 +310,13 @@ const CreateRecipePage = () => {
                     onChange={handleChange}
                     required
                     min="0"
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   />
                 </div>
               </div>
 
               <div className="sm:col-span-2">
-                <label htmlFor="servings" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="servings" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Servings
                 </label>
                 <div className="mt-1">
@@ -327,13 +328,13 @@ const CreateRecipePage = () => {
                     onChange={handleChange}
                     required
                     min="1"
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   />
                 </div>
               </div>
 
               <div className="sm:col-span-6">
-                <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Difficulty Level
                 </label>
                 <div className="mt-1">
@@ -342,7 +343,7 @@ const CreateRecipePage = () => {
                     name="difficulty"
                     value={recipe.difficulty}
                     onChange={handleChange}
-                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   >
                     <option>Easy</option>
                     <option>Medium</option>
@@ -353,11 +354,11 @@ const CreateRecipePage = () => {
 
               {/* Categories Section */}
               <div className="sm:col-span-6">
-                <label className="block text-sm font-medium text-gray-700 mb-4">Categories</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">Categories</label>
                 <div className="space-y-6">
                   {Object.entries(CATEGORY_SECTIONS).map(([sectionName, categories]) => (
                     <div key={sectionName}>
-                      <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">{sectionName}</h4>
+                      <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">{sectionName}</h4>
                       <div className="flex flex-wrap gap-2">
                         {categories.map((category) => (
                           <button
@@ -379,7 +380,7 @@ const CreateRecipePage = () => {
                   ))}
                   {recipe.categories.length > 0 && (
                     <div className="pt-4 border-t border-gray-200">
-                      <p className="text-xs text-gray-500 mb-3">{recipe.categories.length} categories selected</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">{recipe.categories.length} categories selected</p>
                       <div className="flex flex-wrap gap-2">
                         {recipe.categories.map(categoryId => {
                           const category = CATEGORIES.find(c => c.id === categoryId);
@@ -403,12 +404,12 @@ const CreateRecipePage = () => {
         </div>
 
         {/* Ingredients Section */}
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-xl overflow-hidden sm:rounded-2xl border border-white/20 dark:border-gray-700/20">
           <div className="px-4 py-5 sm:px-6">
             <div className="flex justify-between items-center">
               <div>
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Ingredients</h3>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500">List all ingredients needed for your recipe</p>
+                <h3 className="text-xl leading-6 font-bold text-gray-900 dark:text-gray-100">Ingredients</h3>
+                <p className="mt-2 max-w-2xl text-sm text-gray-600 dark:text-gray-300">List all ingredients needed for your recipe</p>
               </div>
               <button
                 type="button"
@@ -429,7 +430,7 @@ const CreateRecipePage = () => {
                       value={ingredient}
                       onChange={(e) => handleIngredientChange(index, e.target.value)}
                       required
-                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                      className="shadow-sm focus:ring-violet-500 focus:border-violet-500 block w-full sm:text-sm border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-4 py-3"
                       placeholder={`Ingredient ${index + 1}`}
                     />
                   </div>
@@ -451,12 +452,12 @@ const CreateRecipePage = () => {
         </div>
 
         {/* Instructions Section */}
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-xl overflow-hidden sm:rounded-2xl border border-white/20 dark:border-gray-700/20">
           <div className="px-4 py-5 sm:px-6">
             <div className="flex justify-between items-center">
               <div>
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Instructions</h3>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500">Step-by-step instructions for preparing your recipe</p>
+                <h3 className="text-xl leading-6 font-bold text-gray-900 dark:text-gray-100">Instructions</h3>
+                <p className="mt-2 max-w-2xl text-sm text-gray-600 dark:text-gray-300">Step-by-step instructions for preparing your recipe</p>
               </div>
               <button
                 type="button"
@@ -471,7 +472,7 @@ const CreateRecipePage = () => {
             <div className="space-y-4">
               {recipe.instructions.map((instruction, index) => (
                 <div key={index} className="flex items-start">
-                  <div className="flex-shrink-0 h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 font-medium">
+                  <div className="flex-shrink-0 h-10 w-10 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 flex items-center justify-center text-white font-bold shadow-lg">
                     {index + 1}
                   </div>
                   <div className="ml-4 flex-1">
@@ -480,7 +481,7 @@ const CreateRecipePage = () => {
                       onChange={(e) => handleInstructionChange(index, e.target.value)}
                       required
                       rows={3}
-                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
+                      className="shadow-sm focus:ring-violet-500 focus:border-violet-500 block w-full sm:text-sm border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-4 py-3"
                       placeholder={`Step ${index + 1} instructions`}
                     />
                   </div>
@@ -502,13 +503,13 @@ const CreateRecipePage = () => {
         </div>
 
         {/* Image Upload Section */}
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm shadow-xl overflow-hidden sm:rounded-2xl border border-white/20 dark:border-gray-700/20">
           <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Recipe Image</h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500">Upload a photo of your finished recipe</p>
+            <h3 className="text-xl leading-6 font-bold text-gray-900 dark:text-gray-100">Recipe Image</h3>
+            <p className="mt-2 max-w-2xl text-sm text-gray-600 dark:text-gray-300">Upload a photo of your finished recipe</p>
           </div>
           <div className="border-t border-gray-200 px-4 py-5 sm:p-6">
-            <div className="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+            <div className="flex justify-center px-6 pt-5 pb-6 border-2 border-violet-300/50 dark:border-violet-600/50 border-dashed rounded-2xl bg-violet-50/50 dark:bg-violet-900/20">
               {recipe.image ? (
                 <div className="flex flex-col items-center">
                   <div className="mb-4">
@@ -518,29 +519,29 @@ const CreateRecipePage = () => {
                       className="h-32 w-32 object-cover rounded-md"
                     />
                   </div>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-gray-600 dark:text-gray-300">
                     {getFileName(recipe.image.name)}
                   </div>
                   <div className="mt-2">
-                    <label htmlFor="image" className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                      <span>Change image</span>
+                    <label htmlFor="image" className="relative cursor-pointer bg-white dark:bg-gray-800 rounded-md font-medium text-violet-600 dark:text-violet-400 hover:text-violet-500 dark:hover:text-violet-300 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-violet-500">
+                      <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent font-semibold">Change image</span>
                       <input id="image" name="image" type="file" className="sr-only" onChange={handleImageChange} accept="image/*" />
                     </label>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-1 text-center">
-                  <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                  <svg className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
                     <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                  <div className="flex text-sm text-gray-600">
-                    <label htmlFor="image" className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                      <span>Upload a file</span>
+                  <div className="flex text-sm text-gray-600 dark:text-gray-300">
+                    <label htmlFor="image" className="relative cursor-pointer bg-white dark:bg-gray-800 rounded-md font-medium text-violet-600 dark:text-violet-400 hover:text-violet-500 dark:hover:text-violet-300 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-violet-500">
+                      <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent font-semibold">Upload a file</span>
                       <input id="image" name="image" type="file" className="sr-only" onChange={handleImageChange} accept="image/*" />
                     </label>
                     <p className="pl-1">or drag and drop</p>
                   </div>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
                     PNG, JPG, GIF up to 10MB
                   </p>
                 </div>
@@ -566,6 +567,7 @@ const CreateRecipePage = () => {
           </button>
         </div>
       </form>
+      </div>
     </div>
   );
 };

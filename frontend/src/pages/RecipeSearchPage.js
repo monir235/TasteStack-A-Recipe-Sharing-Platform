@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { searchRecipes } from '../services/recipeService';
+import { useTheme } from '../contexts/ThemeContext';
+import { t } from '../utils/i18n';
 
 const RecipeSearchPage = () => {
+  const { isDark } = useTheme();
   const [searchParams, setSearchParams] = useSearchParams();
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -141,7 +144,7 @@ const RecipeSearchPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-10 left-10 w-64 h-64 bg-gradient-to-r from-blue-200 to-cyan-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
@@ -150,17 +153,17 @@ const RecipeSearchPage = () => {
       </div>
       
       {/* Header */}
-      <div className="relative bg-white/60 backdrop-blur-sm border-b border-white/20">
+      <div className="relative bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border-b border-white/20 dark:border-gray-700/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
-            <h1 className="text-5xl sm:text-6xl font-bold tracking-tight text-gray-900 mb-4">
-              Explore <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Recipes</span>
+            <h1 className="text-5xl sm:text-6xl font-bold tracking-tight text-gray-900 dark:text-gray-100 mb-4">
+              {t('explore')} <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">{t('recipes')}</span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-6">
               {totalResults > 0 ? (
-                <>Found {totalResults} amazing recipe{totalResults !== 1 ? 's' : ''} for you</>
+                t('found_recipes', { count: totalResults, plural: totalResults !== 1 ? 's' : '' })
               ) : (
-                'Discover delicious recipes from our amazing community of food lovers'
+                t('discover_recipes')
               )}
             </p>
             
@@ -172,7 +175,7 @@ const RecipeSearchPage = () => {
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
-                Clear All Filters ({getActiveFiltersCount()})
+                {t('clear_all_filters')} ({getActiveFiltersCount()})
               </button>
             )}
           </div>
@@ -183,21 +186,21 @@ const RecipeSearchPage = () => {
         <div className="lg:grid lg:grid-cols-4 lg:gap-8">
           {/* Filters Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 p-8 space-y-8 sticky top-8">
+            <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 dark:border-gray-700/30 p-8 space-y-8 sticky top-8">
               <div className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-r from-violet-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                   </svg>
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900">Refine Search</h2>
-                <p className="text-gray-600 text-sm mt-2">Find your perfect recipe</p>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t('refine_search')}</h2>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">{t('find_perfect_recipe')}</p>
               </div>
               
               {/* Search Input */}
               <div>
-                <label htmlFor="search" className="block text-sm font-semibold text-gray-800 mb-3">
-                  🔍 Quick Search
+                <label htmlFor="search" className="block text-sm font-semibold text-gray-800 dark:text-gray-200 mb-3">
+                  {t('quick_search')}
                 </label>
                 <form onSubmit={handleSearchSubmit}>
                   <div className="relative group">
@@ -207,7 +210,7 @@ const RecipeSearchPage = () => {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search recipes, ingredients..."
-                      className="block w-full pl-12 pr-4 py-4 bg-gradient-to-r from-white to-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition-all duration-300 group-hover:shadow-lg"
+                      className="block w-full pl-12 pr-4 py-4 bg-gradient-to-r from-white to-gray-50 dark:from-gray-700 dark:to-gray-600 border-2 border-gray-200 dark:border-gray-600 rounded-2xl focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition-all duration-300 group-hover:shadow-lg dark:text-gray-100"
                     />
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                       <svg className="h-5 w-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -220,8 +223,8 @@ const RecipeSearchPage = () => {
 
               {/* Category Filter */}
               <div>
-                <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
-                  Category
+                <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {t('category')}
                 </label>
                 <select
                   id="category"
@@ -230,7 +233,7 @@ const RecipeSearchPage = () => {
                     setSelectedCategory(e.target.value);
                     handleFilterChange();
                   }}
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500"
+                  className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md focus:ring-violet-500 focus:border-violet-500"
                 >
                   {categories.map((category) => (
                     <option key={category.value} value={category.value}>
@@ -242,8 +245,8 @@ const RecipeSearchPage = () => {
 
               {/* Difficulty Filter */}
               <div>
-                <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 mb-2">
-                  Difficulty
+                <label htmlFor="difficulty" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {t('difficulty')}
                 </label>
                 <select
                   id="difficulty"
@@ -252,7 +255,7 @@ const RecipeSearchPage = () => {
                     setSelectedDifficulty(e.target.value);
                     handleFilterChange();
                   }}
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500"
+                  className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md focus:ring-violet-500 focus:border-violet-500"
                 >
                   {difficulties.map((difficulty) => (
                     <option key={difficulty.value} value={difficulty.value}>
@@ -264,8 +267,8 @@ const RecipeSearchPage = () => {
 
               {/* Max Time Filter */}
               <div>
-                <label htmlFor="maxTime" className="block text-sm font-medium text-gray-700 mb-2">
-                  Maximum Time
+                <label htmlFor="maxTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {t('maximum_time')}
                 </label>
                 <select
                   id="maxTime"
@@ -274,7 +277,7 @@ const RecipeSearchPage = () => {
                     setMaxTime(e.target.value);
                     handleFilterChange();
                   }}
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-violet-500 focus:border-violet-500"
+                  className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md focus:ring-violet-500 focus:border-violet-500"
                 >
                   {timeOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -288,8 +291,8 @@ const RecipeSearchPage = () => {
 
               {/* Author Filter */}
               <div>
-                <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-2">
-                  Author
+                <label htmlFor="author" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {t('author')}
                 </label>
                 <input
                   type="text"
@@ -299,15 +302,15 @@ const RecipeSearchPage = () => {
                     setAuthorFilter(e.target.value);
                     handleFilterChange();
                   }}
-                  placeholder="Search by chef name..."
-                  className="block w-full px-4 py-3 bg-white/60 border border-white/30 rounded-2xl focus:ring-2 focus:ring-violet-500 focus:border-transparent backdrop-blur-sm transition-all"
+                  placeholder={t('search_by_chef')}
+                  className="block w-full px-4 py-3 bg-white/60 dark:bg-gray-700/60 border border-white/30 dark:border-gray-600/30 rounded-2xl focus:ring-2 focus:ring-violet-500 focus:border-transparent backdrop-blur-sm transition-all dark:text-gray-100"
                 />
               </div>
 
               {/* Rating Filter */}
               <div>
-                <label htmlFor="minRating" className="block text-sm font-medium text-gray-700 mb-2">
-                  Minimum Rating
+                <label htmlFor="minRating" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  {t('minimum_rating')}
                 </label>
                 <select
                   id="minRating"
@@ -316,7 +319,7 @@ const RecipeSearchPage = () => {
                     setMinRatingFilter(e.target.value);
                     handleFilterChange();
                   }}
-                  className="block w-full px-4 py-3 bg-white/60 border border-white/30 rounded-2xl focus:ring-2 focus:ring-violet-500 focus:border-transparent backdrop-blur-sm transition-all"
+                  className="block w-full px-4 py-3 bg-white/60 dark:bg-gray-700/60 border border-white/30 dark:border-gray-600/30 rounded-2xl focus:ring-2 focus:ring-violet-500 focus:border-transparent backdrop-blur-sm transition-all dark:text-gray-100"
                 >
                   {ratingOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -340,15 +343,15 @@ const RecipeSearchPage = () => {
             )}
 
             {error && (
-              <div className="rounded-md bg-red-50 p-4">
+              <div className="rounded-md bg-red-50 dark:bg-red-900/20 p-4">
                 <div className="flex">
                   <div className="flex-shrink-0">
-                    <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <svg className="h-5 w-5 text-red-400 dark:text-red-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                     </svg>
                   </div>
                   <div className="ml-3">
-                    <h3 className="text-sm font-medium text-red-800">{error}</h3>
+                    <h3 className="text-sm font-medium text-red-800 dark:text-red-200">{error}</h3>
                   </div>
                 </div>
               </div>
@@ -362,7 +365,7 @@ const RecipeSearchPage = () => {
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                       {recipes.map((recipe) => (
                         <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="group block">
-                          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-white/20">
+                          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-white/20 dark:border-gray-700/20">
                             <div className="relative overflow-hidden">
                               {recipe.image ? (
                                 <img
@@ -377,14 +380,14 @@ const RecipeSearchPage = () => {
                                   onLoad={() => console.log('Image loaded successfully:', recipe.image)}
                                 />
                               ) : null}
-                              <div className="h-56 bg-gradient-to-br from-violet-100 via-purple-100 to-pink-100 flex items-center justify-center" style={{display: recipe.image ? 'none' : 'flex'}}>
+                              <div className="h-56 bg-gradient-to-br from-violet-100 via-purple-100 to-pink-100 dark:from-violet-800 dark:via-purple-800 dark:to-pink-800 flex items-center justify-center" style={{display: recipe.image ? 'none' : 'flex'}}>
                                 <div className="text-center">
                                   <div className="w-16 h-16 bg-gradient-to-r from-violet-400 to-purple-400 rounded-2xl flex items-center justify-center mx-auto mb-3">
                                     <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                                       <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
                                     </svg>
                                   </div>
-                                  <span className="text-violet-600 font-semibold">Recipe Image</span>
+                                  <span className="text-violet-600 dark:text-violet-400 font-semibold">Recipe Image</span>
                                 </div>
                               </div>
                               {/* Floating Badges */}
@@ -412,26 +415,26 @@ const RecipeSearchPage = () => {
                             
                             <div className="p-6">
                               <div className="mb-4">
-                                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-violet-600 transition-colors duration-300 line-clamp-2">
+                                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-violet-600 transition-colors duration-300 line-clamp-2">
                                   {recipe.title}
                                 </h3>
-                                <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+                                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-3">
                                   {recipe.description?.substring(0, 120) || 'Delicious recipe waiting for you to discover'}...
                                 </p>
                               </div>
                               
                               {/* Author Info */}
-                              <div className="flex items-center mb-4 pb-4 border-b border-gray-100">
+                              <div className="flex items-center mb-4 pb-4 border-b border-gray-100 dark:border-gray-700">
                                 <div className="w-8 h-8 bg-gradient-to-r from-violet-400 to-purple-400 rounded-full flex items-center justify-center">
                                   <span className="text-white text-xs font-bold">
                                     {recipe.author?.name?.charAt(0) || recipe.author?.username?.charAt(0) || 'U'}
                                   </span>
                                 </div>
                                 <div className="ml-3">
-                                  <p className="text-sm font-semibold text-gray-800">
+                                  <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
                                     {recipe.author?.name || recipe.author?.username || 'Unknown Chef'}
                                   </p>
-                                  <p className="text-xs text-gray-500">Recipe Creator</p>
+                                  <p className="text-xs text-gray-500 dark:text-gray-400">Recipe Creator</p>
                                 </div>
                               </div>
                               
@@ -444,12 +447,12 @@ const RecipeSearchPage = () => {
                                   <div className="mb-4">
                                     <div className="flex flex-wrap gap-2">
                                       {categories.slice(0, 3).map((cat, index) => (
-                                        <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border border-blue-200">
+                                        <span key={index} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-800 dark:to-indigo-800 text-blue-800 dark:text-blue-200 border border-blue-200 dark:border-blue-700">
                                           {cat}
                                         </span>
                                       ))}
                                       {categories.length > 3 && (
-                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600">
+                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
                                           +{categories.length - 3} more
                                         </span>
                                       )}
@@ -462,15 +465,15 @@ const RecipeSearchPage = () => {
                               <div className="grid grid-cols-3 gap-4 mb-4">
                                 <div className="text-center">
                                   <div className="text-lg font-bold text-violet-600">{recipe.prep_time || 0}m</div>
-                                  <div className="text-xs text-gray-500">Prep</div>
+                                  <div className="text-xs text-gray-500 dark:text-gray-400">Prep</div>
                                 </div>
                                 <div className="text-center">
                                   <div className="text-lg font-bold text-orange-600">{recipe.cook_time || 0}m</div>
-                                  <div className="text-xs text-gray-500">Cook</div>
+                                  <div className="text-xs text-gray-500 dark:text-gray-400">Cook</div>
                                 </div>
                                 <div className="text-center">
                                   <div className="text-lg font-bold text-green-600">{recipe.servings || 0}</div>
-                                  <div className="text-xs text-gray-500">Serves</div>
+                                  <div className="text-xs text-gray-500 dark:text-gray-400">Serves</div>
                                 </div>
                               </div>
                               
@@ -502,9 +505,9 @@ const RecipeSearchPage = () => {
                         <button
                           onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                           disabled={currentPage === 1}
-                          className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Previous
+                          {t('previous')}
                         </button>
                         
                         <div className="flex items-center space-x-1">
@@ -517,7 +520,7 @@ const RecipeSearchPage = () => {
                                 className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium rounded-md ${
                                   currentPage === pageNum
                                     ? 'bg-violet-600 border-violet-600 text-white'
-                                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                                    : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
                                 }`}
                               >
                                 {pageNum}
@@ -529,28 +532,28 @@ const RecipeSearchPage = () => {
                         <button
                           onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                           disabled={currentPage === totalPages}
-                          className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="relative inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Next
+                          {t('next')}
                         </button>
                       </div>
                     )}
                   </>
                 ) : (
                   <div className="text-center py-12">
-                    <svg className="mx-auto h-24 w-24 text-violet-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="mx-auto h-24 w-24 text-violet-300 dark:text-violet-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    <h3 className="mt-4 text-xl font-bold text-gray-900">No recipes found</h3>
-                    <p className="mt-2 text-gray-600 max-w-md mx-auto">
-                      Try adjusting your search terms or filters to find what you're looking for.
+                    <h3 className="mt-4 text-xl font-bold text-gray-900 dark:text-gray-100">{t('no_recipes_found')}</h3>
+                    <p className="mt-2 text-gray-600 dark:text-gray-300 max-w-md mx-auto">
+                      {t('adjust_search_terms')}
                     </p>
                     <div className="mt-6">
                       <button
                         onClick={clearAllFilters}
                         className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500"
                       >
-                        Clear All Filters
+                        {t('clear_all_filters')}
                       </button>
                     </div>
                   </div>

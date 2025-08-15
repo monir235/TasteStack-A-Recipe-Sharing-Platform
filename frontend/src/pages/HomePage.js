@@ -40,7 +40,7 @@ const HomePage = () => {
   return (
     <div className="relative min-h-screen">
       {/* Hero Section with Colorful Animated Theme */}
-      <div className="relative bg-gradient-to-br from-violet-100 via-purple-50 to-pink-100 overflow-hidden">
+      <div className="relative bg-gradient-to-br from-violet-100 via-purple-50 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 overflow-hidden">
         {/* Professional Background Pattern */}
         <div className="absolute inset-0">
           {/* Geometric Pattern */}
@@ -93,10 +93,10 @@ const HomePage = () => {
                       )}
                     </div>
                     <div>
-                      <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-800 to-pink-800 bg-clip-text text-transparent">
+                      <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-800 to-pink-800 dark:from-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
                         Welcome back, {user?.first_name || user?.username || 'Chef'}! 👋
                       </h1>
-                      <p className="bg-gradient-to-r from-purple-700 to-violet-700 bg-clip-text text-transparent mt-1 font-medium">What delicious dish will you create today? 🍳✨</p>
+                      <p className="bg-gradient-to-r from-purple-700 to-violet-700 dark:from-purple-300 dark:to-violet-300 bg-clip-text text-transparent mt-1 font-medium">What delicious dish will you create today? 🍳✨</p>
                     </div>
                   </div>
                 </div>
@@ -119,7 +119,7 @@ const HomePage = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                 <Link
                   to="/recipes"
-                  className="group bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 hover:border-violet-200"
+                  className="group bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 dark:border-gray-700 hover:border-violet-200 dark:hover:border-violet-600"
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center group-hover:bg-violet-200 transition-colors">
@@ -131,13 +131,13 @@ const HomePage = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 group-hover:text-violet-600 transition-colors">Explore Recipes</h3>
-                  <p className="text-gray-600 text-sm mt-1">Discover new dishes from our community</p>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">Explore Recipes</h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">Discover new dishes from our community</p>
                 </Link>
                 
                 <Link
                   to="/dashboard"
-                  className="group bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 hover:border-violet-200"
+                  className="group bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 dark:border-gray-700 hover:border-violet-200 dark:hover:border-violet-600"
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center group-hover:bg-blue-200 transition-colors">
@@ -149,13 +149,13 @@ const HomePage = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">My Dashboard</h3>
-                  <p className="text-gray-600 text-sm mt-1">Manage your recipes and activity</p>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">My Dashboard</h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">Manage your recipes and activity</p>
                 </Link>
                 
                 <Link
                   to="/edit-profile"
-                  className="group bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 hover:border-violet-200"
+                  className="group bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 p-6 border border-gray-100 dark:border-gray-700 hover:border-violet-200 dark:hover:border-violet-600"
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center group-hover:bg-green-200 transition-colors">
@@ -167,8 +167,8 @@ const HomePage = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 group-hover:text-green-600 transition-colors">Edit Profile</h3>
-                  <p className="text-gray-600 text-sm mt-1">Update your profile settings</p>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">Edit Profile</h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">Update your profile settings</p>
                 </Link>
               </div>
             </div>
@@ -183,18 +183,18 @@ const HomePage = () => {
                 Made with ❤️ for Food Lovers
               </div>
               
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-8">
-                <span className="bg-gradient-to-r from-gray-900 via-violet-800 to-purple-800 bg-clip-text text-transparent">Welcome to</span>{' '}
-                <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-pulse">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-8 text-gray-900 dark:text-gray-100">
+                <span className="bg-gradient-to-r from-gray-900 via-violet-800 to-purple-800 dark:from-gray-100 dark:via-violet-300 dark:to-purple-300 bg-clip-text text-transparent">Welcome to</span>{' '}
+                <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 dark:from-violet-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent animate-pulse">
                   TasteStack
                 </span>
               </h1>
               
               <p className="mt-6 max-w-3xl mx-auto text-xl sm:text-2xl leading-relaxed">
-                <span className="bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent font-medium">
+                <span className="bg-gradient-to-r from-gray-700 to-gray-600 dark:from-gray-300 dark:to-gray-200 bg-clip-text text-transparent font-medium">
                   Connecting food lovers through the joy of cooking and sharing recipes.
                 </span>
-                <span className="block mt-3 text-lg bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent font-bold">
+                <span className="block mt-3 text-lg bg-gradient-to-r from-violet-600 to-purple-600 dark:from-violet-400 dark:to-purple-400 bg-clip-text text-transparent font-bold">
                   ✨ Where culinary passion meets community spirit ✨
                 </span>
               </p>
@@ -228,7 +228,7 @@ const HomePage = () => {
             
           {/* Professional Stats Cards */}
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-violet-200/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-violet-200/50 dark:border-gray-600/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <div className="flex items-center justify-between mb-2">
                 <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-500 rounded-xl flex items-center justify-center">
                   <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -244,9 +244,9 @@ const HomePage = () => {
                   }
                 </div>
               </div>
-              <div className="text-sm font-medium text-gray-600">Total Recipes</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Recipes</div>
             </div>
-            <div className="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200/50 dark:border-gray-600/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <div className="flex items-center justify-between mb-2">
                 <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl flex items-center justify-center">
                   <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -262,9 +262,9 @@ const HomePage = () => {
                   }
                 </div>
               </div>
-              <div className="text-sm font-medium text-gray-600">Active Chefs</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Active Chefs</div>
             </div>
-            <div className="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-200/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <div className="group bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-200/50 dark:border-gray-600/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
               <div className="flex items-center justify-between mb-2">
                 <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
                   <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -280,19 +280,19 @@ const HomePage = () => {
                   }
                 </div>
               </div>
-              <div className="text-sm font-medium text-gray-600">Recipe Reviews</div>
+              <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Recipe Reviews</div>
             </div>
           </div>
         </div>
       </div>
       
       {/* Featured Recipes Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-gradient-to-br from-violet-100 via-purple-50 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            Featured <span className="text-violet-600">Recipes</span>
+          <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            Featured <span className="text-violet-600 dark:text-violet-400">Recipes</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Discover handpicked recipes from our amazing community of food lovers
           </p>
         </div>
@@ -328,7 +328,7 @@ const HomePage = () => {
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {featuredRecipes.map((recipe) => (
               <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="group block">
-                <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-white/20">
+                <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-white/20 dark:border-gray-700/20">
                   <div className="relative overflow-hidden">
                     {recipe.image ? (
                       <img
@@ -337,7 +337,7 @@ const HomePage = () => {
                         className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                     ) : (
-                      <div className="h-56 bg-gradient-to-br from-violet-100 via-purple-100 to-pink-100 flex items-center justify-center">
+                      <div className="h-56 bg-gradient-to-br from-violet-100 via-purple-50 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 flex items-center justify-center">
                         <div className="text-center">
                           <div className="w-16 h-16 bg-gradient-to-r from-violet-400 to-purple-400 rounded-2xl flex items-center justify-center mx-auto mb-3">
                             <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -373,10 +373,10 @@ const HomePage = () => {
                   
                   <div className="p-6">
                     <div className="mb-4">
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-violet-600 transition-colors duration-300 line-clamp-2">
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors duration-300 line-clamp-2">
                         {recipe.title}
                       </h3>
-                      <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+                      <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-3">
                         {recipe.description?.substring(0, 120) || 'Delicious recipe waiting for you to discover'}...
                       </p>
                     </div>
@@ -465,8 +465,8 @@ const HomePage = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">No Recipes Yet</h3>
-            <p className="text-gray-600 mb-8 max-w-md mx-auto">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">No Recipes Yet</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-md mx-auto">
               Be the first to share a delicious recipe with our community!
             </p>
             {isAuthenticated ? (

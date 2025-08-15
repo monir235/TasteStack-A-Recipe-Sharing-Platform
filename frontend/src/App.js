@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import EditProfileDetails from './pages/EditProfileDetails';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -23,8 +24,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
-    <div className="App min-h-screen bg-gradient-to-br from-violet-50 via-white to-purple-50">
-      <AuthProvider>
+    <div className="App min-h-screen bg-gradient-to-br from-violet-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-900 dark:text-gray-100">
+      <ThemeProvider>
+        <AuthProvider>
         <ScrollToTop />
         <Navbar />
         <main className="min-h-screen">
@@ -48,7 +50,8 @@ function App() {
           </Routes>
         </main>
         <Footer />
-      </AuthProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </div>
   );
 }

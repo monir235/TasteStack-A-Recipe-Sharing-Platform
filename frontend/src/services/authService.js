@@ -1,15 +1,10 @@
 import apiRequest from './api';
-import * as mockApi from './mockApi';
 
 // Flag to determine if we should use mock API
 const USE_MOCK_API = false; // Set to false when backend is available
 
 // User registration
 export const register = async (userData) => {
-  if (USE_MOCK_API) {
-    return mockApi.register(userData);
-  }
-  
   return apiRequest('/auth/register/', {
     method: 'POST',
     body: JSON.stringify(userData)
@@ -18,28 +13,13 @@ export const register = async (userData) => {
 
 // User login
 export const login = async (credentials) => {
-  if (USE_MOCK_API) {
-    const data = await mockApi.login(credentials);
-    
-    // Store token in localStorage
-    if (data.token) {
-      console.log('Storing token in localStorage (mock):', data.token); // Debugging
-      localStorage.setItem('token', data.token);
-    }
-    
-    return data;
-  }
-  
   const data = await apiRequest('/auth/login/', {
     method: 'POST',
     body: JSON.stringify(credentials)
   });
   
-  console.log('Login response data:', data); // Debugging
-  
   // Store token in localStorage
   if (data.token) {
-    console.log('Storing token in localStorage:', data.token); // Debugging
     localStorage.setItem('token', data.token);
   }
   
@@ -48,32 +28,11 @@ export const login = async (credentials) => {
 
 // User logout
 export const logout = () => {
-  if (USE_MOCK_API) {
-    localStorage.removeItem('token');
-    return Promise.resolve({ message: 'Logged out successfully' });
-  }
-  
   localStorage.removeItem('token');
 };
 
 // Get current user profile
 export const getCurrentUser = async () => {
-  if (USE_MOCK_API) {
-    const token = localStorage.getItem('token');
-    console.log('Token from localStorage (mock):', token); // Debugging
-    if (!token) {
-      throw new Error('Not authenticated');
-    }
-    
-    // Decode the token to get user data (for demo purposes)
-    try {
-      const userData = JSON.parse(atob(token));
-      return userData;
-    } catch (error) {
-      throw new Error('Invalid token');
-    }
-  }
-  
   return apiRequest('/auth/user/');
 };
 
@@ -107,7 +66,6 @@ export const updateProfile = async (userData) => {
 // Check if user is authenticated
 export const isAuthenticated = () => {
   const token = localStorage.getItem('token');
-  console.log('Checking if authenticated, token:', token); // Debugging
   return !!token;
 };
 

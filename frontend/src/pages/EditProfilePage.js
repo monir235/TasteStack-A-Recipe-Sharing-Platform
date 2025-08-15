@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { updateProfile } from '../services/authService';
 
 const EditProfilePage = () => {
   const { user, updateUser } = useAuth();
   const navigate = useNavigate();
+  const { isDark } = useTheme();
   const [formData, setFormData] = useState({
     username: '',
     first_name: '',
@@ -123,7 +125,7 @@ const EditProfilePage = () => {
   return (
     <div className="relative min-h-screen">
       {/* Hero Section with Modern Gradient */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-violet-50 via-white to-purple-50">
+      <div className={`relative overflow-hidden ${isDark ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-black' : 'bg-gradient-to-br from-violet-50 via-white to-purple-50'}`}>
         {/* Background Decoration */}
         <div className="absolute inset-0">
           <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-gradient-to-r from-violet-300 to-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
@@ -137,11 +139,11 @@ const EditProfilePage = () => {
             <h1 className="text-4xl font-bold bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
               Edit Profile
             </h1>
-            <p className="text-xl text-gray-600">Update your personal information and settings</p>
+            <p className={`text-xl ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>Update your personal information and settings</p>
           </div>
 
           {/* Form */}
-          <div className="bg-white/80 backdrop-blur-sm shadow-2xl overflow-hidden rounded-3xl border border-white/20">
+          <div className={`${isDark ? 'bg-gray-800/90 border-gray-700/50' : 'bg-white/80 border-white/20'} backdrop-blur-sm shadow-2xl overflow-hidden rounded-3xl border`}>
             <div className="px-8 py-8">
               {/* Success Message */}
               {success && (
@@ -184,7 +186,7 @@ const EditProfilePage = () => {
               <form onSubmit={handleSubmit} className="space-y-8">
                 {/* Profile Picture */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Picture</h3>
+                  <h3 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'} mb-4`}>Profile Picture</h3>
                   <div className="flex items-center space-x-6">
                     <div className="h-24 w-24 rounded-full bg-gradient-to-br from-violet-100 to-purple-100 flex items-center justify-center relative overflow-hidden border-4 border-white shadow-lg">
                       {previewImage ? (
@@ -222,49 +224,49 @@ const EditProfilePage = () => {
 
                 {/* Basic Information */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Information</h3>
+                  <h3 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'} mb-4`}>Basic Information</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                      <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Username</label>
                       <input
                         type="text"
                         name="username"
                         value={formData.username}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-2xl border border-gray-300 shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300"
+                        className={`w-full px-4 py-3 rounded-2xl border ${isDark ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900'} shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300`}
                         placeholder="Enter your username"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                      <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Email</label>
                       <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-2xl border border-gray-300 shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300"
+                        className={`w-full px-4 py-3 rounded-2xl border ${isDark ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900'} shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300`}
                         placeholder="Enter your email"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                      <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'} mb-2`}>First Name</label>
                       <input
                         type="text"
                         name="first_name"
                         value={formData.first_name}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-2xl border border-gray-300 shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300"
+                        className={`w-full px-4 py-3 rounded-2xl border ${isDark ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900'} shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300`}
                         placeholder="Enter your first name"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                      <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Last Name</label>
                       <input
                         type="text"
                         name="last_name"
                         value={formData.last_name}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-2xl border border-gray-300 shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300"
+                        className={`w-full px-4 py-3 rounded-2xl border ${isDark ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900'} shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300`}
                         placeholder="Enter your last name"
                       />
                     </div>
@@ -273,39 +275,39 @@ const EditProfilePage = () => {
 
                 {/* Additional Information */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Additional Information</h3>
+                  <h3 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'} mb-4`}>Additional Information</h3>
                   <div className="space-y-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
+                      <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Bio</label>
                       <textarea
                         name="bio"
                         rows={4}
                         value={formData.bio}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-2xl border border-gray-300 shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300 resize-none"
+                        className={`w-full px-4 py-3 rounded-2xl border ${isDark ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900'} shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300 resize-none`}
                         placeholder="Tell us about yourself..."
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                        <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Location</label>
                         <input
                           type="text"
                           name="location"
                           value={formData.location}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-2xl border border-gray-300 shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300"
+                          className={`w-full px-4 py-3 rounded-2xl border ${isDark ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900'} shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300`}
                           placeholder="Where are you located?"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Website</label>
+                        <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Website</label>
                         <input
                           type="url"
                           name="website"
                           value={formData.website}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-2xl border border-gray-300 shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300"
+                          className={`w-full px-4 py-3 rounded-2xl border ${isDark ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900'} shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300`}
                           placeholder="https://your-website.com"
                         />
                       </div>
@@ -316,7 +318,7 @@ const EditProfilePage = () => {
                 {/* Password Section */}
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Password</h3>
+                    <h3 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Password</h3>
                     <button
                       type="button"
                       onClick={() => setShowPasswordSection(!showPasswordSection)}
@@ -327,33 +329,33 @@ const EditProfilePage = () => {
                   </div>
 
                   {showPasswordSection && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-violet-50/50 rounded-2xl border border-violet-200">
+                    <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 p-6 ${isDark ? 'bg-gray-700/50 border-gray-600' : 'bg-violet-50/50 border-violet-200'} rounded-2xl border`}>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                        <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'} mb-2`}>New Password</label>
                         <input
                           type="password"
                           name="password"
                           value={passwordData.password}
                           onChange={handlePasswordChange}
-                          className="w-full px-4 py-3 rounded-2xl border border-gray-300 shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300"
+                          className={`w-full px-4 py-3 rounded-2xl border ${isDark ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900'} shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300`}
                           placeholder="Enter new password"
                           minLength={8}
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
+                        <label className={`block text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'} mb-2`}>Confirm Password</label>
                         <input
                           type="password"
                           name="confirmPassword"
                           value={passwordData.confirmPassword}
                           onChange={handlePasswordChange}
-                          className="w-full px-4 py-3 rounded-2xl border border-gray-300 shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300"
+                          className={`w-full px-4 py-3 rounded-2xl border ${isDark ? 'border-gray-600 bg-gray-700 text-white placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900'} shadow-sm focus:ring-4 focus:ring-violet-300 focus:border-violet-500 transition-all duration-300`}
                           placeholder="Confirm new password"
                           minLength={8}
                         />
                       </div>
                       <div className="md:col-span-2">
-                        <p className="text-sm text-gray-600">
+                        <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                           Password must be at least 8 characters long and contain a mix of letters and numbers.
                         </p>
                       </div>
@@ -362,7 +364,7 @@ const EditProfilePage = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-gray-200">
+                <div className={`flex flex-col sm:flex-row gap-4 pt-6 border-t ${isDark ? 'border-gray-700' : 'border-gray-200'}`}>
                   <button
                     type="submit"
                     disabled={loading}

@@ -1,34 +1,17 @@
 import apiRequest from './api';
-import * as mockApi from './mockApi';
-
-// Flag to determine if we should use mock API
-const USE_MOCK_API = false; // Set to false when backend is available
 
 // Get all recipes with optional pagination
 export const getRecipes = async (page = 1, pageSize = 12) => {
-  if (USE_MOCK_API) {
-    return mockApi.getRecipes(page, pageSize);
-  }
-  
   return apiRequest(`/recipes/?page=${page}&page_size=${pageSize}`);
 };
 
 // Get a specific recipe by ID
 export const getRecipe = async (id) => {
-  if (USE_MOCK_API) {
-    return mockApi.getRecipe(id);
-  }
-  
   return apiRequest(`/recipes/${id}/`);
 };
 
 // Create a new recipe
 export const createRecipe = async (recipeData) => {
-  if (USE_MOCK_API) {
-    return mockApi.createRecipe(recipeData);
-  }
-  
-  console.log('Creating recipe with data:', recipeData); // Debugging
   
   // Handle file upload by creating FormData
   const formData = new FormData();
@@ -66,10 +49,6 @@ export const createRecipe = async (recipeData) => {
 
 // Update an existing recipe
 export const updateRecipe = async (id, recipeData) => {
-  if (USE_MOCK_API) {
-    return mockApi.updateRecipe(id, recipeData);
-  }
-  
   // Handle file upload by creating FormData
   const formData = new FormData();
   
@@ -104,10 +83,6 @@ export const updateRecipe = async (id, recipeData) => {
 
 // Delete a recipe
 export const deleteRecipe = async (id) => {
-  if (USE_MOCK_API) {
-    return mockApi.deleteRecipe(id);
-  }
-  
   return apiRequest(`/recipes/${id}/`, {
     method: 'DELETE'
   });
@@ -115,10 +90,6 @@ export const deleteRecipe = async (id) => {
 
 // Search recipes with advanced filters
 export const searchRecipes = async (query, page = 1, pageSize = 12, filters = {}) => {
-  if (USE_MOCK_API) {
-    return mockApi.searchRecipes(query, page, pageSize);
-  }
-  
   const params = new URLSearchParams();
   
   if (query) {
@@ -163,19 +134,11 @@ export const simpleSearchRecipes = async (query, page = 1, pageSize = 6) => {
 
 // Get recipes by author
 export const getRecipesByAuthor = async (authorId, page = 1, pageSize = 12) => {
-  if (USE_MOCK_API) {
-    return mockApi.getRecipesByAuthor(authorId, page, pageSize);
-  }
-  
   return apiRequest(`/recipes/my-recipes/?page=${page}&page_size=${pageSize}`);
 };
 
 // Rate a recipe
 export const rateRecipe = async (recipeId, rating) => {
-  if (USE_MOCK_API) {
-    return mockApi.rateRecipe(recipeId, rating);
-  }
-  
   return apiRequest(`/recipes/${recipeId}/rate/`, {
     method: 'POST',
     body: JSON.stringify({ rating })
@@ -184,10 +147,6 @@ export const rateRecipe = async (recipeId, rating) => {
 
 // Like a recipe
 export const likeRecipe = async (recipeId) => {
-  if (USE_MOCK_API) {
-    return mockApi.likeRecipe(recipeId);
-  }
-  
   return apiRequest(`/interactions/recipes/${recipeId}/like/`, {
     method: 'POST'
   });
@@ -195,10 +154,6 @@ export const likeRecipe = async (recipeId) => {
 
 // Unlike a recipe
 export const unlikeRecipe = async (recipeId) => {
-  if (USE_MOCK_API) {
-    return mockApi.unlikeRecipe(recipeId);
-  }
-  
   return apiRequest(`/interactions/recipes/${recipeId}/unlike/`, {
     method: 'POST'
   });
@@ -206,44 +161,20 @@ export const unlikeRecipe = async (recipeId) => {
 
 // Add a comment to a recipe
 export const addComment = async (recipeId, comment) => {
-  if (USE_MOCK_API) {
-    return mockApi.addComment(recipeId, comment);
-  }
-  
-  try {
-    return await apiRequest(`/interactions/recipes/${recipeId}/comments/add/`, {
-      method: 'POST',
-      body: JSON.stringify({ content: comment })
-    });
-  } catch (error) {
-    console.warn('Backend comment API failed, using mock API as fallback:', error.message);
-    // Fallback to mock API if backend fails
-    return mockApi.addComment(recipeId, comment);
-  }
+  return apiRequest(`/interactions/recipes/${recipeId}/comments/add/`, {
+    method: 'POST',
+    body: JSON.stringify({ content: comment })
+  });
 };
 
 // Get comments for a recipe
 export const getComments = async (recipeId) => {
-  if (USE_MOCK_API) {
-    return mockApi.getComments(recipeId);
-  }
-  
-  try {
-    return await apiRequest(`/interactions/recipes/${recipeId}/comments/`);
-  } catch (error) {
-    console.warn('Backend comments API failed, using mock API as fallback:', error.message);
-    // Fallback to mock API if backend fails
-    return mockApi.getComments(recipeId);
-  }
+  return apiRequest(`/interactions/recipes/${recipeId}/comments/`);
 };
 
 
 // Edit a comment on a recipe
 export const editComment = async (recipeId, commentId, content) => {
-  if (USE_MOCK_API) {
-    return mockApi.editComment(recipeId, commentId, content);
-  }
-  
   return apiRequest(`/interactions/recipes/${recipeId}/comments/${commentId}/edit/`, {
     method: 'PUT',
     body: JSON.stringify({ content })
@@ -252,10 +183,6 @@ export const editComment = async (recipeId, commentId, content) => {
 
 // Hide a comment on a recipe
 export const hideComment = async (recipeId, commentId) => {
-  if (USE_MOCK_API) {
-    return mockApi.hideComment(recipeId, commentId);
-  }
-  
   return apiRequest(`/interactions/recipes/${recipeId}/comments/${commentId}/hide/`, {
     method: 'POST'
   });
@@ -263,10 +190,6 @@ export const hideComment = async (recipeId, commentId) => {
 
 // Delete a comment from a recipe
 export const deleteComment = async (recipeId, commentId) => {
-  if (USE_MOCK_API) {
-    return mockApi.deleteComment(recipeId, commentId);
-  }
-  
   return apiRequest(`/interactions/recipes/${recipeId}/comments/${commentId}/delete/`, {
     method: 'DELETE'
   });

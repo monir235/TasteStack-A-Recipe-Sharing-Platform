@@ -2,6 +2,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.utils.html import escape
+import os
 from .models import Like, Comment
 from .serializers import LikeSerializer, CommentSerializer
 from recipes.models import Recipe
@@ -83,8 +85,15 @@ def edit_comment(request, recipe_id, comment_id):
     if comment.user != request.user:
         return Response({'error': 'You do not have permission to edit this comment'}, status=status.HTTP_403_FORBIDDEN)
     
-    # Update the comment content
-    comment.content = request.data.get('content', comment.content)
+    # Update the comment content with validation
+    new_content = request.data.get('content', comment.content)
+    # Sanitize content to prevent path traversal and XSS
+    if new_content:
+        # Remove any path traversal attempts
+        new_content = new_content.replace('../', '').replace('..\\', '')
+        # Escape HTML to prevent XSS
+        new_content = escape(new_content)
+        comment.content = new_content
     comment.save()
     
     serializer = CommentSerializer(comment)

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { simpleSearchRecipes } from '../services/recipeService';
 import { 
   validateSearchQuery, 
@@ -13,6 +14,7 @@ import './Navbar.css';
 
 const Navbar = () => {
   const { isAuthenticated, user, logout } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
@@ -331,7 +333,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-white/95 backdrop-blur-md shadow-xl border-b border-violet-100/50 sticky top-0 z-50">
+      <nav className="bg-white/90 dark:bg-gray-900/95 backdrop-blur-lg shadow-lg border-b border-violet-100/30 dark:border-violet-800/30 sticky top-0 z-50 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             {/* Logo */}
@@ -343,7 +345,7 @@ const Navbar = () => {
                       <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
                     </svg>
                   </div>
-                  <span className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+                  <span className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 dark:from-violet-400 dark:to-purple-400 bg-clip-text text-transparent">
                     TasteStack
                   </span>
                 </div>
@@ -355,7 +357,7 @@ const Navbar = () => {
               {/* Navigation Links */}
               <Link 
                 to="/" 
-                className="nav-link px-3 py-2 rounded-md text-sm font-medium"
+                className="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-all duration-200"
               >
                 Home
               </Link>
@@ -364,7 +366,7 @@ const Navbar = () => {
               <div className="relative" ref={categoriesDropdownRef}>
                 <button
                   onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
-                  className="text-gray-600 hover:text-violet-600 px-3 py-2 rounded-md text-sm font-medium transition-colors inline-flex items-center"
+                  className="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-all duration-200 inline-flex items-center"
                 >
                   Categories
                   <svg className="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -374,12 +376,12 @@ const Navbar = () => {
                 
                 {/* Categories Dropdown Menu */}
                 {isCategoriesOpen && (
-                  <div className="absolute left-0 mt-2 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+                  <div className="absolute left-0 mt-2 w-96 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-50">
                     <div className="p-6">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Browse by Category</h3>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Browse by Category</h3>
                       {Object.entries(categoryGroups).map(([groupName, categories]) => (
                         <div key={groupName} className="mb-4 last:mb-0">
-                          <h4 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
+                          <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
                             {groupName}
                           </h4>
                           <div className="grid grid-cols-3 gap-2">
@@ -387,10 +389,10 @@ const Navbar = () => {
                               <button
                                 key={category.slug}
                                 onClick={() => handleCategoryClick(category.slug)}
-                                className="flex items-center p-2 rounded-lg hover:bg-gray-50 transition-colors text-left group"
+                                className="flex items-center p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left group"
                               >
                                 <span className="text-lg mr-2">{category.icon}</span>
-                                <span className="text-sm font-medium text-gray-700 group-hover:text-violet-600">
+                                <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-violet-600 dark:group-hover:text-violet-400">
                                   {category.name}
                                 </span>
                               </button>
@@ -405,7 +407,7 @@ const Navbar = () => {
 
               <Link 
                 to="/about" 
-                className="text-gray-600 hover:text-violet-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                className="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-all duration-200"
               >
                 About
               </Link>
@@ -420,7 +422,7 @@ const Navbar = () => {
                       placeholder="✨ Search recipes, ingredients, chefs..."
                       value={searchQuery}
                       onChange={handleSearchInputChange}
-                      className="block w-full pl-12 pr-12 py-3 text-sm bg-gradient-to-r from-gray-50/90 to-gray-50/70 backdrop-blur-sm border border-gray-200/60 rounded-2xl shadow-sm transition-all duration-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-400/40 focus:border-violet-300 focus:bg-white focus:shadow-xl hover:bg-white hover:shadow-lg hover:border-gray-300 hover:from-white hover:to-white"
+                      className="block w-full pl-12 pr-12 py-3 text-sm bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200/60 dark:border-gray-600/60 rounded-2xl shadow-sm transition-all duration-300 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-400/40 dark:focus:ring-violet-500/40 focus:border-violet-300 dark:focus:border-violet-500 focus:bg-white dark:focus:bg-gray-800 focus:shadow-xl hover:bg-white dark:hover:bg-gray-800 hover:shadow-lg hover:border-gray-300 dark:hover:border-gray-500"
                       maxLength={100}
                       autoComplete="off"
                     />
@@ -433,7 +435,7 @@ const Navbar = () => {
                         </div>
                       ) : (
                         <div className="relative">
-                          <svg className="h-4 w-4 text-gray-400 group-focus-within:text-violet-500 group-hover:text-gray-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="h-4 w-4 text-gray-400 dark:text-gray-500 group-focus-within:text-violet-500 dark:group-focus-within:text-violet-400 group-hover:text-gray-500 dark:group-hover:text-gray-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                           </svg>
                           <div className="absolute inset-0 bg-violet-500/10 rounded-full scale-0 group-focus-within:scale-110 transition-transform duration-300"></div>
@@ -449,7 +451,7 @@ const Navbar = () => {
                           setIsSearchOpen(false);
                           setSearchResults([]);
                         }}
-                        className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                        className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 transition-colors duration-200"
                       >
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -465,7 +467,7 @@ const Navbar = () => {
 
                 {/* Search Results Dropdown */}
                 {isSearchOpen && searchQuery.trim().length >= 2 && (
-                  <div className="absolute top-full left-0 mt-1 w-80 bg-white rounded-lg shadow-xl border border-gray-200 max-h-80 overflow-y-auto z-50">
+                  <div className="absolute top-full left-0 mt-1 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-600 max-h-80 overflow-y-auto z-50">
                     {searchError ? (
                       <div className="p-4">
                         <div className="flex items-center space-x-2 text-red-600 mb-3">
@@ -606,13 +608,27 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Auth Buttons - Desktop */}
+            {/* Theme Toggle & Auth Buttons - Desktop */}
             <div className="hidden lg:flex items-center space-x-4">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg bg-gray-100/80 dark:bg-gray-800/80 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
+              >
+                {isDark ? (
+                  <svg className="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                  </svg>
+                ) : (
+                  <svg className="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                  </svg>
+                )}
+              </button>
               {isAuthenticated ? (
                 <>
                   <Link 
                     to="/create-recipe" 
-                    className="btn-primary text-sm"
+                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-105"
                   >
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -621,7 +637,7 @@ const Navbar = () => {
                   </Link>
                   <Link 
                     to="/dashboard" 
-                    className="flex items-center space-x-3 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                    className="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
                   >
                     <div className="relative h-10 w-10 rounded-full overflow-hidden bg-gradient-to-br from-violet-200 to-purple-200 flex items-center justify-center border-2 border-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 p-0.5">
                       {user?.profile_picture ? (
@@ -642,7 +658,7 @@ const Navbar = () => {
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="text-sm font-medium text-neutral-600 hover:text-brand-700 transition-colors"
+                    className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                   >
                     Sign Out
                   </button>
@@ -651,13 +667,13 @@ const Navbar = () => {
                 <>
                   <Link 
                     to="/login" 
-                    className="text-sm font-medium text-neutral-600 hover:text-brand-700 transition-colors"
+                    className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors"
                   >
                     Sign In
                   </Link>
                   <Link 
                     to="/register" 
-                    className="btn-secondary text-sm"
+                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-900/20 hover:bg-violet-100 dark:hover:bg-violet-900/30 rounded-lg border border-violet-200 dark:border-violet-700 transition-all duration-200 hover:scale-105"
                   >
                     Join Free
                   </Link>
@@ -685,9 +701,9 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-white border-t border-gray-200">
+          <div className="lg:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border-t border-gray-200 dark:border-gray-700">
             {/* Mobile Search */}
-            <div className="px-4 py-3 border-b border-gray-200">
+            <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
               <form onSubmit={handleSearchSubmit}>
                 <div className="relative">
                   <input
@@ -695,12 +711,12 @@ const Navbar = () => {
                     placeholder="Search recipes..."
                     value={searchQuery}
                     onChange={handleSearchInputChange}
-                    className="block w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
+                    className="block w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 dark:focus:ring-violet-400 dark:focus:border-violet-400"
                     maxLength={100}
                     autoComplete="off"
                   />
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor">
+                    <svg className="h-5 w-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </div>
@@ -713,7 +729,7 @@ const Navbar = () => {
               <Link 
                 to="/" 
                 onClick={closeAllMenus}
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+                className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
                 🏠 Home
               </Link>
@@ -728,17 +744,17 @@ const Navbar = () => {
                     <button
                       key={category.slug}
                       onClick={() => handleCategoryClick(category.slug)}
-                      className="flex items-center p-2 rounded-lg hover:bg-gray-50 transition-colors text-left"
+                      className="flex items-center p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors text-left"
                     >
                       <span className="text-lg mr-2">{category.icon}</span>
-                      <span className="text-sm font-medium text-gray-700">{category.name}</span>
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{category.name}</span>
                     </button>
                   ))}
                 </div>
                 <Link 
                   to="/recipes" 
                   onClick={closeAllMenus}
-                  className="block mt-3 text-center text-violet-600 text-sm font-medium"
+                  className="block mt-3 text-center text-violet-600 dark:text-violet-400 text-sm font-medium"
                 >
                   View All Categories →
                 </Link>
@@ -747,33 +763,33 @@ const Navbar = () => {
               <Link 
                 to="/about" 
                 onClick={closeAllMenus}
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+                className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
               >
                 ℹ️ About
               </Link>
             </div>
 
             {/* Mobile Auth */}
-            <div className="pt-4 pb-3 border-t border-gray-200">
+            <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
               {isAuthenticated ? (
                 <div className="px-2 space-y-1">
                   <Link 
                     to="/create-recipe" 
                     onClick={closeAllMenus}
-                    className="block px-3 py-2 rounded-md text-base font-medium text-white bg-violet-600 hover:bg-violet-700 transition-colors"
+                    className="block px-3 py-2 rounded-lg text-base font-medium text-white bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg"
                   >
                     ➕ Create Recipe
                   </Link>
                   <Link 
                     to="/dashboard" 
                     onClick={closeAllMenus}
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+                    className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                   >
                     👤 Dashboard
                   </Link>
                   <button 
                     onClick={handleLogout}
-                    className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+                    className="block w-full text-left px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                   >
                     🚪 Sign Out
                   </button>
@@ -783,14 +799,14 @@ const Navbar = () => {
                   <Link 
                     to="/login" 
                     onClick={closeAllMenus}
-                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+                    className="block px-3 py-2 rounded-lg text-base font-medium text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                   >
                     🔑 Sign In
                   </Link>
                   <Link 
                     to="/register" 
                     onClick={closeAllMenus}
-                    className="block px-3 py-2 rounded-md text-base font-medium text-white bg-violet-600 hover:bg-violet-700 transition-colors mx-1"
+                    className="block px-3 py-2 rounded-lg text-base font-medium text-white bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 transition-all duration-200 mx-1 shadow-md hover:shadow-lg"
                   >
                     🚀 Join Free
                   </Link>

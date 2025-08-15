@@ -5,7 +5,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-50 border-t border-gray-200">
+    <footer className="bg-gradient-to-br from-violet-100 via-purple-50 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 border-t border-violet-200/50 dark:border-gray-700/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -17,11 +17,11 @@ const Footer = () => {
                   <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
               </div>
-              <span className="text-2xl font-bold bg-gradient-to-r from-violet-700 to-purple-700 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold bg-gradient-to-r from-violet-700 to-purple-700 dark:from-violet-400 dark:to-purple-400 bg-clip-text text-transparent">
                 TasteStack
               </span>
             </div>
-            <p className="text-gray-600 mb-6 max-w-md">
+            <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md">
               Discover, share, and enjoy delicious recipes from food enthusiasts around the world.
             </p>
             
@@ -67,34 +67,34 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">Platform</h3>
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-4">Platform</h3>
             <ul className="space-y-3">
-              <li><Link to="/recipes" className="text-gray-600 hover:text-violet-600 transition-colors duration-200">Browse Recipes</Link></li>
-              <li><Link to="/create-recipe" className="text-gray-600 hover:text-violet-600 transition-colors duration-200">Share Recipe</Link></li>
-              <li><Link to="/dashboard" className="text-gray-600 hover:text-violet-600 transition-colors duration-200">Dashboard</Link></li>
-              <li><Link to="/profile" className="text-gray-600 hover:text-violet-600 transition-colors duration-200">Profile</Link></li>
+              <li><Link to="/recipes" className="text-gray-600 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-200">Browse Recipes</Link></li>
+              <li><Link to="/create-recipe" className="text-gray-600 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-200">Share Recipe</Link></li>
+              <li><Link to="/dashboard" className="text-gray-600 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-200">Dashboard</Link></li>
+              <li><Link to="/profile" className="text-gray-600 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-200">Profile</Link></li>
             </ul>
           </div>
 
           {/* Support */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">Support</h3>
+            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-4">Support</h3>
             <ul className="space-y-3">
-              <li><Link to="/about" className="text-gray-600 hover:text-violet-600 transition-colors duration-200">About Us</Link></li>
-              <li><Link to="/contact" className="text-gray-600 hover:text-violet-600 transition-colors duration-200">Contact</Link></li>
-              <li><Link to="/help" className="text-gray-600 hover:text-violet-600 transition-colors duration-200">Help Center</Link></li>
-              <li><Link to="/privacy" className="text-gray-600 hover:text-violet-600 transition-colors duration-200">Privacy Policy</Link></li>
+              <li><Link to="/about" className="text-gray-600 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-200">About Us</Link></li>
+              <li><Link to="/contact" className="text-gray-600 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-200">Contact</Link></li>
+              <li><Link to="/help" className="text-gray-600 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-200">Help Center</Link></li>
+              <li><Link to="/privacy" className="text-gray-600 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors duration-200">Privacy Policy</Link></li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-gray-200 pt-8 mt-12">
+        <div className="border-t border-gray-200 dark:border-gray-700 pt-8 mt-12">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-600 text-sm mb-4 md:mb-0">
+            <div className="text-gray-600 dark:text-gray-300 text-sm mb-4 md:mb-0">
               © {currentYear} TasteStack, Inc. All rights reserved.
             </div>
-            <div className="flex items-center space-x-2 text-sm text-gray-600">
+            <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300">
               <svg className="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
               </svg>
