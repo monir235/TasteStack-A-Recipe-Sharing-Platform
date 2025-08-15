@@ -331,7 +331,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="glass-effect shadow-brand border-b border-brand-100 sticky top-0 z-50">
+      <nav className="bg-white/95 backdrop-blur-md shadow-xl border-b border-violet-100/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             {/* Logo */}
@@ -616,14 +616,14 @@ const Navbar = () => {
                     to="/dashboard" 
                     className="flex items-center space-x-3 text-sm text-gray-600 hover:text-gray-900 transition-colors"
                   >
-                    <div className="relative h-10 w-10 rounded-full overflow-hidden bg-gradient-to-br from-violet-100 to-purple-100 flex items-center justify-center border-2 border-white shadow-sm hover:shadow-md transition-shadow">
+                    <div className="relative h-10 w-10 rounded-full overflow-hidden bg-gradient-to-br from-violet-200 to-purple-200 flex items-center justify-center border-2 border-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 p-0.5">
                       {user?.profile_picture ? (
                         <img
                           src={user.profile_picture.startsWith('/') 
                             ? `http://localhost:8000${user.profile_picture}` 
                             : user.profile_picture}
                           alt={user.username}
-                          className="w-10 h-10 object-contain rounded-full bg-white"
+                          className="w-full h-full object-contain rounded-full bg-white"
                         />
                       ) : (
                         <span className="text-violet-600 font-semibold text-sm">
@@ -631,9 +631,7 @@ const Navbar = () => {
                         </span>
                       )}
                     </div>
-                    <span className="hidden xl:block font-medium">
-                      {user?.first_name || user?.username || 'Profile'}
-                    </span>
+
                   </Link>
                   <button
                     onClick={handleLogout}

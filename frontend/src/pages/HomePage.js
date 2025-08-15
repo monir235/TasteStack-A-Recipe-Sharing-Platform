@@ -40,13 +40,33 @@ const HomePage = () => {
   return (
     <div className="relative min-h-screen">
       {/* Hero Section with Colorful Animated Theme */}
-      <div className="relative bg-gradient-to-br from-violet-50 via-white to-purple-50 overflow-hidden">
-        {/* Animated Background Elements */}
+      <div className="relative bg-gradient-to-br from-violet-100 via-purple-50 to-pink-100 overflow-hidden">
+        {/* Professional Background Pattern */}
         <div className="absolute inset-0">
-          <div className="absolute top-10 left-10 w-64 h-64 bg-gradient-to-r from-blue-200 to-cyan-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-          <div className="absolute top-32 right-10 w-80 h-80 bg-gradient-to-r from-purple-200 to-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-          <div className="absolute bottom-10 left-1/3 w-72 h-72 bg-gradient-to-r from-yellow-200 to-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-          <div className="absolute top-1/2 right-1/3 w-56 h-56 bg-gradient-to-r from-green-200 to-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-pulse"></div>
+          {/* Geometric Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <svg className="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="dots" width="4" height="4" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="0.5" fill="currentColor"/>
+                </pattern>
+                <pattern id="lines" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M0,20 L20,0" stroke="currentColor" strokeWidth="0.5" opacity="0.3"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#dots)" className="text-violet-400" />
+              <rect width="100%" height="100%" fill="url(#lines)" className="text-purple-400" />
+            </svg>
+          </div>
+          {/* Floating Elements */}
+          <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-violet-200/40 to-purple-200/40 rounded-2xl rotate-12 animate-pulse"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-gradient-to-r from-pink-200/40 to-rose-200/40 rounded-full animate-bounce"></div>
+          <div className="absolute bottom-32 left-1/4 w-20 h-20 bg-gradient-to-r from-blue-200/40 to-indigo-200/40 rounded-xl rotate-45 animate-pulse"></div>
+          <div className="absolute top-1/3 right-1/4 w-16 h-16 bg-gradient-to-r from-emerald-200/40 to-teal-200/40 rounded-full animate-ping"></div>
+          {/* Additional decorative elements */}
+          <div className="absolute top-1/2 left-10 w-6 h-6 bg-yellow-300/60 rounded-full animate-pulse"></div>
+          <div className="absolute bottom-20 right-20 w-8 h-8 bg-orange-300/60 rounded-full animate-bounce"></div>
+          <div className="absolute top-16 right-1/3 w-4 h-4 bg-cyan-300/60 rounded-full animate-ping"></div>
         </div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
@@ -57,14 +77,14 @@ const HomePage = () => {
               <div className="flex flex-col lg:flex-row items-start justify-between mb-12">
                 <div className="flex-1">
                   <div className="flex items-center space-x-4 mb-4">
-                    <div className="w-16 h-16 rounded-full gradient-brand flex items-center justify-center shadow-brand">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-violet-200 to-purple-200 flex items-center justify-center shadow-brand p-1">
                       {user?.profile_picture ? (
                         <img
                           src={user.profile_picture.startsWith('/') 
                             ? `http://localhost:8000${user.profile_picture}` 
                             : user.profile_picture}
                           alt={user.username}
-                          className="w-16 h-16 object-contain rounded-full bg-white"
+                          className="w-full h-full object-contain rounded-full bg-white"
                         />
                       ) : (
                         <span className="text-white font-bold text-lg">
@@ -73,10 +93,10 @@ const HomePage = () => {
                       )}
                     </div>
                     <div>
-                      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                        Welcome back, {user?.first_name || user?.username || 'Chef'}!
+                      <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-purple-800 to-pink-800 bg-clip-text text-transparent">
+                        Welcome back, {user?.first_name || user?.username || 'Chef'}! 👋
                       </h1>
-                      <p className="text-gray-600 mt-1">What would you like to cook today?</p>
+                      <p className="bg-gradient-to-r from-purple-700 to-violet-700 bg-clip-text text-transparent mt-1 font-medium">What delicious dish will you create today? 🍳✨</p>
                     </div>
                   </div>
                 </div>
@@ -163,17 +183,19 @@ const HomePage = () => {
                 Made with ❤️ for Food Lovers
               </div>
               
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 mb-8">
-                Welcome to{' '}
-                <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-8">
+                <span className="bg-gradient-to-r from-gray-900 via-violet-800 to-purple-800 bg-clip-text text-transparent">Welcome to</span>{' '}
+                <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-pulse">
                   TasteStack
                 </span>
               </h1>
               
-              <p className="mt-6 max-w-3xl mx-auto text-xl sm:text-2xl leading-relaxed text-gray-600">
-                Connecting food lovers through the joy of cooking and sharing recipes.
-                <span className="block mt-2 text-lg text-violet-600 font-semibold">
-                  Where culinary passion meets community spirit.
+              <p className="mt-6 max-w-3xl mx-auto text-xl sm:text-2xl leading-relaxed">
+                <span className="bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent font-medium">
+                  Connecting food lovers through the joy of cooking and sharing recipes.
+                </span>
+                <span className="block mt-3 text-lg bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent font-bold">
+                  ✨ Where culinary passion meets community spirit ✨
                 </span>
               </p>
               
@@ -204,40 +226,61 @@ const HomePage = () => {
             </div>
           )}
             
-          {/* Floating Stats */}
+          {/* Professional Stats Cards */}
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg text-center">
-              <div className="text-3xl font-bold text-gray-900">
-                {statistics.total_recipes > 0 ? 
-                  (statistics.total_recipes >= 1000 ? 
-                    `${Math.floor(statistics.total_recipes / 1000)}K+` : 
-                    statistics.total_recipes) : 
-                  '0'
-                }
+            <div className="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-violet-200/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+              <div className="flex items-center justify-between mb-2">
+                <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-500 rounded-xl flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+                  {statistics.total_recipes > 0 ? 
+                    (statistics.total_recipes >= 1000 ? 
+                      `${Math.floor(statistics.total_recipes / 1000)}K+` : 
+                      statistics.total_recipes) : 
+                    '0'
+                  }
+                </div>
               </div>
-              <div className="text-sm text-gray-600">Recipes</div>
+              <div className="text-sm font-medium text-gray-600">Total Recipes</div>
             </div>
-            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg text-center">
-              <div className="text-3xl font-bold text-gray-900">
-                {statistics.total_users > 0 ? 
-                  (statistics.total_users >= 1000 ? 
-                    `${Math.floor(statistics.total_users / 1000)}K+` : 
-                    statistics.total_users) : 
-                  '0'
-                }
+            <div className="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-pink-200/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+              <div className="flex items-center justify-between mb-2">
+                <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="text-3xl font-bold bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
+                  {statistics.total_users > 0 ? 
+                    (statistics.total_users >= 1000 ? 
+                      `${Math.floor(statistics.total_users / 1000)}K+` : 
+                      statistics.total_users) : 
+                    '0'
+                  }
+                </div>
               </div>
-              <div className="text-sm text-gray-600">Chefs</div>
+              <div className="text-sm font-medium text-gray-600">Active Chefs</div>
             </div>
-            <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-lg text-center">
-              <div className="text-3xl font-bold text-gray-900">
-                {statistics.total_ratings > 0 ? 
-                  (statistics.total_ratings >= 1000 ? 
-                    `${Math.floor(statistics.total_ratings / 1000)}K+` : 
-                    statistics.total_ratings) : 
-                  '0'
-                }
+            <div className="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-blue-200/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+              <div className="flex items-center justify-between mb-2">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+                <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  {statistics.total_ratings > 0 ? 
+                    (statistics.total_ratings >= 1000 ? 
+                      `${Math.floor(statistics.total_ratings / 1000)}K+` : 
+                      statistics.total_ratings) : 
+                    '0'
+                  }
+                </div>
               </div>
-              <div className="text-sm text-gray-600">Reviews</div>
+              <div className="text-sm font-medium text-gray-600">Recipe Reviews</div>
             </div>
           </div>
         </div>
