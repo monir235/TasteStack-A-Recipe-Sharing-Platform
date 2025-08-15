@@ -17,8 +17,10 @@ TasteStack is a modern recipe sharing platform that allows users to discover, sh
 - ❤️ **Favorites**: Like and save your favorite recipes
 - 📱 **Responsive Design**: Works perfectly on desktop, tablet, and mobile
 - 🖼️ **Image Upload**: Add beautiful photos to your recipes
-- 🔐 **User Authentication**: Secure registration and login system
+- 🔐 **User Authentication**: Secure registration, login, and password reset
 - 👤 **User Profiles**: Personalized profiles with bio and profile pictures
+- 🔄 **Follow System**: Follow other users and see their activities
+- 📊 **Dashboard**: Personal dashboard with statistics and recent activity
 
 ## 🚀 Quick Start
 
@@ -93,27 +95,27 @@ The backend API will be available at `http://localhost:8000`
 3. **Create environment file:**
    Create a `.env` file in the frontend directory with the following content:
    ```env
-   VITE_API_URL=http://localhost:8000/api
-   VITE_MEDIA_URL=http://localhost:8000
+   REACT_APP_API_URL=http://localhost:8000/api
+   REACT_APP_MEDIA_URL=http://localhost:8000
    ```
 
 4. **Start the frontend development server:**
    ```bash
-   npm run dev
+   npm start
    ```
 
-The frontend application will be available at `http://localhost:5173`
+The frontend application will be available at `http://localhost:3000`
 
 ## 🖥️ Usage
 
-1. **Access the application:** Open your web browser and go to `http://localhost:5173`
+1. **Access the application:** Open your web browser and go to `http://localhost:3000`
 2. **Create an account:** Click "Register" to create a new user account
 3. **Browse recipes:** Explore recipes on the home page
 4. **Create recipes:** Click "Add Recipe" to share your own recipes
 5. **Interact:** Rate, comment, and like recipes from other users
 
 ### User Registration & Authentication
-1. Visit http://localhost:5173
+1. Visit http://localhost:3000
 2. Click "Get Started" or "Register"
 3. Fill in registration form with required details
 4. Login with your credentials
@@ -149,8 +151,10 @@ For regular testing, create a new account through the registration form.
 TasteStack/
 ├── backend/                 # Django backend application
 │   ├── tastestack/         # Main Django project
-│   ├── recipes/            # Recipe app
-│   ├── users/              # User management app
+│   ├── accounts/           # User authentication & profiles
+│   ├── recipes/            # Recipe management
+│   ├── interactions/       # Likes, comments, follows
+│   ├── media/              # Uploaded images
 │   ├── requirements.txt    # Python dependencies
 │   └── manage.py          # Django management script
 ├── frontend/               # React frontend application
@@ -208,8 +212,10 @@ npm run eject
 ### Authentication
 - `POST /api/auth/register/` - User registration
 - `POST /api/auth/login/` - User login
-- `POST /api/auth/logout/` - User logout
-- `POST /api/auth/refresh/` - Refresh JWT token
+- `POST /api/auth/forgot-password/` - Request password reset
+- `POST /api/auth/reset-password/` - Reset password with token
+- `GET /api/auth/user/` - Get current user profile
+- `PUT /api/auth/user/update/` - Update user profile
 
 ### Recipes
 - `GET /api/recipes/` - List recipes with pagination
@@ -225,9 +231,10 @@ npm run eject
 - `POST /api/recipes/{id}/like/` - Like/unlike recipe
 
 ### User Management
-- `GET /api/users/profile/` - Get user profile
-- `PUT /api/users/profile/` - Update user profile
-- `GET /api/users/{id}/recipes/` - Get user's recipes
+- `GET /api/auth/profile/{id}/` - Get public user profile
+- `POST /api/auth/follow/{id}/` - Follow/unfollow user
+- `GET /api/auth/dashboard-stats/` - Get dashboard statistics
+- `GET /api/auth/recent-activity/` - Get recent user activity
 
 ## 🤝 Contributing
 
@@ -540,16 +547,16 @@ REDIS_URL=redis://localhost:6379
 
 ## 📊 Project Status
 
-- ✅ User Authentication System
+- ✅ User Authentication System (Registration, Login, Password Reset)
 - ✅ Recipe CRUD Operations
 - ✅ Rating & Comment System
-- ✅ Responsive UI Design
-- ✅ Search & Filter Functionality
-- ✅ User Dashboard
-- 🔄 Enhanced Mobile Experience (In Progress)
-- 🔄 Advanced Search Features (In Progress)
-- 📅 Email Notifications (Planned)
-- 📅 Recipe Collections (Planned)
+- ✅ Responsive UI Design with Modern Gradients
+- ✅ Advanced Search & Filter Functionality
+- ✅ User Dashboard with Statistics
+- ✅ Follow System & Social Features
+- ✅ Profile Management with Image Upload
+- ✅ Professional About Page
+- ✅ Modern Logo and Navigation
 
 ---
 
