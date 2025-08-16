@@ -18,11 +18,15 @@ const HomePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('Fetching recipes...');
         // Fetch both recipes and statistics in parallel
         const [recipeData, statsData] = await Promise.all([
           getRecipes(1, 3), // Get first 3 recipes
           getStatistics()
         ]);
+        
+        console.log('Recipe data received:', recipeData);
+        console.log('Featured recipes:', recipeData.results);
         
         setFeaturedRecipes(recipeData.results || []);
         setStatistics(statsData);
@@ -326,17 +330,23 @@ const HomePage = () => {
         
         {!loading && !error && featuredRecipes.length > 0 && (
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredRecipes.map((recipe) => (
+            {featuredRecipes.map((recipe) => {
+              console.log('Rendering recipe:', recipe.title, 'Image URL:', recipe.image);
+              return (
               <Link key={recipe.id} to={`/recipes/${recipe.id}`} className="group block">
                 <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border border-white/20 dark:border-gray-700/20">
                   <div className="relative overflow-hidden">
-                    {recipe.image ? (
-                      <img
-                        src={recipe.image}
-                        alt={recipe.title}
-                        className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                    ) : (
+                    <img
+                      src={recipe.image || 'https://via.placeholder.com/400x300?text=No+Image'}
+                      alt={recipe.title}
+                      className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      onLoad={() => console.log('Image loaded successfully:', recipe.image)}
+                      onError={(e) => {
+                        console.log('Failed to load image:', recipe.image);
+                        e.target.src = 'https://via.placeholder.com/400x300?text=Image+Error';
+                      }}
+                    />
+                    {false && (
                       <div className="h-56 bg-gradient-to-br from-violet-100 via-purple-50 to-pink-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 flex items-center justify-center">
                         <div className="text-center">
                           <div className="w-16 h-16 bg-gradient-to-r from-violet-400 to-purple-400 rounded-2xl flex items-center justify-center mx-auto mb-3">
@@ -458,7 +468,8 @@ const HomePage = () => {
                   </div>
                 </div>
               </Link>
-            ))}
+            );
+            })}
           </div>
         )}
         
