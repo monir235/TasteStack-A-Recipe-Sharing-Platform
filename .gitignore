@@ -68,11 +68,8 @@ Thumbs.db
 Session.vim
 .netrwhist
 
-.cache/
 .vite/
 parcel-cache/
-.eslintcache
-.stylelintcache
 
 
 # === Frontend (React) ===
@@ -161,7 +158,7 @@ Pipfile.lock
 *.sqlite3-journal
 db.sqlite3
 db.sqlite3-journal
-media/
+# media/
 staticfiles/
 static_root/
 collected_static/
@@ -292,8 +289,8 @@ test_scripts/
 debug_*
 
 # === Package managers ===
-# npm
-package-lock.json
+# Keep npm lock file for consistency
+# package-lock.json
 
 # yarn
 yarn.lock
