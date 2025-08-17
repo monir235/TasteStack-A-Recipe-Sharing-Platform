@@ -1,0 +1,2 @@
+# This file ensures the recipe_images directory exists in the repository
+# User uploaded recipe images will be ignored by .gitignore except sample images

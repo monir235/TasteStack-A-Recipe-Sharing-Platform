@@ -276,8 +276,8 @@ pytest.ini
 # User uploads
 uploads/
 user_media/
-recipe_images/
-profile_pictures/
+# recipe_images/
+# profile_pictures/
 
 # Local configuration
 local_settings.py

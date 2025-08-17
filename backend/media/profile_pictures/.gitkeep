@@ -1,0 +1,2 @@
+# This file ensures the profile_pictures directory exists in the repository
+# User uploaded profile pictures will be ignored by .gitignore
