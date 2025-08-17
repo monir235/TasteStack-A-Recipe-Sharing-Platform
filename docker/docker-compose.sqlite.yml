@@ -1,17 +1,17 @@
 services:
   backend:
-    build: ./backend
+    build: ../backend
     ports:
       - "8000:8000"
     environment:
       - DEBUG=1
       - USE_SQLITE=1
     volumes:
-      - ./backend:/app
+      - ../backend:/app
       - media_volume:/app/media
 
   frontend:
-    build: ./frontend
+    build: ../frontend
     ports:
       - "3000:3000"
     depends_on:
@@ -20,7 +20,7 @@ services:
       - REACT_APP_API_URL=http://localhost:8000/api
       - REACT_APP_MEDIA_URL=http://localhost:8000
     volumes:
-      - ./frontend:/app
+      - ../frontend:/app
       - /app/node_modules
 
 volumes:
