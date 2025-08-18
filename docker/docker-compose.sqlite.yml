@@ -4,11 +4,11 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DEBUG=1
+      - DEBUG=True
       - USE_SQLITE=1
     volumes:
       - ../backend:/app
-      - media_volume:/app/media
+      - ../backend/media:/app/media
 
   frontend:
     build: ../frontend
