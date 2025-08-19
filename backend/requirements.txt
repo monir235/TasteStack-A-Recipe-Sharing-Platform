@@ -38,15 +38,6 @@ Pillow==11.3.0
 # django-extensions==3.2.3
 # ipython==8.30.0
 
-# Production Dependencies (Optional)
-# Uncomment for production deployment
-# gunicorn==23.0.0
-# psycopg2-binary==2.9.10
-# redis==5.2.1
-# celery==5.4.0
-# django-storages==1.14.5
-# boto3==1.37.41
-# whitenoise==6.9.0
-# sentry-sdk==2.22.0
-# django-redis==5.4.0
-# python-decouple==3.8
+# Production Dependencies
+gunicorn==23.0.0
+whitenoise==6.9.0
