@@ -1,1 +1,1 @@
-web: cd backend && python manage.py collectstatic --noinput && python manage.py migrate && gunicorn tastestack.wsgi:application --bind 0.0.0.0:$PORT
+web: python manage.py migrate && gunicorn tastestack.wsgi:application --bind 0.0.0.0:$PORT
