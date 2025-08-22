@@ -1,0 +1,9 @@
+frontend -> npm start
+
+backend -> python -m venv venv 
+        
+           venv\Scripts\activate
+            
+           python manage.py runserver
+ 
+

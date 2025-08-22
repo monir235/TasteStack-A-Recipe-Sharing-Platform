@@ -21,6 +21,7 @@ import RecipeSearchPage from './pages/RecipeSearchPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import ContactPage  from './pages/contactPage';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             <Route path="/recipes/:id/edit" element={<ProtectedRoute><EditRecipePage /></ProtectedRoute>} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/edit-profile" element={<ProtectedRoute><EditProfileDetails /></ProtectedRoute>} />
+            <Route path='/contact' element={<ContactPage />} />
           </Routes>
         </main>
         <Footer />
